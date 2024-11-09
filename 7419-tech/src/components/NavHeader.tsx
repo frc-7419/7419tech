@@ -6,7 +6,7 @@ import Image from 'next/image'
 export function NavHeader() {
   return (
     <header className="sticky top-0 z-50 border-b bg-[#11224e]">
-      <div className="flex h-16 items-center justify-between px-10"> 
+      <div className="flex h-16 items-center justify-between px-15"> 
         <Link href="/" className="flex items-center gap-2">
           <div className="flex items-center">
           <span className="text-2xl font-bold text-[#ffb41a] mr-3">FRC</span>
