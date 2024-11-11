@@ -1,6 +1,7 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "./ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+
 
 export default function TeamSection() {
     {/* Feature Carousel */}
@@ -57,6 +58,7 @@ export default function TeamSection() {
                 </Card>
             </TabsContent>
             </Tabs>
+            
         </div>
         </section>
     )
