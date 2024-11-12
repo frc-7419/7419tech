@@ -14,7 +14,7 @@ export function HeroSection() {
         className="absolute inset-0 h-full w-full object-cover opacity-20" 
       />
       <div className="relative container mx-auto px-4">
-        <div className="max-w-4xl mx-auto p-8 border-4 border-[#002f6c] rounded-lg text-center space-y-8 bg-white bg-opacity-70">
+        <div className="max-w-4xl mx-auto p-8 rounded-lg text-center space-y-8 bg-white bg-opacity-70">
           <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl xl:text-7xl">
             <span className="bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
               QLS Tech Support
