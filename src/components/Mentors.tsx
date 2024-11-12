@@ -11,10 +11,10 @@ const mentors = [
 ]
 
 const fields = [
-    { name: 'Expert in Robotics & AI' },
-    { name: 'Expert in Cloud Computing' },
-    { name: 'Expert in Blockchain' },
-    { name: 'Expert in Data Science' }
+    { name: 'Mentor TODO' },
+    { name: 'Mentor TODO' },
+    { name: 'Mentor TODO' },
+    { name: 'Mentor TODO' }
 ]
 
 export const Mentors = () => {
