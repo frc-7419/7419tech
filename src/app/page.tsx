@@ -336,6 +336,8 @@ import { Suspense } from 'react'
 import { NavHeader } from '@/components/NavHeader'
 import { HeroSection } from '@/components/HeroSection'
 import { AnnouncementBanner } from '@/components/AnnouncementBanner'
+import Footer from '@/components/Footer'
+import Mission from '@/components/Mission'
 
 export default function HomePage() {
   return (
@@ -343,7 +345,7 @@ export default function HomePage() {
       <Suspense>
         <NavHeader />
         <HeroSection />
-        {/* <Footer /> */}
+        <Footer />
         {/* <Mission /> */}
         {/* <AnnouncementBanner /> */}
       </Suspense>
