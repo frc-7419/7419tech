@@ -46,7 +46,7 @@ export function NavHeader() {
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="w-[600px] p-4 md:grid-cols-2 lg:w-[600px]">
-                  <div className="grid gap-3 md:grid-cols-2">
+                    <div className="grid gap-3 md:grid-cols-2">
                     <NavLink 
                       href="/team" 
                       title="Our Team" 
@@ -58,7 +58,7 @@ export function NavHeader() {
                       description="Learn about the experienced professionals guiding our team." 
                     />
                     <NavLink 
-                      href="/achievements" 
+                      href="/robot" 
                       title="Our Robot" 
                       description="Explore our robot design through an interactive page." 
                     />
@@ -67,7 +67,7 @@ export function NavHeader() {
                       title="Community Outreach" 
                       description="Discover how we're making an impact in our local community." 
                     />
-                  </div>
+                    </div>
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>

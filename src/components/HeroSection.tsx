@@ -14,14 +14,14 @@ export function HeroSection() {
         className="absolute inset-0 h-full w-full object-cover opacity-20" 
       />
       <div className="relative container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
+        <div className="max-w-4xl mx-auto p-8 rounded-lg text-center space-y-8 bg-white bg-opacity-70">
           <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl xl:text-7xl">
             <span className="bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
               QLS Tech Support
             </span>
           </h1>
           <p className="text-xl text-gray-500 md:text-2xl max-w-2xl mx-auto">
-            Quarry Lane School's award-winning robotics team, advancing robotics through innovation and excellence.
+            The Quarry Lane School's award-winning robotics team, advancing robotics through innovation and excellence. 
           </p>
           <div className="flex justify-center gap-4">
             <Button 
