@@ -1,3 +1,5 @@
+import { NavHeader } from "@/components/NavHeader";
+
 function Leadership() {
     const team = [
       {
@@ -186,4 +188,8 @@ function Leadership() {
     );
   }
   
-  export default Leadership;
+export default function MentorsPage() {
+    return (
+        <><NavHeader /><Leadership/></>
+    )
+}

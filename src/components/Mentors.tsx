@@ -7,11 +7,11 @@ import { Badge } from "@/components/ui/badge"
 
 // Placeholder data for mentors and their fields of expertise
 const mentors = [
-  { name: 'Leon Cox', field: 'Science, Engineering & Robotics', role: 'Teacher', passion: "Nothing" },
-  { name: 'Lina Tannous', field: 'Robotics', role: 'Teacher' , passion: "Nothing"},
-  { name: 'Richard Ong', field: 'Robotics', role: 'Lead/Coordinator', passion: "Nothing" },
-  { name: 'Nathan Batchelder', field: 'Science, Engineering & Robotics', role: 'Teacher', passion: "Education, Additive Manufacturing, and Prototyping and Iterative Design" },
-  { name: 'Ainsley Laing', field: 'Science, Engineering & Robotics', role: 'Teacher', passion: "Nothing" }
+  { name: 'Leon Cox', field: 'Science, Engineering & Robotics', role: 'Teacher', passion: "Nothing", image: "/static/mentors/leon.jpg" },
+  { name: 'Lina Tannous', field: 'Robotics', role: 'Teacher' , passion: "Nothing", image: "/static/mentors/lina.jpg"},
+  { name: 'Richard Ong', field: 'Robotics', role: 'Lead/Coordinator', passion: "Nothing", image: "/static/mentors/richard.jpg" },
+  { name: 'Nathan Batchelder', field: 'Science, Engineering & Robotics', role: 'Teacher', passion: "Education, Additive Manufacturing, and Prototyping and Iterative Design", image: "/static/mentors/nate_batchelder.jpg" },
+  { name: 'Ainsley Laing', field: 'Science, Engineering & Robotics', role: 'Teacher', passion: "Nothing", image: "/static/mentors/ainsley.jpeg" }
 ]
 
 export default function Mentors() {
@@ -25,8 +25,7 @@ export default function Mentors() {
               <CardContent className="p-6">
                 <div className="aspect-square relative mb-4 overflow-hidden rounded-full w-40 h-40 mx-auto">
                   <Image
-                    // Replace this with an actual image URL
-                    src="/static/mentors/IMG_1249.jpg"  // Example of a direct image URL
+                    src={mentor.image}
                     alt={mentor.name}
                     layout="fill"
                     objectFit="cover"
