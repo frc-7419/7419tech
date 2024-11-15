@@ -3,38 +3,38 @@ import { NavHeader } from "@/components/NavHeader";
 function Leadership() {
     const team = [
       {
-        name: "Andrew Trong",
-        position: "Mechanical",
+        name: "Andrew Truong",
+        position: "Mechanical Outreach",
         year: "26",
-        img: "/public/static/leadership/Andrew Truong - Hardware Outreach.jpg",
+        img: "@/../public/static/leadership/Andrew Truong - Hardware Outreach.jpg",
       },
       {
         name: "Jahaanshah Sheikh",
         position: "Software",
         year: "26",
-        img: "/public/static/leadership/Jahaanshah Sheikh, Software Lead_ Robot.JPG",
+        img: "static/leadership/Jahaanshah Sheikh, Software Lead_ Robot.JPG",
       },
       {
         name: "Ryan Banerjee",
         position: "Buisness",
         year: "26",
-        img: "/static/images/Leadership/KrithikDuvvuriHeadshot.jpg",
+        img: "public/static/leadership/Ryan Banerjee, Business LIT.jpg",
       },
       {
         name: "Sepander Farhood",
-        position: "Software",
+        position: "Software Lead",
         year: "26",
-        img: "/static/images/Leadership/Poluk)_Headshot.jpeg",
+        img: "public/static/leadership/Sepandar Farhood, Software Lead_ Development.HEIC",
       },
       {
         name: "Ryan Biggee",
-        position: "Mechanical",
+        position: "Mechanical Co-Captain",
         year: "25",
         img: "/static/images/Leadership/RyanB.jpg",
       },
       {
         name: "William Chen",
-        position: "Programming",
+        position: "Software Lead",
         year: 25,
         img: "/static/images/Leadership/e - William Chen.jpg",
       },
@@ -48,13 +48,13 @@ function Leadership() {
         name: "Kevin Ji",
         position: "Business",
         year: 27,
-        img: "/static/images/Leadership/funny - Verain Mahajan.jpeg",
+        img: "public/static/leadership/Kevin Ji, Finance Lead.HEIC",
       },
       {
         name: "Mahad Saeed",
-        position: "Buisness",
+        position: "Business",
         year: 27,
-        img: "/static/images/Leadership/IMG_5056 - Braden.PNG",
+        img: "public/static/leadership/Mahad Saeed, Outreach LIT.heic",
       },
   
       {
@@ -78,7 +78,7 @@ function Leadership() {
       },
       {
         name: "Win Htet Lin",
-        position: "Programming",
+        position: "Software",
         year: 27,
         img: "/static/images/Leadership/headshot - Keshav Badrinath.png",
       },
@@ -86,7 +86,7 @@ function Leadership() {
         name: "Brian Lam",
         position: "Software",
         year: "25",
-        img: "/static/images/Leadership/SnehaGadekarlaHeadshot.jpg",
+        img: "public/static/leadership/Brian Lam, Software Scouting and Apps.heic",
       },
       {
         name: "Krish Jashnani",
@@ -97,7 +97,7 @@ function Leadership() {
   
       {
         name: "Krishiv Manyam",
-        position: "Programming",
+        position: "Software",
         year: 25,
         img: "/static/images/Leadership/krishiv.jpg",
       },
@@ -105,26 +105,70 @@ function Leadership() {
         name: "Ananya Nayak",
         position: "Buisness",
         year: 27,
-        img: "/static/images/Leadership/kyle.jpeg",
+        img: "public/static/leadership/Ananya_Nayak-Media Lead.jpeg",
       },
       {
         name: "Ridhima Motewar",
         position: "Business",
         year: 25,
         img: "/static/images/Leadership/E4C99F44-1A64-45E3-A4AA-FA127F5E5594 - Ridhima Motewar.jpeg",
+        
       },
       {
-        name: "Kaival Shah",
-        position: "Programming",
-        year: 24,
-        img: "/static/images/Leadership/kaival.png",
+        name: "Khoi Le",
+        position: "Software",
+        year: 27,
+        img: "public/static/leadership/Khoi Le, Software LIT (Apps, Website, Scouting).png",
       },
       {
-        name: "Ansh Malviya",
+        name: "Andrew Cheng",
         position: "Mechanical",
-        year: 24,
-        img: "/static/images/Leadership/ansh.jpg",
-      }
+        year: 25,
+        img: "public/static/leadership/Andrew Cheng, Hardware Outreach Lead.jpg",
+      },
+      {
+        name: "Ada Ji",
+        position: "Mechanical",
+        year: 25,
+        img: "public/static/leadership/Ada Ji, Electrical Co-lead.jpeg",
+      },
+      {
+        name: "Alexander Xie",
+        position: "Mechanical",
+        year: 26,
+        img: "public/static/leadership/Alexander Xie - Hardware LIT.jpeg",
+      },
+      {
+        name: "Anson Xie",
+        position: "Mechanical",
+        year: 26,
+        img: "public/static/leadership/Anson Ng, Design Lead.png",
+      },
+      {
+        name: "Krithi Manyam",
+        position: "Mechanical",
+        year: 26,
+        img: "public/static/leadership/Krithi Manyam, Design Co-Lead.jpg",
+      },
+      {
+        name: "Michelle Liao",
+        position: "Mechanical",
+        year: 26,
+        img: "public/static/leadership/Michelle Liao, Hardware LIT.jpg",
+      },
+      {
+        name: "Rachelle Wang",
+        position: "Mechanical",
+        year: 25,
+        img: "public/static/leadership/Rachelle Wang - Electrical Co-Lead.JPG",
+      },
+      {
+        name: "Saravanan Valliappan",
+        position: "Mechanical",
+        year: 25,
+        img: "public/static/leadership/Saravanan Valliappan, Fabrication & Assembly Lead.jpg",
+      },
+      
     ];
   
     return (

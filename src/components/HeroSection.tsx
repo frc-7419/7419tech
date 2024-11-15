@@ -12,7 +12,9 @@ export function HeroSection() {
         loop 
         muted 
         className="absolute inset-0 h-full w-full object-cover opacity-20" 
-      />
+      >
+        <source src="movie.mp4" type="video/mp4" />
+      </video>
       <div className="relative container mx-auto px-4">
         <div className="max-w-4xl mx-auto p-8 rounded-lg text-center space-y-8 bg-white bg-opacity-70">
           <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl xl:text-7xl">
