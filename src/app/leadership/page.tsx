@@ -80,7 +80,7 @@ function Leadership() {
         name: "Win Htet Lin",
         position: "Software",
         year: 27,
-        img: "/static/images/Leadership/headshot - Keshav Badrinath.png",
+        img: "/static/images/leadership/Win Htet Lin, Software LIT.jpg",
       },
       {
         name: "Brian Lam",
@@ -139,7 +139,7 @@ function Leadership() {
         img: "public/static/leadership/Alexander Xie - Hardware LIT.jpeg",
       },
       {
-        name: "Anson Xie",
+        name: "Anson Ng",
         position: "Mechanical",
         year: 26,
         img: "public/static/leadership/Anson Ng, Design Lead.png",
@@ -182,7 +182,7 @@ function Leadership() {
                 <p className="text-lg text-gray-600 mt-10" data-aos="zoom-y-out">
                   True to the FIRST® mission of sparking invention and creativity,
                   team operations are entirely student-led. We have three main
-                  departments: Mechanical, Programming, and Non-Technical. In each
+                  departments: Mechanical, Programming, and Buisness. In each
                   of these sub-teams, leadership positions are earned through
                   continuous effort and dedication. We take pride in our team’s
                   culture that helps our leaders further explore their own skills
