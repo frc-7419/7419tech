@@ -5,7 +5,7 @@ export default function Outreach() {
         <section className="bg-background">
             <div className="container py-16 md:py-24">
                 <div className="mx-auto max-w-3xl text-center">
-                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl">Our Outreach</h2>
+                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl">Outreach</h2>
                     <p className="text-lg text-muted-foreground mb-8">
                     A significant part of the FIRST experience heavily revolves
                     around outreach. Outreach not only emphasizes the impact and
