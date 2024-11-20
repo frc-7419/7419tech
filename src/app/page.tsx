@@ -328,7 +328,6 @@ export default function HomePage() {
         <NavHeader />
         <HeroSection />
         <Footer />
-        <Mission />
       </Suspense>
     </main>
   )

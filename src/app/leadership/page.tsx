@@ -10,13 +10,13 @@ import brian from "@/app/leadership/photos/brian.png";
 import dev from "@/app/leadership/photos/dev.png";
 import dhruv from "@/app/leadership/photos/dhruv.png";
 import dice from "@/app/leadership/photos/dice.png";
-import jahaan from "@/app/leadership/photos/jahaan.jpg";
+import jahaan from "@/app/leadership/photos/jahaan.jpeg";
 import kelly from "@/app/leadership/photos/kelly.jpg";
 import kevin from "@/app/leadership/photos/kevin.png";
 import khoi from "@/app/leadership/photos/khoi.png";
 import krishiv from "@/app/leadership/photos/krishiv.jpg";
 import krithi from "@/app/leadership/photos/krithi.jpg";
-import mahad from "@/app/leadership/photos/mahad.png";
+import mahad from "@/app/leadership/photos/mahad.png"; 
 import michelle from "@/app/leadership/photos/michelle.jpg";
 import rachelle from "@/app/leadership/photos/rachelle.jpg";
 import ridhima from "@/app/leadership/photos/ridhima.png";
@@ -28,7 +28,7 @@ import william from "@/app/leadership/photos/william.png";
 import win from "@/app/leadership/photos/win.jpeg";
 import Image from "next/image";
 
-function Leadership() {
+export default function Leadership() {
     const team = [
       {
         name: "Andrew Truong",
@@ -93,7 +93,6 @@ function Leadership() {
         // img: "/static/leadership/Mahad Saeed, Outreach LIT.heic",
         img: mahad
       },
-  
       {
         name: "Arya Bharath",
         position: "Captain",
@@ -226,12 +225,13 @@ function Leadership() {
   
     return (
       <main className="flex-grow">
+        <NavHeader />
         <section className="relative">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="py-12 md:py-20">
               {/* Section header */}
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-14">
-                <h2 className="h2">Our Student Leadership</h2>
+                <h2 className="text-4xl">Our Student Leadership</h2>
                 <p className="text-lg text-gray-600 mt-10" data-aos="zoom-y-out">
                   True to the FIRST® mission of sparking invention and creativity,
                   team operations are entirely student-led. We have three main
@@ -286,9 +286,3 @@ function Leadership() {
       </main>
     );
   }
-  
-export default function MentorsPage() {
-    return (
-        <><NavHeader /><Leadership/></>
-    )
-}

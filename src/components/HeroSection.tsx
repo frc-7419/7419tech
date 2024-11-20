@@ -5,8 +5,12 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
-import { ChevronRight, Bot } from "lucide-react"
+import { ChevronRight, Bot, ChevronLeft } from "lucide-react"
 import { Typewriter } from 'react-simple-typewriter'
+import Slider from "react-slick"
+import Image from "next/image"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 export function HeroSection() {
   const containerVariants = {
@@ -30,6 +34,22 @@ export function HeroSection() {
       }
     }
   }
+
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    prevArrow: <ChevronLeft className="text-[#11224e] w-8 h-8 cursor-pointer" />,
+    nextArrow: <ChevronRight className="text-[#11224e] w-8 h-8 cursor-pointer" />,
+  }
+
+  const carouselImages = [
+    "/DSC07697.jpg"
+  ]
 
   return (
     <section className="relative min-h-[85vh] bg-white flex items-center py-12">
@@ -89,7 +109,7 @@ export function HeroSection() {
               <Button 
                 size="lg" 
                 variant="outline"
-                className="border-[[#11224e] text-[[#11224e] hover:bg-[#11224e] hover:text-white transition-colors"
+                className="border-[#11224e] text-[#11224e] hover:bg-[#11224e] hover:text-white transition-colors"
               >
                 View Projects
               </Button>
@@ -104,19 +124,27 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right Content */}
+          {/* Right Content - Carousel */}
           <motion.div
             variants={itemVariants}
             initial="hidden"
             animate="visible"
             className="relative mt-8 lg:mt-0"
           >
-            <div>
-
-            <Card className="aspect-video w-full bg-gray-50 flex items-center justify-center text-gray-400 overflow-hidden rounded-xl border-[#ffc14a]/20">
-              [Insert Robot Demo Video Here]
+            <Card className="aspect-video w-full bg-gray-50 overflow-hidden rounded-xl border-[#ffc14a]/20">
+              <Slider {...carouselSettings}>
+                {carouselImages.map((src, index) => (
+                  <div key={index} className="relative aspect-video">
+                    <Image
+                      src={src}
+                      alt={`Robot image ${index + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </Slider>
             </Card>
-            </div>
             
             {/* Decorative elements */}
             <div className="absolute -z-10 top-0 right-0 w-96 h-96 bg-[#ffc14a]/10 rounded-full blur-3xl" />
