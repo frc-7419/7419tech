@@ -88,8 +88,8 @@ export function NavHeader() {
                   <ListItem href="/calendar" title="Event Calendar">
                     Stay updated with our competition schedule and events.
                   </ListItem>
-                  <ListItem href="/outreach" title="Community Outreach">
-                    Discover how we're making an impact in our local community.
+                  <ListItem href="/outreach" title="Outreach at 7419">
+                    Discover how we're making an impact to younger generations and the community.
                   </ListItem>
                   <ListItem href="/gallery" title="Photo Gallery">
                     View our competition photos and team activities.

@@ -1,11 +1,11 @@
-import { Button } from "./ui/button";
+'use client'
 
 export default function Outreach() {
     return (
         <section className="bg-background">
             <div className="container py-16 md:py-24">
                 <div className="mx-auto max-w-3xl text-center">
-                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl">Outreach</h2>
+                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl">About our Outreach</h2>
                     <p className="text-lg text-muted-foreground mb-8">
                     A significant part of the FIRST experience heavily revolves
                     around outreach. Outreach not only emphasizes the impact and
@@ -16,7 +16,7 @@ export default function Outreach() {
                     at after school programs like Genius Kids. Here are just a few
                     examples of outreach events we’ve held:
                     </p>
-                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl">FLL & FTC</h2>
+                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl">FLL & FTC</h2>                       
                     <p className="text-lg text-muted-foreground mb-8">
                     Along with our high school FRC team we also have a FTC
                     middle school team. To help guide the middle schoolers, we
@@ -32,6 +32,12 @@ export default function Outreach() {
                     the tri-valley area. We hosted and ran both an FLL and an
                     FTC tournament, with many of 7419 members helping during
                     planning, organization, and volunteering at the event.
+                    <img
+                      className="rounded mb-4 mx-auto max-w-sm md:max-w-md xl:max-w-xl w-full object-cover"
+                      style={{ height: 400 }}
+                      src="/static/images/outreach/picture.jpg"
+                      alt="FLL Tournament"
+                    />
                     </p>   
                 </div>
             </div>
