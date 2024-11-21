@@ -7,10 +7,9 @@ import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { ChevronRight, Bot, ChevronLeft } from "lucide-react"
 import { Typewriter } from 'react-simple-typewriter'
-import Slider from "react-slick"
-import Image from "next/image"
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
+//import Image from "next/image"
+//import "slick-carousel/slick/slick.css"
+//import "slick-carousel/slick/slick-theme.css"
 
 export function HeroSection() {
   const containerVariants = {
@@ -131,6 +130,7 @@ export function HeroSection() {
             animate="visible"
             className="relative mt-8 lg:mt-0"
           >
+            {/*
             <Card className="aspect-video w-full bg-gray-50 overflow-hidden rounded-xl border-[#ffc14a]/20">
               <Slider {...carouselSettings}>
                 {carouselImages.map((src, index) => (
@@ -145,6 +145,7 @@ export function HeroSection() {
                 ))}
               </Slider>
             </Card>
+            */}
             
             {/* Decorative elements */}
             <div className="absolute -z-10 top-0 right-0 w-96 h-96 bg-[#ffc14a]/10 rounded-full blur-3xl" />
