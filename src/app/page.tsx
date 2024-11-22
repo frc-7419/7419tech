@@ -40,7 +40,7 @@
 //     return () => clearInterval(timer)
 //   }, [])
 
-//   
+//
 
 //   return (
 //     <div className="min-h-screen bg-background">
@@ -78,79 +78,79 @@
 //           </Link>
 //           <NavigationMenu>
 //             <NavigationMenuList>
-              // <NavigationMenuItem>
-              //   <NavigationMenuTrigger>About</NavigationMenuTrigger>
-              //   <NavigationMenuContent>
-              //     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              //       <li>
-              //         <NavigationMenuLink asChild>
-              //           <Link
-              //             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-              //             href="/team"
-              //           >
-              //             <div className="text-sm font-medium leading-none">Our Team</div>
-              //             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              //               Meet the passionate students behind our robotics team.
-              //             </p>
-              //           </Link>
-              //         </NavigationMenuLink>
-              //       </li>
-              //       <li>
-              //         <NavigationMenuLink asChild>
-              //           <Link
-              //             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-              //             href="/mentors"
-              //           >
-              //             <div className="text-sm font-medium leading-none">Mentors</div>
-              //             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              //               Learn about the experienced professionals guiding our team.
-              //             </p>
-              //           </Link>
-              //         </NavigationMenuLink>
-              //       </li>
-              //       <li>
-              //         <NavigationMenuLink asChild>
-              //           <Link
-              //             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-              //             href="/achievements"
-              //           >
-              //             <div className="text-sm font-medium leading-none">Achievements</div>
-              //             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              //               Explore our team's accomplishments and awards.
-              //             </p>
-              //           </Link>
-              //         </NavigationMenuLink>
-              //       </li>
-              //       <li>
-              //         <NavigationMenuLink asChild>
-              //           <Link
-              //             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-              //             href="/outreach"
-              //           >
-              //             <div className="text-sm font-medium leading-none">Community Outreach</div>
-              //             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              //               Discover how we're making an impact in our local community.
-              //             </p>
-              //           </Link>
-              //         </NavigationMenuLink>
-              //       </li>
-              //     </ul>
-              //   </NavigationMenuContent>
-              // </NavigationMenuItem>
-              // <NavigationMenuItem>
-              //   <Link href="/media" legacyBehavior passHref>
-              //     <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-              //       Media
-              //     </NavigationMenuLink>
-              //   </Link>
-              // </NavigationMenuItem>
-              // <NavigationMenuItem>
-              //   <Link href="/sponsors" legacyBehavior passHref>
-              //     <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-              //       Sponsors
-              //     </NavigationMenuLink>
-              //   </Link>
-              // </NavigationMenuItem>
+// <NavigationMenuItem>
+//   <NavigationMenuTrigger>About</NavigationMenuTrigger>
+//   <NavigationMenuContent>
+//     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+//       <li>
+//         <NavigationMenuLink asChild>
+//           <Link
+//             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+//             href="/team"
+//           >
+//             <div className="text-sm font-medium leading-none">Our Team</div>
+//             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+//               Meet the passionate students behind our robotics team.
+//             </p>
+//           </Link>
+//         </NavigationMenuLink>
+//       </li>
+//       <li>
+//         <NavigationMenuLink asChild>
+//           <Link
+//             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+//             href="/mentors"
+//           >
+//             <div className="text-sm font-medium leading-none">Mentors</div>
+//             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+//               Learn about the experienced professionals guiding our team.
+//             </p>
+//           </Link>
+//         </NavigationMenuLink>
+//       </li>
+//       <li>
+//         <NavigationMenuLink asChild>
+//           <Link
+//             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+//             href="/achievements"
+//           >
+//             <div className="text-sm font-medium leading-none">Achievements</div>
+//             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+//               Explore our team's accomplishments and awards.
+//             </p>
+//           </Link>
+//         </NavigationMenuLink>
+//       </li>
+//       <li>
+//         <NavigationMenuLink asChild>
+//           <Link
+//             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+//             href="/outreach"
+//           >
+//             <div className="text-sm font-medium leading-none">Community Outreach</div>
+//             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+//               Discover how we're making an impact in our local community.
+//             </p>
+//           </Link>
+//         </NavigationMenuLink>
+//       </li>
+//     </ul>
+//   </NavigationMenuContent>
+// </NavigationMenuItem>
+// <NavigationMenuItem>
+//   <Link href="/media" legacyBehavior passHref>
+//     <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+//       Media
+//     </NavigationMenuLink>
+//   </Link>
+// </NavigationMenuItem>
+// <NavigationMenuItem>
+//   <Link href="/sponsors" legacyBehavior passHref>
+//     <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+//       Sponsors
+//     </NavigationMenuLink>
+//   </Link>
+// </NavigationMenuItem>
 //             </NavigationMenuList>
 //           </NavigationMenu>
 //           <Button asChild>
@@ -310,17 +310,17 @@
 //         </div>
 //       </section>
 
-//       
+//
 //   )
 // }
 
-import { Suspense } from 'react'
-import { NavHeader } from '@/components/NavHeader'
-import { HeroSection } from '@/components/HeroSection'
+import { Suspense } from "react";
+import { NavHeader } from "@/components/NavHeader";
+import { HeroSection } from "@/components/HeroSection";
 //import { AnnouncementBanner } from '@/components/AnnouncementBanner'
-import Footer from '@/components/Footer'
-import Mission from '@/components/Mission'
-import Profile from '@/components/profile'
+import Footer from "@/components/Footer";
+import Mission from "@/components/Mission";
+import Profile from "@/components/profile";
 //import Mission  from '@/components/Mission'
 
 export default function HomePage() {
@@ -331,26 +331,25 @@ export default function HomePage() {
         <HeroSection />
         <Mission />
         <Profile
-        direction="left"
-        name="Bellarmine College Preparatory"
-        description="Team 254 consists of students from Bellarmine College Preparatory in San Jose, CA. The team was founded by NASA Ames Research Center in the fall of 1998 at Broadway High School and moved to Bellarmine in the fall of 2000."
-        logoUrl="/QuarryLaneLogo.png"
-        websiteUrl="#"
-        backgrondColor='white'
-      />
-      
-      {/* Right-facing logo section */}
-      <Profile
-        direction="right"
-        name="Bellarmine College Preparatory"
-        description="Team 254 consists of students from Bellarmine College Preparatory in San Jose, CA. The team was founded by NASA Ames Research Center in the fall of 1998 at Broadway High School and moved to Bellarmine in the fall of 2000."
-        logoUrl="/FirstLogo.png?height=50&width=50"
-        websiteUrl="#"
-        backgrondColor='gray-500'
-      />
+          direction="left"
+          name="The Quarry Lane School"
+          description="Team 7419 consists of students from The Quarry Lane School in Dublin, CA. The team was formed in 2018 by passionate students and teachers here at our school. We've been to worlds 3 times"
+          logoUrl="/QuarryLaneLogo.png"
+          websiteUrl="#"
+          backgrondColor="white"
+        />
+
+        {/* Right-facing logo section */}
+        <Profile
+          direction="right"
+          name="First Robotics"
+          description="The Quarry Lane Schools is deeply involved with the FIRST organization. With 6 FTC and 7 FLL teams and the parent FRC team, students at Quarry Lane are passion about collaboration and embodying FIRST's values. "
+          logoUrl="/FirstLogo.png?height=50&width=50"
+          websiteUrl="#"
+          backgrondColor="gray-500"
+        />
         <Footer />
-        
       </Suspense>
     </main>
-  )
+  );
 }

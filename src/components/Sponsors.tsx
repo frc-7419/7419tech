@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image"
 
 function Sponsors() {
   return (
@@ -32,10 +33,7 @@ function Sponsors() {
               transform="translate(0 -3)"
               fill="url(#illustration-02)"
               fillRule="evenodd"
-            >
-              <circle cx="1630" cy="128" r="128" />
-              <circle cx="178" cy="481" r="40" />
-            </g>
+            ></g>
           </svg>
         </div>
 
@@ -78,10 +76,7 @@ function Sponsors() {
                 />
               </div>
               <div className="basis-1/3 sponsor flex items-center justify-center ml-3 py-2 col-span-2 md:col-auto">
-                <img
-                  src={"/static/sponsors/nasa.png"}
-                  alt="nasa.png"
-                />
+                <img src={"/static/sponsors/nasa.png"} alt="nasa.png" />
               </div>
               <div className="basis-1/3 sponsor flex items-center justify-center ml-3 py-2 col-span-2 md:col-auto">
                 <img
@@ -90,10 +85,7 @@ function Sponsors() {
                 />
               </div>
               <div className="basis-1/3 sponsor flex items-center justify-center ml-3 py-2 col-span-2 md:col-auto">
-                <img
-                  src={"/static/sponsors/sf-cable.png"}
-                  alt="sf-cable.png"
-                />
+                <img src={"/static/sponsors/sf-cable.png"} alt="sf-cable.png" />
               </div>
               <div className="basis-1/3 sponsor flex items-center justify-center ml-3 py-2 col-span-2 md:col-auto">
                 <img
@@ -102,10 +94,7 @@ function Sponsors() {
                 />
               </div>
               <div className="basis-1/3 sponsor flex items-center justify-center ml-3 py-2 col-span-2 md:col-auto">
-                <img
-                  src={"/static/sponsors/ldl.svg"}
-                  alt="ldl.svg"
-                />
+                <img src={"/static/sponsors/ldl.svg"} alt="ldl.svg" />
               </div>
             </div>
           </div>

@@ -18,7 +18,7 @@ const mentors = [
     name: "Lina Tannous",
     field: "Robotics",
     role: "Teacher",
-    passion: "Nothing",
+    passion: "Robotics, Automation, STEM, Leadership Development, Mentorship",
     image: "/static/mentors/lina.jpg",
   },
   {
@@ -40,7 +40,8 @@ const mentors = [
     name: "Ainsley Laing",
     field: "Science, Engineering & Robotics",
     role: "Teacher",
-    passion: "Finding Unique Ways to Encourage Students to Grow from Consumers of Technology to Creators of it",
+    passion:
+      "Finding Unique Ways to Encourage Students to Grow from Consumers of Technology to Creators of it",
     image: "/static/mentors/ainsley.jpeg",
   },
 ];
