@@ -176,11 +176,11 @@ const OurRobot = () => {
                 objectFit="cover"
                 className="transition-transform duration-300 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <Button variant="secondary" className="text-white bg-opacity-70 hover:bg-opacity-100 transition-all duration-300">
+              {/* <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <Button variant="secondary" className="text-black bg-opacity-70 hover:bg-opacity-100 transition-all duration-300">
                   Learn More
                 </Button>
-              </div>
+              </div> */}
             </div>
           </CardContent>
         </Card>
@@ -202,12 +202,12 @@ const OurRobot = () => {
       <motion.div className="mt-12 space-y-8 w-full max-w-4xl" variants={itemVariants}>
         <h3 className="text-2xl font-semibold text-center">Key Features</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {['Advanced AI', 'Modular Design', 'Eco-Friendly'].map((feature, index) => (
+          {['Advanced Vision', 'Swerve Drive', 'Automatic Features'].map((feature, index) => (
             <motion.div key={index} variants={itemVariants}>
               <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <CardContent className="p-6">
                   <h4 className="text-xl font-semibold mb-2">{feature}</h4>
-                  <p className="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <p className="text-gray-600">Pradyun Karma</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -216,7 +216,7 @@ const OurRobot = () => {
       </motion.div>
       
       <motion.div className="mt-12" variants={itemVariants}>
-        <Button className="px-6 py-3 text-lg">Learn More</Button>
+        <Button className="px-6 py-3 text-lg"><a href={"https://guthib.com"}>Learn More</a></Button>
       </motion.div>
     </motion.div>
   )

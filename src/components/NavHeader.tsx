@@ -70,7 +70,7 @@ export function NavHeader() {
                     Learn about the experienced professionals guiding our team.
                   </ListItem>
                   <ListItem href="/leadership" title="Leadership">
-                    Learn about our various experienced students leading each of our diffe departments.
+                    Learn about our experienced students leading our different departments.
                   </ListItem>
                   <ListItem href="/robot" title="Our Robot">
                     Explore our robot design through an interactive page.

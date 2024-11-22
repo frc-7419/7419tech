@@ -50,7 +50,7 @@ export function HeroSection() {
 
   const carouselImages = [
     "/Robot.png?height=400&width=600",
-    "/Robot2.png?height=400&width=600",
+    "/static/team/teamphoto.avif"
   ]
 
   return (
@@ -76,7 +76,7 @@ export function HeroSection() {
             >
               The Future of
               <br />
-              <span className="bg-gradient-to-r from-[#ffc14a] to-[#926408] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent">
                 <Typewriter
                   words={['Robotics', 'Innovation', 'Teamwork']}
                   loop={0}

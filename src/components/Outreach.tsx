@@ -1,56 +1,151 @@
 'use client'
 
-export default function Outreach() {
-    return (
-        <section className="bg-background">
-            <div className="container py-16 md:py-24">
-                <div className="mx-auto max-w-3xl text-center">
-                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl">About our Outreach</h2>
-                    <p className="text-lg text-muted-foreground mb-8">
-                    A significant part of the FIRST experience heavily revolves
-                    around outreach. Outreach not only emphasizes the impact and
-                    benefits of robotics but also inspires people of all ages to
-                    pursue an interest in STEM. In our team, every student makes a
-                    commitment to participate in outreach, with our activities
-                    spanning from assisting FLL and FTC teams to holding workshops
-                    at after school programs like Genius Kids. Here are just a few
-                    examples of outreach events we’ve held:
-                    </p>
-                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl">FLL & FTC</h2>                       
-                    <p className="text-lg text-muted-foreground mb-8">
-                    Along with our high school FRC team we also have a FTC
-                    middle school team. To help guide the middle schoolers, we
-                    regularly mentor their progress and provide valuable
-                    instruction based on prior experience. We provide any type
-                    of assistance we can offer, from teaching them essential
-                    skills such as CAD or programming, to utilizing the 3D
-                    printer, laser cutter, and CNC mill.
+import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent } from "@/components/ui/card"
 
-                    Along with mentoring, we have hosted 2 tournaments in the
-                    past in order to give more teams an opportunity to
-                    compete, as well as to help strengthen FIRST’s presence in
-                    the tri-valley area. We hosted and ran both an FLL and an
-                    FTC tournament, with many of 7419 members helping during
-                    planning, organization, and volunteering at the event.
-                    <img
-                      className="rounded mb-4 mx-auto max-w-sm md:max-w-md xl:max-w-xl w-full object-cover"
-                      style={{ height: 400 }}
-                      src="/static/images/outreach/picture.jpg"
-                      alt="FLL Tournament"
-                    />
-                    </p>   
-                </div>
+export default function Outreach() {
+    const fadeInUp = {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.8 }
+    };
+
+    return (
+        <section className="bg-gradient-to-b from-background via-background/90 to-background min-h-screen">
+            <div className="container py-16 md:py-24">
+                <motion.div 
+                    className="mx-auto max-w-4xl text-center"
+                    {...fadeInUp}
+                >
+                    <h1 className="mb-8 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
+                        Empowering Through Outreach
+                    </h1>
+                    <p className="text-xl text-muted-foreground mb-12 leading-relaxed">
+                        At the heart of our FIRST experience lies a commitment to outreach. 
+                        We inspire generations, emphasize the impact of robotics, and ignite 
+                        a passion for STEM across our community.
+                    </p>
+                </motion.div>
+
+                <motion.div 
+                    className="mb-16"
+                    {...fadeInUp}
+                    transition={{ delay: 0.2 }}
+                >
+                    <Tabs defaultValue="commitment" className="w-full">
+                        <TabsList className="grid w-full grid-cols-3 mb-8">
+                            <TabsTrigger value="commitment">Our Commitment</TabsTrigger>
+                            <TabsTrigger value="fll-ftc">FLL & FTC Support</TabsTrigger>
+                            <TabsTrigger value="impact">Our Impact</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="commitment">
+                            <Card>
+                                <CardContent className="p-6">
+                                    <div className="grid md:grid-cols-2 gap-8 items-center">
+                                        <div>
+                                            <h2 className="mb-6 text-3xl font-bold tracking-tighter sm:text-4xl">Our Commitment</h2>
+                                            <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                                                Every student in our team pledges to participate in outreach activities. 
+                                                We extend our knowledge and passion from assisting FLL and FTC teams 
+                                                to conducting workshops at after-school programs.
+                                            </p>
+                                            <ul className="list-disc list-inside text-lg text-muted-foreground space-y-2">
+                                                <li>Mentoring junior robotics teams</li>
+                                                <li>Organizing and hosting tournaments</li>
+                                                <li>Leading STEM workshops in schools</li>
+                                                <li>Engaging with the community at local events</li>
+                                            </ul>
+                                        </div>
+                                        <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
+                                            <Image
+                                                src="/static/fll_ftc/DSC07546.JPEG"
+                                                alt="Team members engaged in outreach activities"
+                                                layout="fill"
+                                                objectFit="cover"
+                                                className="rounded-lg"
+                                            />
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="fll-ftc">
+                            <Card>
+                                <CardContent className="p-6">
+                                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl text-center">FLL & FTC Support</h2>
+                                    <div className="grid md:grid-cols-2 gap-8">
+                                        <div className="relative h-96 rounded-lg overflow-hidden shadow-xl">
+                                            <Image
+                                                src="/static/fll_ftc/DSC07546.JPEG"
+                                                alt="FLL and FTC teams in action"
+                                                layout="fill"
+                                                objectFit="cover"
+                                                className="rounded-lg"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col justify-center">
+                                            <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                                                Our high school FRC team takes pride in mentoring a FTC middle school team. 
+                                                We share our experience, teaching vital skills in CAD, programming, and the use 
+                                                of advanced tools like 3D printers and CNC mills.
+                                            </p>
+                                            <p className="text-lg text-muted-foreground leading-relaxed">
+                                                We've successfully hosted both FLL and FTC tournaments, providing more 
+                                                opportunities for teams to compete and strengthening FIRST's presence in 
+                                                the tri-valley area. Our members are involved in all aspects, from planning 
+                                                to volunteering at these events.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="impact">
+                            <Card>
+                                <CardContent className="p-6">
+                                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl text-center">Our Impact</h2>
+                                    <div className ="grid md:grid-cols-3 gap-8">
+                                        <div className="text-center">
+                                            <h3 className="text-5xl font-bold text-primary mb-2">500+</h3>
+                                            <p className="text-lg text-muted-foreground">Students Reached</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <h3 className="text-5xl font-bold text-primary mb-2">20+</h3>
+                                            <p className="text-lg text-muted-foreground">Workshops Conducted</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <h3 className="text-5xl font-bold text-primary mb-2">5</h3>
+                                            <p className="text-lg text-muted-foreground">Tournaments Hosted</p>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                    </Tabs>
+                </motion.div>
+
+                <motion.div 
+                    className="text-center"
+                    {...fadeInUp}
+                    transition={{ delay: 0.4 }}
+                >
+                    <h2 className="mb-6 text-3xl font-bold tracking-tighter sm:text-4xl">Join Our Mission</h2>
+                    <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                        Are you passionate about STEM education and community engagement? 
+                        We're always seeking new opportunities to inspire and educate. 
+                        Join us in making a difference!
+                    </p>
+                    <a 
+                        href="#contact" 
+                        className="inline-block bg-primary text-primary-foreground font-semibold py-3 px-8 rounded-full text-lg hover:bg-primary/90 transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                    >
+                        Get Involved
+                    </a>
+                </motion.div>
             </div>
-       </section>
-       
-        // <div className="flex flex-col items-center justify-center h-screen">
-        //     <h1 className="text-4xl font-bold">Mission</h1>
-        //     <p className="text-lg">
-        //         //TODO: Not sure if this is correct but I used the mission
-                    // statemnet code/some of the old webiste code and 
-                    //copied the old text from the outreach page 
-                    // on the old website; edit if needed
-        //     </p>
-        // </div>
+        </section>
     )
 }
+

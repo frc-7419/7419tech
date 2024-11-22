@@ -333,9 +333,9 @@ export default function HomePage() {
         <Profile
           direction="left"
           name="The Quarry Lane School"
-          description="Team 7419 consists of students from The Quarry Lane School in Dublin, CA. The team was formed in 2018 by passionate students and teachers here at our school. We've been to worlds 3 times"
+          description="Team 7419 consists of students from The Quarry Lane School in Dublin, CA. The team was formed in 2018 by passionate students and teachers here at our school. We've been to world champs three times and have seen tremendous growth year over year."
           logoUrl="/QuarryLaneLogo.png"
-          websiteUrl="#"
+          websiteUrl="https://www.quarrylane.org/"
           backgrondColor="white"
         />
 
@@ -345,7 +345,7 @@ export default function HomePage() {
           name="First Robotics"
           description="The Quarry Lane Schools is deeply involved with the FIRST organization. With 6 FTC and 7 FLL teams and the parent FRC team, students at Quarry Lane are passion about collaboration and embodying FIRST's values. "
           logoUrl="/FirstLogo.png?height=50&width=50"
-          websiteUrl="#"
+          websiteUrl="https://www.firstinspires.org/robotics/frc"
           backgrondColor="gray-500"
         />
         <Footer />

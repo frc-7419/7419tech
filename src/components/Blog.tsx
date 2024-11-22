@@ -33,7 +33,7 @@ export default function Blog() {
       <div className="container px-4 md:px-6 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
-            Blog by Prad
+            Prad's Blog  
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
             Exploring the intersections of technology, creativity, and innovation.
