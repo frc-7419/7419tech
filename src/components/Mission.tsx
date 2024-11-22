@@ -1,27 +1,53 @@
-"use client";
+"use client"
 
-import { Button } from "./ui/button";
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function Mission() {
-    return (
-        <section className="bg-background">
-            <div className="container py-16 md:py-24">
-                <div className="mx-auto max-w-3xl text-center">
-                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl">Mission and Vision Statement</h2>
-                    <p className="text-lg text-muted-foreground mb-8">
-                    Team 7419 QLS Tech Support strives to instill technical expertise and collaboration into every member on our
-                    student-led team. We are a supportive and dedicated family that works together to give back to the community
-                    with the technical and interpersonal skills gained through the FIRST Robotics Competition program. With every
-                    day of hard work, we are becoming the leaders of tomorrow.
-                    </p>
-                </div>
-            </div>
-       </section>
-        // <div className="flex flex-col items-center justify-center h-screen">
-        //     <h1 className="text-4xl font-bold">Mission</h1>
-        //     <p className="text-lg">
-        //         //TODO: Add mission statement
-        //     </p>
-        // </div>
-    )
+  const [currentWord, setCurrentWord] = useState(0)
+  const words = ["Innovation", "Collaboration", "Community"]
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWord((prev) => (prev + 1) % words.length)
+    }, 5000) // Increased duration for better readability
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <section className="bg-[#11224e] py-20 md:py-24 flex items-center justify-center overflow-hidden">
+      <div className="max-w-2xl relative">
+        <h2 className="text-6xl md:text-7xl font-bold text-center bg-gradient-to-r mb-5 from-[#ffc14a] to-[#926408] bg-clip-text text-transparent relative z-10">
+          Our Mission
+        </h2>
+        <div className="relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentWord}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 2 }}
+              className="absolute inset-0 flex items-center justify-center pointer-events-none"
+            >
+              <span className="text-8xl md:text-9xl font-bold text-[#ffc14a] whitespace-nowrap">
+                {words[currentWord]}
+              </span>
+            </motion.div>
+          </AnimatePresence>
+          <motion.p 
+            className="text-white text-lg md:text-xl text-center relative z-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Team 7419 QLS Tech Support instills technical expertise and collaboration in every member. 
+            We are a supportive family, giving back to the community with skills gained through FIRST Robotics. 
+            Every day, we work hard to become the leaders of tomorrow.
+          </motion.p>
+        </div>
+      </div>
+    </section>
+  )
 }
+

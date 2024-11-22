@@ -7,9 +7,11 @@ import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { ChevronRight, Bot, ChevronLeft } from "lucide-react"
 import { Typewriter } from 'react-simple-typewriter'
-//import Image from "next/image"
-//import "slick-carousel/slick/slick.css"
-//import "slick-carousel/slick/slick-theme.css"
+import Image from "next/image"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import "../app/styles/carousel.css"
 
 export function HeroSection() {
   const containerVariants = {
@@ -42,16 +44,17 @@ export function HeroSection() {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    prevArrow: <ChevronLeft className="text-[#11224e] w-8 h-8 cursor-pointer" />,
-    nextArrow: <ChevronRight className="text-[#11224e] w-8 h-8 cursor-pointer" />,
+    prevArrow: <ChevronLeft className="text-white w-8 h-8 cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2 z-10" />,
+    nextArrow: <ChevronRight className="text-white w-8 h-8 cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 z-10" />,
   }
 
   const carouselImages = [
-    "/DSC07697.jpg"
+    "/Robot.png?height=400&width=600",
+    "/Robot2.png?height=400&width=600",
   ]
 
   return (
-    <section className="relative min-h-[85vh] bg-white flex items-center py-12">
+    <section className="relative min-h-[85vh] bg-white flex items-center py-14">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Content */}
@@ -130,7 +133,6 @@ export function HeroSection() {
             animate="visible"
             className="relative mt-8 lg:mt-0"
           >
-            {/*
             <Card className="aspect-video w-full bg-gray-50 overflow-hidden rounded-xl border-[#ffc14a]/20">
               <Slider {...carouselSettings}>
                 {carouselImages.map((src, index) => (
@@ -145,7 +147,6 @@ export function HeroSection() {
                 ))}
               </Slider>
             </Card>
-            */}
             
             {/* Decorative elements */}
             <div className="absolute -z-10 top-0 right-0 w-96 h-96 bg-[#ffc14a]/10 rounded-full blur-3xl" />
@@ -156,3 +157,4 @@ export function HeroSection() {
     </section>
   )
 }
+

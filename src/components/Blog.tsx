@@ -12,7 +12,7 @@ export default function Blog() {
       id: 1,
       title: "The Art of Coding",
       excerpt: "Exploring the creative side of programming and how it shapes our digital world.",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/static/blog/artOfCoding.jpg",
     },
     {
       id: 2,

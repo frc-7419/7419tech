@@ -319,6 +319,8 @@ import { NavHeader } from '@/components/NavHeader'
 import { HeroSection } from '@/components/HeroSection'
 //import { AnnouncementBanner } from '@/components/AnnouncementBanner'
 import Footer from '@/components/Footer'
+import Mission from '@/components/Mission'
+import Profile from '@/components/profile'
 //import Mission  from '@/components/Mission'
 
 export default function HomePage() {
@@ -327,7 +329,27 @@ export default function HomePage() {
       <Suspense>
         <NavHeader />
         <HeroSection />
+        <Mission />
+        <Profile
+        direction="left"
+        name="Bellarmine College Preparatory"
+        description="Team 254 consists of students from Bellarmine College Preparatory in San Jose, CA. The team was founded by NASA Ames Research Center in the fall of 1998 at Broadway High School and moved to Bellarmine in the fall of 2000."
+        logoUrl="/QuarryLaneLogo.png"
+        websiteUrl="#"
+        backgrondColor='white'
+      />
+      
+      {/* Right-facing logo section */}
+      <Profile
+        direction="right"
+        name="Bellarmine College Preparatory"
+        description="Team 254 consists of students from Bellarmine College Preparatory in San Jose, CA. The team was founded by NASA Ames Research Center in the fall of 1998 at Broadway High School and moved to Bellarmine in the fall of 2000."
+        logoUrl="/FirstLogo.png?height=50&width=50"
+        websiteUrl="#"
+        backgrondColor='gray-500'
+      />
         <Footer />
+        
       </Suspense>
     </main>
   )
