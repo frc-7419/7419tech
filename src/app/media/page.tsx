@@ -5,6 +5,14 @@ import Image from "next/image"
 import NavHeader from "@/components/NavHeader"
 
 export default function MediaPage() {
+    const images2024 = [
+      "/static/robot/DSC06883.JPG",
+      "/placeholder.svg",
+      "/placeholder.svg",
+      "/placeholder.svg",
+      "/placeholder.svg",
+      "/placeholder.svg"
+    ]
     return (
       <div className="min-h-screen bg-white">
         <NavHeader />
@@ -41,16 +49,16 @@ export default function MediaPage() {
             {/* 2024 Season Content */}
             <TabsContent value="2024">
               <div className="space-y-8">
-                {["Regional Competition", "Practice Sessions", "Build Season"].map((section, index) => (
+                {["Champs 2024", "SVR 2024", "Build Season"].map((section, index) => (
                   <div key={index}>
                     <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">{section}</h2>
                     <ScrollArea className="w-full whitespace-nowrap rounded-lg">
                       <div className="flex w-max space-x-4 p-4">
-                        {[...Array(6)].map((_, i) => (
+                        {images2024.map((path, i) => (
                           <Card key={i} className="w-[300px] bg-[#2A336A] border-none shadow-md">
                             <CardContent className="p-0">
                               <Image
-                                src="/placeholder.svg"
+                                src={path}
                                 alt={`${section} Photo ${i + 1}`}
                                 width={300}
                                 height={200}

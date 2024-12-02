@@ -12,19 +12,19 @@ export default function Blog() {
       id: 1,
       title: "The Art of Coding",
       excerpt: "Exploring the creative side of programming and how it shapes our digital world.",
-      image: "/static/blog/artOfCoding.jpg",
+      image: "/next.svg",
     },
     {
       id: 2,
       title: "Tech Trends 2024",
       excerpt: "A look into the future: what technologies will dominate the landscape in the coming year?",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/window.svg",
     },
     {
       id: 3,
       title: "Building Sustainable Software",
       excerpt: "How eco-friendly coding practices can make a difference in reducing carbon footprints.",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/file.svg",
     },
   ]
 
@@ -33,7 +33,7 @@ export default function Blog() {
       <div className="container px-4 md:px-6 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
-            Prad's Blog  
+            Prad's blog
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
             Exploring the intersections of technology, creativity, and innovation.

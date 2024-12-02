@@ -233,9 +233,10 @@ export default function Leadership() {
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-14">
                 <h2 className="text-4xl">Our Student Leadership</h2>
                 <p className="text-lg text-gray-600 mt-10" data-aos="zoom-y-out">
-                  True to the FIRST® mission of sparking invention and creativity,
-                  team operations are entirely student-led. We have three main
-                  departments: Mechanical, Programming, and Buisness. In each
+                  Team operations are entirely student-led; 
+                  we stay true to the FIRST® mission of sparking invention and creativity,
+                  We have three main
+                  departments: Mechanical, Programming, and Business. In each
                   of these sub-teams, leadership positions are earned through
                   continuous effort and dedication. We take pride in our team’s
                   culture that helps our leaders further explore their own skills

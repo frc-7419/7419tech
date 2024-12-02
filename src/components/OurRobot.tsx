@@ -119,6 +119,12 @@ import { motion } from 'framer-motion'
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
+const descriptions = [
+  "the robot is robot",
+  "the bobot is bot",
+  "pradyun karma"
+];
+
 const OurRobot = () => {
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -189,8 +195,8 @@ const OurRobot = () => {
 
       <motion.div className="max-w-3xl text-center px-4 md:px-8" variants={itemVariants}>
         <p className="text-gray-700 text-lg mb-6">
-          Our robot is designed to solve complex problems in the fields of science, engineering, and robotics. 
-          Built with cutting-edge technology and a strong focus on adaptability, it is engineered to work in various environments and perform a wide range of tasks.
+          Our robot is designed to solve the complex problems in each year's FRC game. 
+          Featuring swerve and advanced vision systems, it is engineered for agility and precision.
         </p>
 
         <p className="text-gray-700 text-lg mb-6">
@@ -207,7 +213,7 @@ const OurRobot = () => {
               <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <CardContent className="p-6">
                   <h4 className="text-xl font-semibold mb-2">{feature}</h4>
-                  <p className="text-gray-600">Pradyun Karma</p>
+                  {/* <p className="text-gray-600">{descriptions[index]}</p> */}
                 </CardContent>
               </Card>
             </motion.div>
@@ -216,7 +222,7 @@ const OurRobot = () => {
       </motion.div>
       
       <motion.div className="mt-12" variants={itemVariants}>
-        <Button className="px-6 py-3 text-lg"><a href={"https://guthib.com"}>Learn More</a></Button>
+        <Button className="px-6 py-3 text-lg"><a href={"https://github.com/frc-7419/7419tech"}>Learn More</a></Button>
       </motion.div>
     </motion.div>
   )
