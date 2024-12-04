@@ -20,7 +20,7 @@ export default function Profile({
   backgrondColor,
 }: ProfileProps) {
   return (
-    <Card className={`border-0 bg-${backgrondColor} shadow-none bg-opacity-5`}>
+    <Card className={`border-0 bg-${backgrondColor} shadow-none bg-opacity-5 mx-10`}>
       <CardContent className="p-6">
         <div
           className={`flex flex-col items-center gap-6 md:flex-row ${

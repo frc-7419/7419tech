@@ -5,6 +5,10 @@ import { motion } from 'framer-motion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 
+// change the gray 
+// add different images 
+// copy navbar from "our team page"
+
 export default function Outreach() {
     const fadeInUp = {
         initial: { opacity: 0, y: 20 },
@@ -13,17 +17,17 @@ export default function Outreach() {
     };
 
     return (
-        <section className="bg-gradient-to-b from-background via-background/90 to-background min-h-screen">
-            <div className="container py-16 md:py-24">
+        <section className="bg-gradient-to-b from-background via-background/90 to-background min-h-screen flex items-center justify-center">
+            <div className="container py-16 md:py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div 
-                    className="mx-auto max-w-4xl text-center"
+                    className="text-center"
                     {...fadeInUp}
                 >
-                    <h1 className="mb-8 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
+                    <h1 className="mb-8 text-4xl z-100 font-bold sm:text-5xl md:text-6xl text-yellow-500">
                         Empowering Through Outreach
                     </h1>
-                    <p className="text-xl text-muted-foreground mb-12 leading-relaxed">
-                        At the heart of our FIRST experience lies a commitment to outreach. 
+                    <p className="text-xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto">
+                        At the heart of 7419 lies a commitment to outreach. 
                         We inspire generations under us, emphasize the impact of robotics, and ignite 
                         a passion for STEM across our community.
                     </p>
@@ -60,7 +64,7 @@ export default function Outreach() {
                                         </div>
                                         <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
                                             <Image
-                                                src="/static/fll_ftc/DSC07546.JPEG"
+                                                src="/static/fll_ftc/kickoff.jpg"
                                                 alt="Team members engaged in outreach activities"
                                                 layout="fill"
                                                 objectFit="cover"
@@ -106,7 +110,7 @@ export default function Outreach() {
                             <Card>
                                 <CardContent className="p-6">
                                     <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl text-center">Our Impact</h2>
-                                    <div className ="grid md:grid-cols-3 gap-8">
+                                    <div className="grid md:grid-cols-3 gap-8">
                                         <div className="text-center">
                                             <h3 className="text-5xl font-bold text-primary mb-2">500+</h3>
                                             <p className="text-lg text-muted-foreground">Students Reached</p>

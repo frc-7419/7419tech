@@ -20,6 +20,11 @@ const events = [
     }
 ];
 
+// images of hardware and software presentation
+// change yellow buttons
+// brown gradient 
+// socials in footer
+
 function MentorshipCard() {
     return (
         <Card className="p-6 rounded-lg bg-white bg-opacity-80 shadow-lg">
@@ -103,7 +108,7 @@ export default function TeamSection() {
                 <div className="max-w-4xl mx-auto text-center mb-12">
                     <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
                     <span className="bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
-                      We Are 7419 - TECH Support
+                      We Are 7419 TECH Support
                     </span>
                     </h2>
                     <p className="text-xl text-gray-500 mx-auto mt-8">

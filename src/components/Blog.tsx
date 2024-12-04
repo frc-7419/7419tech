@@ -42,7 +42,7 @@ export default function Blog() {
       <div className="container px-4 md:px-6 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
-            7419 Blog
+            7419 "not prad's" Blog
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
             Exploring the intersections of science, technology, creativity, and
@@ -91,7 +91,7 @@ export default function Blog() {
           <CardContent className="flex flex-col items-center space-y-6">
             <div className="relative w-full aspect-video rounded-lg overflow-hidden">
               <Image
-                src="/placeholder.svg?height=400&width=600"
+                src="/static/team/Insta.png"
                 alt="Instagram Highlights"
                 layout="fill"
                 objectFit="cover"

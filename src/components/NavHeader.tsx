@@ -42,7 +42,7 @@ ListItem.displayName = "ListItem"
 
 export function NavHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b bg-[#11224e] shadow-lg">
+    <header className="sticky top-0 z-50 bg-[#11224e] shadow-lg">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-all duration-200" aria-label="Home">
           <div className="flex items-center">

@@ -17,7 +17,7 @@ export default function Mission() {
   return (
     <section className="bg-[#11224e] py-20 md:py-24 flex items-center justify-center overflow-hidden">
       <div className="max-w-2xl relative">
-        <h2 className="text-6xl md:text-7xl font-bold text-center bg-gradient-to-r mb-5 from-[#ffc14a] to-[#926408] bg-clip-text text-transparent relative z-10">
+        <h2 className="text-6xl md:text-7xl font-bold text-center text-[#ffc14a] relative z-10">
           Our Mission
         </h2>
         <div className="relative">
@@ -30,7 +30,7 @@ export default function Mission() {
               transition={{ duration: 2 }}
               className="absolute inset-0 flex items-center justify-center pointer-events-none"
             >
-              <span className="text-8xl md:text-9xl font-bold text-[#ffc14a] whitespace-nowrap">
+              <span className="sm:text-9xl font-bold text-[#ffc14a] whitespace-nowrap">
                 {words[currentWord]}
               </span>
             </motion.div>

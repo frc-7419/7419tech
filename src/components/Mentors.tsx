@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-// Placeholder data for mentors and their fields of expertise
 const mentors = [
   {
     name: "Leon Cox",
@@ -47,6 +46,8 @@ const mentors = [
 ];
 
 export default function Mentors() {
+  const [highlightedArea, setHighlightedArea] = useState<{ x: number; y: number } | null>(null);
+
   return (
     <section className="py-12 bg-gray-50">
       <div className="container px-4 md:px-6 mx-auto">
@@ -66,8 +67,30 @@ export default function Mentors() {
                     alt={mentor.name}
                     layout="fill"
                     objectFit="cover"
-                    className="transition-all duration-200 hover:scale-110"
+                    className={`transition-all duration-200 ${mentor.name === "Nathan Batchelder" ? "filter blur-lg" : ""}`}
+                    onMouseMove={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const x = e.clientX - rect.left; 
+                      const y = e.clientY - rect.top; 
+                      setHighlightedArea({ x, y }); // Update highlighted area
+                    }}
+                    onMouseLeave={() => setHighlightedArea(null)} 
                   />
+                  {highlightedArea && mentor.name === "Nathan Batchelder" && (
+                    <div
+                      className="absolute"
+                      style={{
+                        left: highlightedArea.x - 20, 
+                        top: highlightedArea.y - 20,
+                        width: '60px', 
+                        height: '60px', 
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)', 
+                        borderRadius: '50%', // Make it circular
+                        pointerEvents: 'none', 
+                        filter: 'none', 
+                      }}
+                    />
+                  )}
                 </div>
                 <h2 className="text-2xl font-semibold text-center mb-2">
                   {mentor.name}

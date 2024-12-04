@@ -62,13 +62,7 @@ export function HeroSection() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-4"
-          >
-            <motion.div variants={itemVariants}>
-              <Badge className="bg-[#11224e] text-[#ffc14a] hover:bg-[#11224e]/70 mb-3">
-                FRC Team 7419
-              </Badge>
-            </motion.div>
+            className="space-y-4">
 
             <motion.h1 
               variants={itemVariants}
@@ -122,7 +116,7 @@ export function HeroSection() {
               className="pt-6 flex items-center gap-3 text-sm text-gray-600"
             >
               <Bot className="h-5 w-5 text-[#11224e]" />
-              <span>Competition-ready robotics solutions</span>
+              <span>[add text here]</span>
             </motion.div>
           </motion.div>
 

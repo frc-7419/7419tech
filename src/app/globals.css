@@ -68,3 +68,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* globals.css */
+.filter {
+  filter: blur(10px);
+}
+
+.filter-none {
+  filter: none;
+}

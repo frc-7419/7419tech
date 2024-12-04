@@ -8,9 +8,7 @@ const sponsors = [
   { name: "QLS", logo: "/static/sponsors/qls.png", url: "https://www.quarrylane.org/" },
   { name: "Notion", logo: "/static/sponsors/notion-logo.png", url: "https://www.notion.so" },
   { name: "Intuitive Foundation", logo: "/static/sponsors/IntuitiveFoundation.png", url: "https://www.intuitivefoundation.org" },
-  { name: "NASA", logo: "/static/sponsors/nasa.png", url: "https://www.nasa.gov" },
   { name: "FIRST NorCal", logo: "/static/sponsors/FIRST-NorCal.png", url: "https://www.firstinspires.org/robotics/frc" },
-  { name: "SF Cable", logo: "/static/sponsors/sf-cable.png", url: "https://www.sfcable.com" },
   { name: "Google", logo: "/static/sponsors/googleLogo.png", url: "https://about.google/" },
   { name: "LDL", logo: "/static/sponsors/ldl.svg", url: "https://littledesignlab.org/" },
 ]
@@ -26,7 +24,7 @@ function Sponsors() {
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-            <h2 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
+            <h2 className="text-5xl font-bold text-[#11224e] tracking-tight lg:text-6xl xl:text-7xl leading-tight">
               Our Amazing Sponsors
             </h2>
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
@@ -35,7 +33,7 @@ function Sponsors() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 md:gap-16">
+          <div className="grid grid-cols-3 grid-rows-2 gap-8">
             {sponsors.map((sponsor, index) => (
               <motion.div
                 key={sponsor.name}
@@ -49,10 +47,10 @@ function Sponsors() {
                   <Image
                     src={sponsor.logo}
                     alt={`${sponsor.name} logo`}
-                    width={300}
-                    height={150}
+                    width={150}
+                    height={100}
                     objectFit="contain"
-                    className="max-h-24 md:max-h-32"
+                    className="max-h-24"
                   />
                 </a>
               </motion.div>
@@ -71,8 +69,10 @@ function Sponsors() {
               Your support can make a lasting impact.
             </p>
             <a 
-              href="#" 
-              className="inline-block bg-blue-600 text-white font-semibold py-3 px-8 rounded-full text-lg hover:bg-blue-700 transition-colors duration-300"
+              href="https://drive.google.com/file/d/1LEVCRtwa1jpuDWNEidyyyDOTDZumry4p/view?usp=drive_link"
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block bg-white text-blue-600 font-semibold py-3 px-8 rounded-xl text-lg hover:bg-blue-50 transition-colors duration-300 border-2 border-blue-600"
             >
               Learn About Sponsorship Opportunities
             </a>
@@ -84,3 +84,4 @@ function Sponsors() {
 }
 
 export default Sponsors
+

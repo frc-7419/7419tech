@@ -118,12 +118,18 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Slider from "react-slick";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import "../app/styles/carousel.css"
 
 const descriptions = [
-  "the robot is robot",
-  "the bobot is bot",
-  "pradyun karma",
+  "Lorem ipsum dolor sit amet",
+  "Lorem ipsum dolor sit amet",
+  "Lorem ipsum dolor sit amet",
 ];
+
 
 const OurRobot = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -158,6 +164,22 @@ const OurRobot = () => {
       },
     },
   };
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    prevArrow: <ChevronLeft className="bg-black text-white w-8 h-8 cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2 z-10" />,
+    nextArrow: <ChevronRight className="bg-black text-white w-8 h-8 cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 z-10" />
+  }
+  
+  const carouselImages = [
+    "/static/robot/DSC06883.JPG",
+    "/static/team/teamphoto.avif"
+  ]
 
   return (
     <motion.div
@@ -176,25 +198,23 @@ const OurRobot = () => {
       </motion.header>
 
       <motion.div className="w-full max-w-md mb-8" variants={itemVariants}>
-        <Card className="overflow-hidden">
-          <CardContent className="p-0">
-            <div className="relative w-full h-96 bg-gray-200 overflow-hidden group">
-              <Image
-                src="/static/robot/DSC06883.JPG"
-                alt="Our Robot"
-                layout="fill"
-                objectFit="cover"
-                className="transition-transform duration-300 group-hover:scale-110"
-              />
-              {/* <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <Button variant="secondary" className="text-black bg-opacity-70 hover:bg-opacity-100 transition-all duration-300">
-                  Learn More
-                </Button>
-              </div> */}
-            </div>
-          </CardContent>
+        
+        <Card className="aspect-video w-full bg-gray-50 overflow-hidden rounded-xl border-[#ffc14a]/20">
+          <Slider {...carouselSettings}>
+                {carouselImages.map((src, index) => (
+                  <div key={index} className="relative aspect-video">
+                    <Image
+                      src={src}
+                      alt={`Robot image ${index + 1}`}
+                      fill
+                      className="object-cover z-20"
+                    />
+                  </div>
+                ))}
+          </Slider>
         </Card>
-        <h2 className="text-2xl font-semibold text-center mt-4">Our Robot</h2>
+        <div className="absolute -z-10 top-0 right-0 w-96 h-96 bg-[#ffc14a]/10 rounded-full blur-3xl" />
+        <div className="absolute -z-10 bottom-0 right-24 w-96 h-96 bg-[#ffc14a]/5 rounded-full blur-3xl" />
       </motion.div>
 
       <motion.div
@@ -228,7 +248,7 @@ const OurRobot = () => {
                   <CardContent className="p-6 pl-16">
                     {/* someone actually center this cardcontent later please*/}
                     <h4 className="text-xl font-semibold mb-2">{feature}</h4>
-                    {/* <p className="text-gray-600">{descriptions[index]}</p> */}
+                    <p className="text-gray-600">{descriptions[index]}</p>
                   </CardContent>
                 </Card>
               </motion.div>

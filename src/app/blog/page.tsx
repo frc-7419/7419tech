@@ -6,7 +6,6 @@ export default function BlogPage() {
     return (
        <>
         <NavHeader />
-         <Blog />
         </>
     ) 
 }

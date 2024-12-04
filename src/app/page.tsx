@@ -323,6 +323,16 @@ import Mission from "@/components/Mission";
 import Profile from "@/components/profile";
 //import Mission  from '@/components/Mission'
 
+// from yellow to blue button 
+// gradient is poop brown
+// remove badge
+// remove more poop brown
+// larger words in background
+// remove box around logos
+// capitalize FIRST, fix typos
+// logo in footer to blue
+// remove white line under navbar
+// make logo hyperlink with a "box to an arrow"
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-background padding">
