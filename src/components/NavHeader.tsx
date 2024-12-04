@@ -66,14 +66,14 @@ export function NavHeader() {
                   <ListItem href="/team" title="Our Team">
                     Meet the passionate students behind our robotics team.
                   </ListItem>
+                  <ListItem href="/robot" title="Our Robot">
+                    Explore our robot design through an interactive page.
+                  </ListItem>
                   <ListItem href="/mentors" title="Mentors">
                     Learn about the experienced professionals guiding our team.
                   </ListItem>
                   <ListItem href="/leadership" title="Leadership">
                     Learn about our experienced students leading our different departments.
-                  </ListItem>
-                  <ListItem href="/robot" title="Our Robot">
-                    Explore our robot design through an interactive page.
                   </ListItem>
                 </ul>
               </NavigationMenuContent>
@@ -83,16 +83,10 @@ export function NavHeader() {
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                   <ListItem href="/blog" title="Team Blog">
-                    Read about our latest achievements and ongoing projects.
-                  </ListItem>
-                  <ListItem href="/calendar" title="Event Calendar">
-                    Stay updated with our competition schedule and events.
-                  </ListItem>
+                      Read about our latest achievements and ongoing projects.
+                    </ListItem>
                   <ListItem href="/outreach" title="Outreach at 7419">
                     Discover how we're making an impact to younger generations and the community.
-                  </ListItem>
-                  <ListItem href="/gallery" title="Photo Gallery">
-                    View our competition photos and team activities.
                   </ListItem>
                 </ul>
               </NavigationMenuContent>

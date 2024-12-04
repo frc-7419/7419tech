@@ -24,7 +24,7 @@ export default function Outreach() {
                     </h1>
                     <p className="text-xl text-muted-foreground mb-12 leading-relaxed">
                         At the heart of our FIRST experience lies a commitment to outreach. 
-                        We inspire generations, emphasize the impact of robotics, and ignite 
+                        We inspire generations under us, emphasize the impact of robotics, and ignite 
                         a passion for STEM across our community.
                     </p>
                 </motion.div>
@@ -55,7 +55,7 @@ export default function Outreach() {
                                                 <li>Mentoring junior robotics teams</li>
                                                 <li>Organizing and hosting tournaments</li>
                                                 <li>Leading STEM workshops in schools</li>
-                                                <li>Engaging with the community at local events</li>
+                                                <li>Engaging with the community at local events and donations</li>
                                             </ul>
                                         </div>
                                         <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
@@ -87,9 +87,9 @@ export default function Outreach() {
                                         </div>
                                         <div className="flex flex-col justify-center">
                                             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                                                Our high school FRC team takes pride in mentoring a FTC middle school team. 
+                                                Our high school FRC team takes pride in mentoring in our middle school robotics teams. 
                                                 We share our experience, teaching vital skills in CAD, programming, and the use 
-                                                of advanced tools like 3D printers and CNC mills.
+                                                of advanced tools like 3D printers and CNC mills for FTC teams.
                                             </p>
                                             <p className="text-lg text-muted-foreground leading-relaxed">
                                                 We've successfully hosted both FLL and FTC tournaments, providing more 
