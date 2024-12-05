@@ -9,6 +9,7 @@ import { ChevronRight, Bot, ChevronLeft } from "lucide-react"
 import { Typewriter } from 'react-simple-typewriter'
 import Image from "next/image"
 import Slider from "react-slick"
+import Link from 'next/link'
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import "../app/styles/carousel.css"
@@ -96,10 +97,12 @@ export function HeroSection() {
               className="flex flex-wrap gap-3 pt-6"
             >
               <Button 
-                size="lg" 
+                size="lg"
                 className="bg-[#ffc14a] text-white hover:bg-[#ffcd6b] transition-colors"
               >
-                Get Involved
+                <Link href={"/contact"}>
+                  Get Involved
+                </Link>
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
               <Button 
@@ -107,7 +110,9 @@ export function HeroSection() {
                 variant="outline"
                 className="border-[#11224e] text-[#11224e] hover:bg-[#11224e] hover:text-white transition-colors"
               >
-                View Projects
+                <Link href={"/team"}>
+                  View Projects
+                </Link>
               </Button>
             </motion.div>
 

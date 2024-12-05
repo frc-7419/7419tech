@@ -111,7 +111,7 @@ export default function Contact() {
     text: subject,
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 1000);

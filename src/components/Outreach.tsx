@@ -142,7 +142,7 @@ export default function Outreach() {
                         Join us in making a difference!
                     </p>
                     <a 
-                        href="#contact" 
+                        href="contact" 
                         className="inline-block bg-primary text-primary-foreground font-semibold py-3 px-8 rounded-full text-lg hover:bg-primary/90 transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                     >
                         Get Involved
