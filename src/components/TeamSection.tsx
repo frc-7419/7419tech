@@ -92,7 +92,7 @@ function EventsCard() {
                     ))}
                 </div>
                 <p className="mt-4">
-                    We also present at these events, sharing insights on our training structure, programming pedagogy, and more.
+                    We also present at these events, sharing insights on our training structure, programming knowledge, and more.
                 </p>
             </CardContent>
         </Card>
@@ -108,11 +108,11 @@ export default function TeamSection() {
                 <div className="max-w-4xl mx-auto text-center mb-12">
                     <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
                     <span className="bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
-                      We Are 7419 TECH Support
+                      We Are Team 7419 TECH Support
                     </span>
                     </h2>
                     <p className="text-xl text-gray-500 mx-auto mt-8">
-                        Tech Support is way more than robots. We solve problems. We help people. We’re a family. We’ve done many great things and look forward to many more in the future.
+                        TECH Support is way more than just robots. We solve problems and help people. We’re a family. We’ve done many great things and look forward to many more in the future.
                     </p>
                 </div>
 
