@@ -42,7 +42,7 @@ function MentorshipCard() {
                 <p className="mt-4">
                     Special initiatives like all-girls teams HotsBots and Innovix represent our commitment to diversity in STEM through our Society of Women Engineers chapter.
                 </p>
-                <div className="py-4 text-right">
+                <div className="py-4 text-center">
                     <Button
                         variant="outline"
                         size="lg"
@@ -108,11 +108,11 @@ export default function TeamSection() {
                 <div className="max-w-4xl mx-auto text-center mb-12">
                     <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
                     <span className="bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
-                      We Are Team 7419 TECH Support
+                      About Us
                     </span>
                     </h2>
                     <p className="text-xl text-gray-500 mx-auto mt-8">
-                        TECH Support is way more than just robots. We solve problems and help people. We’re a family. We’ve done many great things and look forward to many more in the future.
+                        Team 7419 Tech Support is way more than just a robotics team. We solve problems and help people. We’re a family. We’ve done many great things and look forward to many more in the future.
                     </p>
                 </div>
 

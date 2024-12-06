@@ -95,7 +95,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FiSend } from "react-icons/fi"; // Paper plane icon
 import { FaPlane } from "react-icons/fa"; // Airplane icon
-import Mail from "nodemailer/lib/mailer";
+// import Mail from "nodemailer/lib/mailer";
 
 export default function Contact() {
   const [isAnimating, setIsAnimating] = useState(false);
@@ -103,13 +103,13 @@ export default function Contact() {
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
 
-  const mailOptions: Mail.Options = {
-    from: process.env.MY_EMAIL,
-    to: process.env.MY_EMAIL,
-    // cc: email, (uncomment this line if you want to send a copy to the sender)
-    subject: `Message from ${name} (${email})`,
-    text: subject,
-  };
+  // const mailOptions: Mail.Options = {
+  //   from: process.env.MY_EMAIL,
+  //   to: process.env.MY_EMAIL,
+  //   // cc: email, (uncomment this line if you want to send a copy to the sender)
+  //   subject: `Message from ${name} (${email})`,
+  //   text: subject,
+  // };
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -127,7 +127,7 @@ export default function Contact() {
       />
 
       <div className="w-full max-w-md px-6 py-10 bg-[#f4f4f8] rounded-lg shadow-lg transition-transform transform hover:scale-105">
-        <h1 className="text-3xl font-bold text-[#ffb41a] mb-8 text-center transition-opacity duration-500 hover:opacity-90">
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent mb-8 text-center transition-opacity duration-500 hover:opacity-90">
           Contact Us
         </h1>
         <form onSubmit={handleSubmit} className="space-y-6">

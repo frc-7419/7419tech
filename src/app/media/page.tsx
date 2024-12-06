@@ -5,22 +5,31 @@ import Image from "next/image";
 import NavHeader from "@/components/NavHeader";
 
 // need to add more images
-// need to add different tabs for different competitions in 2023 and 2022
 export default function MediaPage() {
-  const images2024 = [
-    "/static/robot/DSC06883.JPG",
-    "/static/robot/DSC06883.JPG",
-    "/static/robot/DSC06883.JPG",
-    "/static/robot/DSC06883.JPG",
-    "/static/robot/CSC_7650.JPG",
-    "/static/robot/DSC_7623.JPG",
+  const champs2024 = [
+    "/static/comps/champs2024/DSC06887.JPG",
+    "/static/comps/champs2024/DSC06924.JPG",
+    "/static/comps/champs2024/DSC06941.JPG",
+    "/static/comps/champs2024/IMG_6749.JPG",
+    "/static/comps/champs2024/IMG_6754.png",
   ];
+  const svr2024 = [
+    "/static/comps/champs2024/IMG_6749.JPG"
+  ]
+  const ccc2024 = [
+    "/static/comps/ccc2024/20241026_112449.jpg",
+    "/static/comps/ccc2024/20241026_163310.jpg",
+    "/static/comps/ccc2024/IMG_9638.JPG",
+    "/static/comps/ccc2024/IMG_9648.JPG",
+    "/static/comps/ccc2024/IMG_9707.JPG",
+
+  ]
   return (
     <div className="min-h-screen bg-white">
       <NavHeader />
       {/* Header Section */}
       <div className="container mx-auto py-8">
-        <h1 className="text-4xl font-bold mb-2 text-[#2A336A]">
+        <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
           Media Gallery
         </h1>
         <p className="text-gray-700 mb-8">
@@ -35,19 +44,19 @@ export default function MediaPage() {
               value="2024"
               className="text-lg font-semibold rounded-lg transition-all hover:bg-white"
             >
-              2024 Season
+              2024-25 season
             </TabsTrigger>
             <TabsTrigger
               value="2023"
               className="text-lg font-semibold rounded-lg transition-all hover:bg-white"
             >
-              2023 Season
+              2023-24 season
             </TabsTrigger>
             <TabsTrigger
               value="2022"
               className="text-lg font-semibold rounded-lg transition-all hover:bg-white"
             >
-              2022 Season
+              2022-23 season
             </TabsTrigger>
           </TabsList>
 
@@ -93,69 +102,11 @@ export default function MediaPage() {
           <TabsContent value="2024">
           <div>
             <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
-              SVR 2024
+              CCC 2024
             </h2>
             <ScrollArea className="w-full whitespace-nowrap rounded-lg">
               <div className="flex w-max space-x-4 p-4">
-                {images2024.map((path, i) => (
-                  <Card
-                    key={i}
-                    className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
-                  >
-                    <CardContent className="p-0">
-                      <Image
-                        src={path}
-                        alt={`Photo ${i + 1}`}
-                        width={300}
-                        height={100}
-                        className="object-cover rounded-t-lg"
-                      />
-
-                      <div className="p-4"></div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
-              Build Season
-            </h2>
-            <ScrollArea className="w-full whitespace-nowrap rounded-lg">
-              <div className="flex w-max space-x-4 p-4">
-                {images2024.map((path, i) => (
-                  <Card
-                    key={i}
-                    className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
-                  >
-                    <CardContent className="p-0">
-                      <Image
-                        src={path}
-                        alt={`Photo ${i + 1}`}
-                        width={300}
-                        height={100}
-                        className="object-cover rounded-t-lg"
-                      />
-
-                      <div className="p-4"></div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
-              SVR 2024
-            </h2>
-            <ScrollArea className="w-full whitespace-nowrap rounded-lg">
-              <div className="flex w-max space-x-4 p-4">
-                {images2024.map((path, i) => (
+                {ccc2024.map((path, i) => (
                   <Card
                     key={i}
                     className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
@@ -182,6 +133,63 @@ export default function MediaPage() {
 
           {/* 2023 Season Content */}
           <TabsContent value="2023">
+          <div>
+            <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
+              Champs 2024
+            </h2>
+            <ScrollArea className="w-full whitespace-nowrap rounded-lg">
+              <div className="flex w-max space-x-4 p-4">
+                {champs2024.map((path, i) => (
+                  <Card
+                    key={i}
+                    className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
+                  >
+                    <CardContent className="p-0">
+                      <Image
+                        src={path}
+                        alt={`Photo ${i + 1}`}
+                        width={300}
+                        height={100}
+                        className="object-cover rounded-t-lg"
+                      />
+
+                      <div className="p-4"></div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
+              SVR 2024
+            </h2>
+            <ScrollArea className="w-full whitespace-nowrap rounded-lg">
+              <div className="flex w-max space-x-4 p-4">
+                {svr2024.map((path, i) => (
+                  <Card
+                    key={i}
+                    className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
+                  >
+                    <CardContent className="p-0">
+                      <Image
+                        src={path}
+                        alt={`Photo ${i + 1}`}
+                        width={300}
+                        height={100}
+                        className="object-cover rounded-t-lg"
+                      />
+
+                      <div className="p-4"></div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </div>
             <div className="text-center py-8">
               <p className="text-gray-700">
                 2023 Season photos coming soon...

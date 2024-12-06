@@ -349,7 +349,6 @@ export default function HomePage() {
           backgrondColor="white"
         />
 
-        {/* Right-facing logo section */}
         <Profile
           direction="right"
           name="First Robotics"

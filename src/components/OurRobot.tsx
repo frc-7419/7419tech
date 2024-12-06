@@ -125,9 +125,9 @@ import "slick-carousel/slick/slick-theme.css"
 import "../app/styles/carousel.css"
 
 const descriptions = [
-  "Lorem ipsum dolor sit amet",
-  "Lorem ipsum dolor sit amet",
-  "Lorem ipsum dolor sit amet",
+  "The robot has a mounted [camera name] camera. Using the [library name] library, our robot is able to identify AprilTags and their rotation and position relative to the robot. This allows the robot to estimate its pose on the field with incredible accuracy.",
+  "Drive swerve",
+  "Many functions of the robot, including raising the shooter, intaking a note, and running the shooter wheels to velocity, are automated to reduce stress on the driver.",
 ];
 
 
@@ -178,7 +178,10 @@ const OurRobot = () => {
   
   const carouselImages = [
     "/static/robot/DSC06883.JPG",
-    "/static/team/teamphoto.avif"
+    "/static/robot/CSC_7650.JPG",
+    "/static/robot/DSC_7623.JPG",
+    "/static/robot/DSC06884.JPG",
+    "/static/robot/DSC06887.JPG"
   ]
 
   return (
@@ -189,7 +192,8 @@ const OurRobot = () => {
       variants={containerVariants}
     >
       <motion.header className="text-center mb-12" variants={itemVariants}>
-        <h1 className="text-4xl font-bold text-gray-800 mb-2">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
+          
           Meet Our Robot
         </h1>
         <p className="text-lg text-gray-600">
@@ -236,10 +240,10 @@ const OurRobot = () => {
       </motion.div>
 
       <motion.div
-        className="mt-12 space-y-8 w-full max-w-4xl"
+        className="mt-12 space-y-8 w-full max-w-4xl bg-[#ffb41a] p-8 rounded-3xl "
         variants={itemVariants}
       >
-        <h3 className="text-2xl font-semibold text-center">Key Features</h3>
+        <h3 className="text-3xl font-semibold text-center text-white">Key Features</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {["Advanced Vision", "Swerve Drive", "Automatic Features"].map(
             (feature, index) => (

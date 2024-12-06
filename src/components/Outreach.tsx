@@ -23,7 +23,7 @@ export default function Outreach() {
                     className="text-center"
                     {...fadeInUp}
                 >
-                    <h1 className="mb-8 text-4xl z-100 font-bold sm:text-5xl md:text-6xl text-yellow-500">
+                    <h1 className="mb-8 text-100xl z-100 font-bold sm:text-5xl md:text-6xl bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
                         Empowering Through Outreach
                     </h1>
                     <p className="text-xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto">

@@ -20,11 +20,13 @@ function Sponsors() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: -20 }}
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-            <h2 className="text-5xl font-bold text-[#11224e] tracking-tight lg:text-6xl xl:text-7xl leading-tight">
+
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent leading-normal">
+            
               Our Amazing Sponsors
             </h2>
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">

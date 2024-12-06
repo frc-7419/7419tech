@@ -231,7 +231,7 @@ export default function Leadership() {
             <div className="py-12 md:py-20">
               {/* Section header */}
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-14">
-                <h2 className="text-4xl">Our Student Leadership</h2>
+                <h2 className="text-4xl font-bold bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">Our Student Leadership</h2> 
                 <p className="text-lg text-gray-600 mt-10" data-aos="zoom-y-out">
                   Team operations are entirely student-led; 
                   we stay true to the FIRST® mission of sparking invention and creativity.

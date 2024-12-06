@@ -51,8 +51,8 @@ export default function Mentors() {
   return (
     <section className="py-12 bg-gray-50">
       <div className="container px-4 md:px-6 mx-auto">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-          Our Mentors: the people who guide us
+        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12 bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
+          Our Mentors
         </h1>
         <div className="flex flex-wrap justify-center gap-8">
           {mentors.map((mentor, index) => (

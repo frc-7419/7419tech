@@ -85,7 +85,7 @@ export function NavHeader() {
                   <ListItem href="/blog" title="Team Blog">
                       Read about our latest achievements and ongoing projects.
                     </ListItem>
-                  <ListItem href="/outreach" title="Outreach at 7419">
+                  <ListItem href="/outreach" title="Outreach">
                     Discover how we're making an impact to younger generations and the community.
                   </ListItem>
                 </ul>
