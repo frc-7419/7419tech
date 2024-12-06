@@ -14,16 +14,19 @@ export default function MediaPage() {
     "/static/comps/champs2024/IMG_6754.png",
   ];
   const svr2024 = [
-    "/static/comps/champs2024/IMG_6749.JPG"
-  ]
+    "/static/comps/champs2024/IMG_6749.JPG",
+    "/static/comps/svr2024/image.png",
+    "/static/comps/svr2024/img1.png",
+    "/static/comps/svr2024/img2.png",
+    "/static/comps/svr2024/img4.png",
+  ];
   const ccc2024 = [
     "/static/comps/ccc2024/20241026_112449.jpg",
     "/static/comps/ccc2024/20241026_163310.jpg",
     "/static/comps/ccc2024/IMG_9638.JPG",
     "/static/comps/ccc2024/IMG_9648.JPG",
     "/static/comps/ccc2024/IMG_9707.JPG",
-
-  ]
+  ];
   return (
     <div className="min-h-screen bg-white">
       <NavHeader />
@@ -100,109 +103,104 @@ export default function MediaPage() {
 
           {/*  */}
           <TabsContent value="2024">
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
-              CCC 2024
-            </h2>
-            <ScrollArea className="w-full whitespace-nowrap rounded-lg">
-              <div className="flex w-max space-x-4 p-4">
-                {ccc2024.map((path, i) => (
-                  <Card
-                    key={i}
-                    className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
-                  >
-                    <CardContent className="p-0">
-                      <Image
-                        src={path}
-                        alt={`Photo ${i + 1}`}
-                        width={300}
-                        height={100}
-                        className="object-cover rounded-t-lg"
-                      />
+            <div>
+              <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
+                CCC 2024
+              </h2>
+              <ScrollArea className="w-full whitespace-nowrap rounded-lg">
+                <div className="flex w-max space-x-4 p-4">
+                  {ccc2024.map((path, i) => (
+                    <Card
+                      key={i}
+                      className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
+                    >
+                      <CardContent className="p-0">
+                        <Image
+                          src={path}
+                          alt={`Photo ${i + 1}`}
+                          width={300}
+                          height={100}
+                          className="object-cover rounded-t-lg"
+                        />
 
-                      <div className="p-4"></div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </div>
+                        <div className="p-4"></div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </div>
           </TabsContent>
-          
 
           {/* 2023 Season Content */}
           <TabsContent value="2023">
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
-              Champs 2024
-            </h2>
-            <ScrollArea className="w-full whitespace-nowrap rounded-lg">
-              <div className="flex w-max space-x-4 p-4">
-                {champs2024.map((path, i) => (
-                  <Card
-                    key={i}
-                    className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
-                  >
-                    <CardContent className="p-0">
-                      <Image
-                        src={path}
-                        alt={`Photo ${i + 1}`}
-                        width={300}
-                        height={100}
-                        className="object-cover rounded-t-lg"
-                      />
+            <div>
+              <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
+                Champs 2024
+              </h2>
+              <ScrollArea className="w-full whitespace-nowrap rounded-lg">
+                <div className="flex w-max space-x-4 p-4">
+                  {champs2024.map((path, i) => (
+                    <Card
+                      key={i}
+                      className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
+                    >
+                      <CardContent className="p-0">
+                        <Image
+                          src={path}
+                          alt={`Photo ${i + 1}`}
+                          width={300}
+                          height={100}
+                          className="object-cover rounded-t-lg"
+                        />
 
-                      <div className="p-4"></div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </div>
+                        <div className="p-4"></div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </div>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
-              SVR 2024
-            </h2>
-            <ScrollArea className="w-full whitespace-nowrap rounded-lg">
-              <div className="flex w-max space-x-4 p-4">
-                {svr2024.map((path, i) => (
-                  <Card
-                    key={i}
-                    className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
-                  >
-                    <CardContent className="p-0">
-                      <Image
-                        src={path}
-                        alt={`Photo ${i + 1}`}
-                        width={300}
-                        height={100}
-                        className="object-cover rounded-t-lg"
-                      />
+            <div>
+              <h2 className="text-2xl font-semibold mb-4 text-[#2A336A]">
+                SVR 2024
+              </h2>
+              <ScrollArea className="w-full whitespace-nowrap rounded-lg">
+                <div className="flex w-max space-x-4 p-4">
+                  {svr2024.map((path, i) => (
+                    <Card
+                      key={i}
+                      className="w-[300px] h-[200px] bg-[#2A336A] border-none shadow-md"
+                    >
+                      <CardContent className="p-0">
+                        <Image
+                          src={path}
+                          alt={`Photo ${i + 1}`}
+                          width={300}
+                          height={100}
+                          className="object-cover rounded-t-lg"
+                        />
 
-                      <div className="p-4"></div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </div>
+                        <div className="p-4"></div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </div>
             <div className="text-center py-8">
-              <p className="text-gray-700">
-                2023 Season photos coming soon...
-              </p>
+              <p className="text-gray-700">2023 Season photos coming soon...</p>
             </div>
           </TabsContent>
 
           {/* 2022 Season Content */}
           <TabsContent value="2022">
             <div className="text-center py-8">
-              <p className="text-gray-700">
-                2022 Season photos coming soon...
-              </p>
+              <p className="text-gray-700">2022 Season photos coming soon...</p>
             </div>
           </TabsContent>
         </Tabs>
