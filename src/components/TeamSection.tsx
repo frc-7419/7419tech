@@ -1,6 +1,6 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { Button } from "../components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
@@ -106,8 +106,8 @@ export default function TeamSection() {
             <div className="container mx-auto px-4">
                 {/* Section Title and Introduction */}
                 <div className="max-w-4xl mx-auto text-center mb-12">
-                    <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-                    <span className="bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
+                    <h2 className="font-bold tracking-tight text-5xl lg:text-6xl xl:text-7xl">
+                    <span className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent">
                       About Us
                     </span>
                     </h2>

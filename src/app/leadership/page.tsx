@@ -231,12 +231,12 @@ export default function Leadership() {
             <div className="py-12 md:py-20">
               {/* Section header */}
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-14">
-                <h2 className="text-4xl font-bold bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">Our Student Leadership</h2> 
+                <h2 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Student Leadership</h2> 
                 <p className="text-lg text-gray-600 mt-10" data-aos="zoom-y-out">
                   Team operations are entirely student-led; 
                   we stay true to the FIRST® mission of sparking invention and creativity.
                   We have three main
-                  departments: Mechanical, Programming, and Business. In each
+                  departments: Hardware, Software, and Business. In each
                   of these sub-teams, leadership positions are earned through
                   continuous effort and dedication. We take pride in our team’s
                   culture that helps our leaders further explore their own skills
@@ -272,7 +272,7 @@ export default function Leadership() {
                               {member.name} '{member.year}
                             </p>
                           </a>
-                          <p className="mt-1 text-base inline text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 font-medium">
+                          <p className="mt-1 text-base inline text-transparent bg-clip-text bg-gradient-to-r from-[#11224e] to-[#11226e] font-medium">
                             {member.position}
                           </p>
                         </div>

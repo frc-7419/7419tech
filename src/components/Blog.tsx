@@ -7,9 +7,7 @@ import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { ChevronRight, Instagram, ArrowRight, Mail } from 'lucide-react'
-//TODO: import instagram web api to have live carousel possibly?
-
+import { ArrowRight, Instagram, Mail } from 'lucide-react'
 
 const posts = [
   {
@@ -36,9 +34,7 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.15
-    }
+    transition: { staggerChildren: 0.15 }
   }
 }
 
@@ -47,10 +43,7 @@ const itemVariants = {
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 100
-    }
+    transition: { type: "spring", stiffness: 100 }
   }
 }
 
@@ -59,7 +52,6 @@ export default function BlogPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle newsletter subscription logic here
     console.log('Subscribed:', email)
     setEmail('')
   }
@@ -67,6 +59,7 @@ export default function BlogPage() {
   return (
     <section className="relative min-h-screen bg-white py-16">
       <div className="container mx-auto px-4">
+        {/* Hero Section */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -75,9 +68,9 @@ export default function BlogPage() {
         >
           <motion.h1 
             variants={itemVariants}
-            className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-[#ffb14a] to-[#926408]"
+            className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3"
           >
-            Prad's Tech Blog
+            Blog
           </motion.h1>
           <motion.p 
             variants={itemVariants}
@@ -87,6 +80,7 @@ export default function BlogPage() {
           </motion.p>
         </motion.div>
 
+        {/* Featured Post */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -97,7 +91,7 @@ export default function BlogPage() {
             <div className="grid md:grid-cols-2 gap-6">
               <div className="relative aspect-video md:aspect-auto">
                 <Image
-                  src="/placeholder.svg?height=400&width=600"
+                  src="/placeholder.svg"
                   alt="Featured post"
                   layout="fill"
                   objectFit="cover"
@@ -119,6 +113,7 @@ export default function BlogPage() {
           </Card>
         </motion.div>
 
+        {/* Blog Posts */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -155,6 +150,7 @@ export default function BlogPage() {
           ))}
         </motion.div>
 
+        {/* Instagram Highlights */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -162,39 +158,20 @@ export default function BlogPage() {
           className="w-full mb-16"
         >
           <Card className="w-full bg-[#11224e] text-white overflow-hidden">
-            <div className="grid md:grid-cols-2 gap-6">
-              <CardContent className="flex flex-col justify-center p-8">
-                <CardTitle className="text-3xl text-[#ffc14a] font-semibold mb-4">
-                  Instagram Highlights
-                </CardTitle>
-                <p className="text-lg mb-6">
-                  Stay connected and get the latest updates from our Instagram page!
-                </p>
-                <Button asChild variant="secondary" className="self-start bg-[#ffc14a] text-[#11224e] hover:bg-[#ffcd6b] transition-colors">
-                  <Link
-                    href="https://www.instagram.com/7419tech/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center"
-                  >
-                    <Instagram className="w-5 h-5 mr-2"/>
-                    Visit Instagram
-                  </Link>
-                </Button>
-              </CardContent>
-              <div className="relative aspect-video md:aspect-auto">
-                <Image
-                  src="/file.svg"
-                  alt="Instagram Highlights"
-                  layout="fill"
-                  objectFit="cover"
-                  className="transition-transform duration-300 hover:scale-102 p-2"
-                />
-              </div>
-            </div>
+            <CardContent className="flex flex-col items-center p-8">
+              <CardTitle className="text-3xl text-[#ffc14a] font-semibold mb-4">
+                Instagram Highlights
+              </CardTitle>
+              <Button asChild variant="secondary" className="bg-[#ffc14a] text-[#11224e] hover:bg-[#ffcd6b] transition-colors">
+                <Link href="https://www.instagram.com/7419tech/" target="_blank" rel="noopener noreferrer">
+                  <Instagram className="mr-2 h-5 w-5" /> Visit Instagram
+                </Link>
+              </Button>
+            </CardContent>
           </Card>
         </motion.div>
 
+        {/* Newsletter Subscription */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -228,4 +205,3 @@ export default function BlogPage() {
     </section>
   )
 }
-

@@ -31,8 +31,9 @@ export default function MediaPage() {
     <div className="min-h-screen bg-white">
       <NavHeader />
       {/* Header Section */}
-      <div className="container mx-auto py-8">
-        <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
+      <div className="container mx-auto py-8 text-center">
+        
+        <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">
           Media Gallery
         </h1>
         <p className="text-gray-700 mb-8">
@@ -193,14 +194,14 @@ export default function MediaPage() {
               </ScrollArea>
             </div>
             <div className="text-center py-8">
-              <p className="text-gray-700">2023 Season photos coming soon...</p>
+              <p className="text-gray-700">2023 season photos coming soon...</p>
             </div>
           </TabsContent>
 
           {/* 2022 Season Content */}
           <TabsContent value="2022">
             <div className="text-center py-8">
-              <p className="text-gray-700">2022 Season photos coming soon...</p>
+              <p className="text-gray-700">2022 season photos coming soon...</p>
             </div>
           </TabsContent>
         </Tabs>
