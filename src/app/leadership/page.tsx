@@ -102,7 +102,7 @@ export default function Leadership() {
       },
       {
         name: "Dev Mehra",
-        position: "Mechanical Co-lead",
+        position: "Hardware Co-lead",
         year: 25,
         // img: "/static/images/Leadership/IMG_1763 - Dēv Mehra.jpg",
         img: dev
@@ -110,7 +110,7 @@ export default function Leadership() {
   
       {
         name: "Dhruv Iyer",
-        position: "Mechanical Co-lead",
+        position: "Hardware Co-lead",
         year: 25,
         // img: "/static/images/Leadership/iyer.png",
         img: dhruv
@@ -236,7 +236,7 @@ export default function Leadership() {
                   Team operations are entirely student-led; 
                   we stay true to the FIRST® mission of sparking invention and creativity.
                   We have three main
-                  departments: Mechanical, Programming, and Business. In each
+                  departments: Hardware, Software, and Business. In each
                   of these sub-teams, leadership positions are earned through
                   continuous effort and dedication. We take pride in our team’s
                   culture that helps our leaders further explore their own skills
