@@ -51,7 +51,7 @@ export default function Mentors() {
                 </Button>
                 </CardContent>
             </Card>
-            <Card className="transition-all duration-300 hover:shadow-lg">
+            {/* <Card className="transition-all duration-300 hover:shadow-lg">
                 <CardHeader>
                 <Mail className="h-8 w-8 mb-2 text-primary" />
                 <CardTitle>Stay Updated</CardTitle>
@@ -63,7 +63,7 @@ export default function Mentors() {
                     <Button type="submit">Subscribe</Button>
                 </form>
                 </CardContent>
-            </Card>
+            </Card> */}
             </div>
         </div>
     </section>

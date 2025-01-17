@@ -17,7 +17,7 @@ export default function Mission() {
   return (
     <section className="bg-[#11224e] py-20 md:py-24 flex items-center justify-center overflow-hidden">
       <div className="max-w-2xl relative">
-        <h2 className="text-6xl md:text-7xl font-bold text-center text-[#ffc14a] relative z-10">
+        <h2 className="text-6xl md:text-7xl font-bold text-center text-[#ffc14a] relative z-5">
           Our Mission
         </h2>
         <div className="relative">

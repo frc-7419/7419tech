@@ -126,7 +126,7 @@ import "../app/styles/carousel.css"
 
 const descriptions = [
   "The robot has a mounted [camera name] camera. Using the [library name] library, our robot is able to identify AprilTags and their rotation and position relative to the robot. This allows the robot to estimate its pose on the field with incredible accuracy.",
-  "Drive swerve",
+  "Some key features of swerve drive are that the robot can move in all directions. This allows us to facilitate  precise movements in complex environments.",
   "Many functions of the robot, including raising the shooter, intaking a note, and running the shooter wheels to velocity, are automated to reduce stress on the driver.",
 ];
 
@@ -192,10 +192,7 @@ const OurRobot = () => {
       variants={containerVariants}
     >
       <motion.header className="text-center mb-12" variants={itemVariants}>
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
-          
-          Meet Our Robot
-        </h1>
+        <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl ">Our Robot</h1>
         <p className="text-lg text-gray-600">
           A glimpse into our innovative robot technology.
         </p>

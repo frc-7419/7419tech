@@ -97,6 +97,8 @@ import { FiSend } from "react-icons/fi"; // Paper plane icon
 import { FaPlane } from "react-icons/fa"; // Airplane icon
 // import Mail from "nodemailer/lib/mailer";
 
+//this looks really weird brian this page
+
 export default function Contact() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [name, setName] = useState("");

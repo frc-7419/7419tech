@@ -19,16 +19,12 @@ function Sponsors() {
       <section className="relative py-32 md:py-48">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: -20 }}
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent leading-normal">
-            
-              Our Amazing Sponsors
-            </h2>
+            <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Our Amazing Sponsors</h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
               We're incredibly grateful for the support from these outstanding organizations. 
               Their partnership fuels our innovation and drives us forward.

@@ -317,10 +317,10 @@
 import { Suspense } from "react";
 import { NavHeader } from "@/components/NavHeader";
 import { HeroSection } from "@/components/HeroSection";
-//import { AnnouncementBanner } from '@/components/AnnouncementBanner'
 import Footer from "@/components/Footer";
 import Mission from "@/components/Mission";
 import Profile from "@/components/profile";
+//import { AnnouncementBanner } from '@/components/AnnouncementBanner'
 //import Mission  from '@/components/Mission'
 
 // from yellow to blue button 

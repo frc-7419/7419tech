@@ -23,9 +23,7 @@ export default function Outreach() {
                     className="text-center"
                     {...fadeInUp}
                 >
-                    <h1 className="mb-8 text-100xl z-100 font-bold sm:text-5xl md:text-6xl bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
-                        Empowering Through Outreach
-                    </h1>
+                    <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Empowering Through Outreach</h1>
                     <p className="text-xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto">
                         At the heart of 7419 lies a commitment to outreach. 
                         We inspire generations under us, emphasize the impact of robotics, and ignite 
@@ -130,24 +128,6 @@ export default function Outreach() {
                     </Tabs>
                 </motion.div>
 
-                <motion.div 
-                    className="text-center"
-                    {...fadeInUp}
-                    transition={{ delay: 0.4 }}
-                >
-                    <h2 className="mb-6 text-3xl font-bold tracking-tighter sm:text-4xl">Join Our Mission</h2>
-                    <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                        Are you passionate about STEM education and community engagement? 
-                        We're always seeking new opportunities to inspire and educate. 
-                        Join us in making a difference!
-                    </p>
-                    <a 
-                        href="contact" 
-                        className="inline-block bg-primary text-primary-foreground font-semibold py-3 px-8 rounded-full text-lg hover:bg-primary/90 transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                    >
-                        Get Involved
-                    </a>
-                </motion.div>
             </div>
         </section>
     )

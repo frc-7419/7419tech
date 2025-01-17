@@ -121,7 +121,7 @@ export function HeroSection() {
               className="pt-6 flex items-center gap-3 text-sm text-gray-600"
             >
               <Bot className="h-5 w-5 text-[#11224e]" />
-              <span>[add text here]</span>
+              <span> Competition-ready robotics solutions</span>
             </motion.div>
           </motion.div>
 

@@ -51,9 +51,7 @@ export default function Mentors() {
   return (
     <section className="py-12 bg-gray-50">
       <div className="container px-4 md:px-6 mx-auto">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12 bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent">
-          Our Mentors
-        </h1>
+        <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl text-center mb-14">Our Mentors</h1>
         <div className="flex flex-wrap justify-center gap-8">
           {mentors.map((mentor, index) => (
             <Card
@@ -67,7 +65,7 @@ export default function Mentors() {
                     alt={mentor.name}
                     layout="fill"
                     objectFit="cover"
-                    className={`transition-all duration-200 ${mentor.name === "Nathan Batchelder" ? "filter blur-lg" : ""}`}
+                    className={`transition-all duration-200`}
                     onMouseMove={(e) => {
                       const rect = e.currentTarget.getBoundingClientRect();
                       const x = e.clientX - rect.left; 
@@ -76,21 +74,6 @@ export default function Mentors() {
                     }}
                     onMouseLeave={() => setHighlightedArea(null)} 
                   />
-                  {highlightedArea && mentor.name === "Nathan Batchelder" && (
-                    <div
-                      className="absolute"
-                      style={{
-                        left: highlightedArea.x - 20, 
-                        top: highlightedArea.y - 20,
-                        width: '60px', 
-                        height: '60px', 
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-                        borderRadius: '50%', // Make it circular
-                        pointerEvents: 'none', 
-                        filter: 'none', 
-                      }}
-                    />
-                  )}
                 </div>
                 <h2 className="text-2xl font-semibold text-center mb-2">
                   {mentor.name}
