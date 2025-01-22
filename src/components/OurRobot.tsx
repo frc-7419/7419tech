@@ -260,7 +260,7 @@ const OurRobot = () => {
 
       <motion.div className="mt-12" variants={itemVariants}>
         <Button className="px-6 py-3 text-lg">
-          <a href={"https://github.com/frc-7419/7419tech"}>Learn More</a>
+          <a href={"https://github.com/frc-7419/Reefscape2025"}>See Robot Code</a>
         </Button>
       </motion.div>
     </motion.div>
