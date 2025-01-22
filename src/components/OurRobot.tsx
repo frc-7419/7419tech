@@ -246,7 +246,7 @@ const OurRobot = () => {
             (feature, index) => (
               <motion.div key={index} variants={itemVariants}>
                 <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                  <CardContent className="p-6  flex flex-col  text-center">item-center
+                  <CardContent className="p-6  flex flex-col item-center text-center">
                     <h4 className="text-xl font-semibold mb-2">{feature}</h4>
                     <p className="text-gray-600">{descriptions[index]}</p>
                   </CardContent>
