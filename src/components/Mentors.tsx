@@ -40,7 +40,7 @@ const mentors = [
     field: "Science, Engineering & Robotics",
     role: "Teacher",
     passion:
-      "Finding Unique Ways to Encourage Students to Grow from Consumers of Technology to Creators of it",
+      "Education, Learning, STEM, Computer Science",
     image: "/static/mentors/ainsley.jpeg",
   },
 ];
