@@ -127,8 +127,8 @@ import { FaArrowRight } from "react-icons/fa";
 
 const descriptions = [
   "The robot has a mounted Arducam camera. Using the PhotonVision library, our robot is able to identify AprilTags and their rotation and position relative to the robot. This allows the robot to estimate its pose on the field with incredible accuracy.",
-  "Some key features of swerve drive are that the robot can move in all directions. This allows us to facilitate  precise movements in complex environments.",
-  "Many functions of the robot, including raising the shooter, intaking a note, and running the shooter wheels to velocity, are automated to reduce stress on the driver.",
+  "Swerve drive enables the robot to move in all directions, allowing us to facilitate precise movements in complex environments.",
+  "Many functions of the robot, including raising the shooter, intaking a note, and running the shooter wheels, are automated to reduce stress on the driver.",
 ];
 
 
