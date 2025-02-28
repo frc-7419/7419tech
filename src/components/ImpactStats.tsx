@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 
-const AnimatedNumber = ({ value, duration = 1000 }) => {
+const AnimatedNumber = ({ value = 0, duration = 1000 }) => {
   const [count, setCount] = useState(0)
   const countRef = useRef(count)
   const prevValueRef = useRef(value)

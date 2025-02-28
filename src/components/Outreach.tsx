@@ -6,10 +6,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import ImpactStats from './ImpactStats'
 
-// change the gray 
-// add different images 
-// copy navbar from "our team page"
-
 export default function Outreach() {
     const fadeInUp = {
         initial: { opacity: 0, y: 20 },
