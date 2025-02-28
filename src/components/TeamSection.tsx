@@ -66,7 +66,7 @@ function ValuesCard() {
             </CardHeader>
             <CardContent>
                 <p><strong>Teamwork:</strong> Our team is mentor-driven but student-organized. We train, support, and elevate each other while holding ourselves accountable.</p>
-                <p className="mt-4"><strong>Community:</strong> Through outreach and mentoring, we share our knowledge, inspire younger students, and get kids excited about STEM.</p>
+                <p className="mt-4"><strong>Community:</strong> Through outreach and mentoring, we share our knowledge and inspire younger students to get excited about STEM.</p>
             </CardContent>
         </Card>
     );
@@ -112,7 +112,7 @@ export default function TeamSection() {
                     </span>
                     </h2>
                     <p className="text-xl text-gray-500 mx-auto mt-8">
-                        Team 7419 Tech Support is way more than just a robotics team. We solve problems and help people. We’re a family. We’ve done many great things and look forward to many more in the future.
+                        Team 7419 Tech Support is much more than just a robotics team. We solve problems and help people. We’re a family. We’ve done many great things and look forward to many more in the future.
                     </p>
                 </div>
 

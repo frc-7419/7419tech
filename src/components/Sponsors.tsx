@@ -7,9 +7,9 @@ import { motion } from "framer-motion"
 const sponsors = [
   { name: "QLS", logo: "/static/sponsors/qls.png", url: "https://www.quarrylane.org/" },
   { name: "Notion", logo: "/static/sponsors/notion-logo.png", url: "https://www.notion.so" },
-  { name: "Intuitive Foundation", logo: "/static/sponsors/IntuitiveFoundation.png", url: "https://www.intuitivefoundation.org" },
+  { name: "Intuitive Foundation", logo: "/static/sponsors/IntuitiveFoundation.png", url: "https://www.intuitive-foundation.org/first-robotics/" },
   { name: "FIRST NorCal", logo: "/static/sponsors/FIRST-NorCal.png", url: "https://www.firstinspires.org/robotics/frc" },
-  { name: "Google", logo: "/static/sponsors/googleLogo.png", url: "https://about.google/" },
+  { name: "Google", logo: "/static/sponsors/googleLogo.png", url: "https://about.google/brand-resource-center/guidance/sponsorships/" },
   { name: "LDL", logo: "/static/sponsors/ldl.svg", url: "https://littledesignlab.org/" },
 ]
 
@@ -27,7 +27,7 @@ function Sponsors() {
             <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Our Amazing Sponsors</h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
               We're incredibly grateful for the support from these outstanding organizations. 
-              Their partnership fuels our innovation and drives us forward.
+              Their partnerships fuel our innovation and drive us forward.
             </p>
           </motion.div>
 

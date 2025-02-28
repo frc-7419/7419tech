@@ -81,3 +81,8 @@
 h1 {
   color: #ffc14a;
 }
+
+::selection {
+  background-color: #ffc14a;
+  color: white;
+}

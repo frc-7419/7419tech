@@ -4,10 +4,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
-
-// change the gray 
-// add different images 
-// copy navbar from "our team page"
+import ImpactStats from './ImpactStats'
 
 export default function Outreach() {
     const fadeInUp = {
@@ -36,12 +33,20 @@ export default function Outreach() {
                     {...fadeInUp}
                     transition={{ delay: 0.2 }}
                 >
-                    <Tabs defaultValue="commitment" className="w-full">
+                    <Tabs defaultValue="impact" className="w-full">
                         <TabsList className="grid w-full grid-cols-3 mb-8">
+                            <TabsTrigger value="impact">Our Impact</TabsTrigger>
                             <TabsTrigger value="commitment">Our Commitment</TabsTrigger>
                             <TabsTrigger value="fll-ftc">FLL & FTC Support</TabsTrigger>
-                            <TabsTrigger value="impact">Our Impact</TabsTrigger>
                         </TabsList>
+                        <TabsContent value="impact">
+                            <Card>
+                                <CardContent className="p-6">
+                                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">Our Impact</h2>
+                                    <ImpactStats />
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
                         <TabsContent value="commitment">
                             <Card>
                                 <CardContent className="p-6">
@@ -99,27 +104,6 @@ export default function Outreach() {
                                                 the tri-valley area. Our members are involved in all aspects, from planning 
                                                 to volunteering at these events.
                                             </p>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-                        <TabsContent value="impact">
-                            <Card>
-                                <CardContent className="p-6">
-                                    <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl text-center">Our Impact</h2>
-                                    <div className="grid md:grid-cols-3 gap-8">
-                                        <div className="text-center">
-                                            <h3 className="text-5xl font-bold text-primary mb-2">500+</h3>
-                                            <p className="text-lg text-muted-foreground">Students Reached</p>
-                                        </div>
-                                        <div className="text-center">
-                                            <h3 className="text-5xl font-bold text-primary mb-2">20+</h3>
-                                            <p className="text-lg text-muted-foreground">Workshops Conducted</p>
-                                        </div>
-                                        <div className="text-center">
-                                            <h3 className="text-5xl font-bold text-primary mb-2">5</h3>
-                                            <p className="text-lg text-muted-foreground">Tournaments Hosted</p>
                                         </div>
                                     </div>
                                 </CardContent>

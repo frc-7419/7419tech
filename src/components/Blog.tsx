@@ -70,7 +70,7 @@ export default function BlogPage() {
             variants={itemVariants}
             className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3"
           >
-            Blog
+            7419 Blog
           </motion.h1>
           <motion.p 
             variants={itemVariants}
@@ -171,31 +171,7 @@ export default function BlogPage() {
           </Card>
         </motion.div>
 
-        {/* Newsletter Subscription */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="max-w-2xl mx-auto text-center"
-        >
-          <h2 className="text-3xl font-bold text-[#11224e] mb-6">Subscribe to Our Newsletter</h2>
-          <p className="text-lg text-gray-600 mb-8">
-            Get the latest tech insights and updates delivered straight to your inbox.
-          </p>
-          <form onSubmit={handleSubmit} className="flex gap-4">
-            <Input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-grow"
-              required
-            />
-            <Button type="submit" className="bg-[#ffc14a] text-[#11224e] hover:bg-[#ffcd6b] transition-colors">
-              Subscribe <Mail className="ml-2 h-4 w-4" />
-            </Button>
-          </form>
-        </motion.div>
+        
       </div>
 
       {/* Decorative background elements */}

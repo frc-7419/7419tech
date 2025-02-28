@@ -123,11 +123,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import "../app/styles/carousel.css"
+import { FaArrowRight } from "react-icons/fa";
 
 const descriptions = [
-  "The robot has a mounted [camera name] camera. Using the [library name] library, our robot is able to identify AprilTags and their rotation and position relative to the robot. This allows the robot to estimate its pose on the field with incredible accuracy.",
-  "Some key features of swerve drive are that the robot can move in all directions. This allows us to facilitate  precise movements in complex environments.",
-  "Many functions of the robot, including raising the shooter, intaking a note, and running the shooter wheels to velocity, are automated to reduce stress on the driver.",
+  "The robot has a mounted Arducam camera. Using the PhotonVision library, our robot is able to identify AprilTags and their rotation and position relative to the robot. This allows the robot to estimate its pose on the field with incredible accuracy.",
+  "Swerve drive enables the robot to move in all directions, allowing us to facilitate precise movements in complex environments.",
+  "Many functions of the robot, including raising the shooter, intaking a note, and running the shooter wheels, are automated to reduce stress on the driver.",
 ];
 
 
@@ -177,11 +178,11 @@ const OurRobot = () => {
   }
   
   const carouselImages = [
+    "/static/robot/robot1.JPG",
     "/static/robot/DSC06883.JPG",
-    "/static/robot/CSC_7650.JPG",
-    "/static/robot/DSC_7623.JPG",
-    "/static/robot/DSC06884.JPG",
-    "/static/robot/DSC06887.JPG"
+    "/static/robot/robot3.JPG",
+    "/static/robot/robot4.JPG",
+    "/static/robot/robot5.JPG",
   ]
 
   return (
@@ -198,20 +199,20 @@ const OurRobot = () => {
         </p>
       </motion.header>
 
-      <motion.div className="w-full max-w-md mb-8" variants={itemVariants}>
+      <motion.div className="w-full max-w-3xl mb-8" variants={itemVariants}>
         
         <Card className="aspect-video w-full bg-gray-50 overflow-hidden rounded-xl border-[#ffc14a]/20">
           <Slider {...carouselSettings}>
                 {carouselImages.map((src, index) => (
                   <div key={index} className="relative aspect-video">
-                    <Image
-                      src={src}
-                      alt={`Robot image ${index + 1}`}
-                      fill
-                      className="object-cover z-20"
-                    />
-                  </div>
-                ))}
+                  <Image
+                    src={src}
+                    alt={`Robot image ${index + 1}`}
+                    fill
+                    className="object-cover z-20"
+                  />
+                </div>
+                ))} 
           </Slider>
         </Card>
         <div className="absolute -z-10 top-0 right-0 w-96 h-96 bg-[#ffc14a]/10 rounded-full blur-3xl" />
@@ -246,8 +247,7 @@ const OurRobot = () => {
             (feature, index) => (
               <motion.div key={index} variants={itemVariants}>
                 <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                  <CardContent className="p-6 pl-16">
-                    {/* someone actually center this cardcontent later please*/}
+                  <CardContent className="p-6  flex flex-col item-center text-center">
                     <h4 className="text-xl font-semibold mb-2">{feature}</h4>
                     <p className="text-gray-600">{descriptions[index]}</p>
                   </CardContent>
@@ -259,8 +259,9 @@ const OurRobot = () => {
       </motion.div>
 
       <motion.div className="mt-12" variants={itemVariants}>
-        <Button className="px-6 py-3 text-lg">
-          <a href={"https://github.com/frc-7419/7419tech"}>Learn More</a>
+      {/* <FaArrowRight /> */}
+        <Button className="px-6 py-6 text-lg">
+          <a href={"https://github.com/frc-7419/Reefscape2025"}>See our code</a>
         </Button>
       </motion.div>
     </motion.div>
