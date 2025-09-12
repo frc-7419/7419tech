@@ -47,12 +47,12 @@ export async function middleware(request: NextRequest) {
     // Check user role from profiles table
     const { data: profile } = await supabase
       .from('profiles')
-      .select('role, approved')
+      .select('role')
       .eq('id', user.id)
       .single()
 
-    if (!profile?.approved || profile.role !== 'admin') {
-      // Redirect to unauthorized page if not admin or not approved
+    if (profile?.role !== 'admin') {
+      // Redirect to unauthorized page if not admin
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/auth/unauthorized'
       return NextResponse.redirect(redirectUrl)

@@ -20,7 +20,7 @@ export default function UnauthorizedPage() {
             </CardHeader>
             <CardContent className="text-center space-y-4">
               <p className="text-sm text-gray-600">
-                This area is restricted to approved team members and administrators only.
+                This area is restricted to team members and administrators only.
               </p>
               <p className="text-sm text-gray-600">
                 If you believe you should have access, please contact a team administrator.

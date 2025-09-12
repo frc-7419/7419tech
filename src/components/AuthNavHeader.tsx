@@ -93,7 +93,7 @@ export function AuthNavHeader() {
     await supabase.auth.signOut()
   }
 
-  const isAdmin = profile?.approved && profile?.role === 'admin'
+  const isAdmin = profile?.role === 'admin'
 
   return (
     <header className="sticky top-0 z-50 bg-[#11224e] shadow-lg">

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { Database } from '@/lib/supabase/types'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -133,7 +134,7 @@ export default function SignupPage() {
 
       if (authData.user) {
         // Create profile directly - simple and straightforward
-        const { error: profileError } = await supabase
+        const { error: profileError } = await (supabase as any)
           .from('profiles')
           .insert({
             id: authData.user.id,
@@ -141,8 +142,7 @@ export default function SignupPage() {
             name: formData.name,
             graduation_year: graduationYear,
             department: formData.department,
-            role: 'public',
-            approved: false
+            role: 'public' as const,
           })
 
         if (profileError) {

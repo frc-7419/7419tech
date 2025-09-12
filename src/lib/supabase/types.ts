@@ -8,8 +8,8 @@ export interface Database {
           name: string | null
           graduation_year: number | null
           department: string | null
+          bio: string | null
           role: 'public' | 'member' | 'admin'
-          approved: boolean
           created_at: string
           updated_at: string
         }
@@ -19,8 +19,8 @@ export interface Database {
           name?: string | null
           graduation_year?: number | null
           department?: string | null
+          bio?: string | null
           role?: 'public' | 'member' | 'admin'
-          approved?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -30,8 +30,8 @@ export interface Database {
           name?: string | null
           graduation_year?: number | null
           department?: string | null
+          bio?: string | null
           role?: 'public' | 'member' | 'admin'
-          approved?: boolean
           created_at?: string
           updated_at?: string
         }

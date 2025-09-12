@@ -30,15 +30,15 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
 
   const fetchUsers = async () => {
     try {
-      // Fetch pending users
-      const { data: pending } = await supabase
+      // Fetch pending users (public role = pending approval)
+      const { data: pending } = await (supabase as any)
         .from('profiles')
         .select('*')
-        .eq('approved', false)
+        .eq('role', 'public')
         .order('created_at', { ascending: false })
 
       // Fetch all users
-      const { data: all } = await supabase
+      const { data: all } = await (supabase as any)
         .from('profiles')
         .select('*')
         .order('created_at', { ascending: false })
@@ -60,10 +60,9 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
 
   const approveUser = async (userId: string, newRole: 'member' | 'admin' = 'member') => {
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('profiles')
         .update({ 
-          approved: true,
           role: newRole
         })
         .eq('id', userId)
@@ -79,7 +78,7 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
 
   const updateUserRole = async (userId: string, newRole: 'public' | 'member' | 'admin') => {
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('profiles')
         .update({ role: newRole })
         .eq('id', userId)
@@ -160,7 +159,7 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {allUsers.filter(u => u.approved && (u.role === 'member' || u.role === 'admin')).length}
+                  {allUsers.filter(u => u.role === 'member' || u.role === 'admin').length}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Approved team members
@@ -260,7 +259,7 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
                               <Badge className={getRoleBadgeColor(userProfile.role)}>
                                 {userProfile.role}
                               </Badge>
-                              {!userProfile.approved && (
+                              {userProfile.role === 'public' && (
                                 <Badge variant="outline" className="text-yellow-600">
                                   Pending
                                 </Badge>
@@ -273,7 +272,7 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
                               <span>Registered: {new Date(userProfile.created_at).toLocaleDateString()}</span>
                             </div>
                           </div>
-                          {userProfile.approved && (
+                          {userProfile.role !== 'public' && (
                             <div className="flex space-x-2">
                               <select
                                 value={userProfile.role}

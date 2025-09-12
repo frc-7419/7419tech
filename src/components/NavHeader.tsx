@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
@@ -12,7 +12,18 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
+import { createClient } from '@/lib/supabase/client'
+import { User } from '@supabase/supabase-js'
+import { Profile } from '@/lib/supabase/types'
+import { LogIn, LogOut, Settings, User as UserIcon, Shield } from 'lucide-react'
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -41,6 +52,57 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem"
 
 export function NavHeader() {
+  const [user, setUser] = useState<User | null>(null)
+  const [profile, setProfile] = useState<Profile | null>(null)
+  const [loading, setLoading] = useState(true)
+  const supabase = createClient()
+
+  useEffect(() => {
+    // Get initial session
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      setUser(session?.user || null)
+      setLoading(false) // Set loading to false immediately after getting session
+      
+      if (session?.user) {
+        // Fetch user profile in background
+        const { data } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single()
+        setProfile(data)
+      }
+    }
+
+    getSession()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setUser(session?.user || null)
+      
+      if (session?.user) {
+        const { data } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single()
+        setProfile(data)
+      } else {
+        setProfile(null)
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [supabase])
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+  }
+
+  const isAdmin = profile?.role === 'admin'
+  const isMember = profile?.role === 'member' || profile?.role === 'admin'
+
   return (
     <header className="sticky top-0 z-50 bg-[#11224e] shadow-lg">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -108,11 +170,62 @@ export function NavHeader() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <Link href="/contact" passHref>
-          <Button className="bg-[#ffb41a] text-[#1a2f5e] hover:bg-[#ffc14a] font-semibold">
-            Contact Us
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/contact" passHref>
+            <Button className="bg-[#ffb41a] text-[#1a2f5e] hover:bg-[#ffc14a] font-semibold">
+              Contact Us
+            </Button>
+          </Link>
+          
+          {!loading && (
+            <>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon" className="text-white border-white hover:bg-white hover:text-[#11224e] bg-transparent">
+                      <UserIcon className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="flex items-center">
+                        <Settings className="h-4 w-4 mr-2" />
+                        Member Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    {isAdmin && (
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin" className="flex items-center">
+                          <Shield className="h-4 w-4 mr-2" />
+                          Admin Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut} className="flex items-center text-red-600">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Link href="/auth/signup" passHref>
+                    <Button variant="ghost" size="sm" className="text-white bg-transparent hover:bg-[#1a2f5e] hover:text-white">
+                      Sign Up
+                    </Button>
+                  </Link>
+                  <Link href="/auth/login" passHref>
+                    <Button variant="outline" size="sm" className="text-white border-white bg-transparent hover:bg-white hover:text-[#11224e]">
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Sign In
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </header>
   )

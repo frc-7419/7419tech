@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { AdminDashboard } from '@/components/admin/AdminDashboard'
+import { Profile } from '@/lib/supabase/types'
 
 export default async function AdminPage() {
   const supabase = await createClient()
@@ -14,15 +15,17 @@ export default async function AdminPage() {
   }
 
   // Get user profile
-  const { data: profile } = await supabase
+  const { data: profile } = await (supabase as any)
     .from('profiles')
     .select('*')
     .eq('id', user.id)
     .single()
+    
+  const typedProfile = profile as Profile | null
 
-  if (!profile?.approved || profile.role !== 'admin') {
+  if (typedProfile?.role !== 'admin') {
     redirect('/auth/unauthorized')
   }
 
-  return <AdminDashboard user={user} profile={profile} />
+  return <AdminDashboard user={user} profile={typedProfile} />
 }

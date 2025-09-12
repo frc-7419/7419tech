@@ -18,7 +18,7 @@ export default function LoginPage() {
   
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo') || '/admin'
+  const redirectTo = searchParams.get('redirectTo') || '/'
   const supabase = createClient()
 
   const handleLogin = async (e: React.FormEvent) => {
