@@ -55,7 +55,7 @@ export default function VerifyEmailPage() {
               <Mail className="mx-auto h-16 w-16 text-[#ffc14a] mb-4" />
               <CardTitle className="text-2xl text-[#11224e]">Check Your Email</CardTitle>
               <CardDescription>
-                We've sent you a verification link
+                We&apos;ve sent you a verification link
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -68,7 +68,7 @@ export default function VerifyEmailPage() {
                     Click the verification link in your email to activate your account.
                   </p>
                   <p className="text-xs text-blue-600 mt-2">
-                    Check your spam folder if you don't see the email within a few minutes.
+                    Check your spam folder if you don&apos;t see the email within a few minutes.
                   </p>
                 </div>
               </div>
@@ -82,7 +82,7 @@ export default function VerifyEmailPage() {
                     After email verification, a team administrator will review and approve your account.
                   </p>
                   <p className="text-xs text-yellow-600 mt-2">
-                    You'll receive another email once your account is approved.
+                    You&apos;ll receive another email once your account is approved.
                   </p>
                 </div>
               </div>
@@ -93,7 +93,7 @@ export default function VerifyEmailPage() {
                 <ul className="text-sm text-gray-600 space-y-1">
                   <li>• Verify your email address by clicking the link we sent</li>
                   <li>• Wait for a team admin to approve your account</li>
-                  <li>• Once approved, you'll get access based on your assigned role</li>
+                  <li>• Once approved, you&apos;ll get access based on your assigned role</li>
                   <li>• You can then sign in and access team resources</li>
                 </ul>
               </div>

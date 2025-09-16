@@ -103,7 +103,7 @@ export default function BlogPage() {
                   Featured: The Future of Robotics
                 </CardTitle>
                 <CardDescription className="text-lg mb-6">
-                  Discover our team's posts.
+                  Discover our team&apos;s posts.
                 </CardDescription>
                 <Button className="self-start bg-[#ffc14a] text-[#11224e] hover:bg-[#ffcd6b] transition-colors">
                   Read Full Article <ArrowRight className="ml-2 h-4 w-4" />

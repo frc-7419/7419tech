@@ -148,7 +148,7 @@ export function NavHeader() {
                       Read about our latest achievements and ongoing projects.
                     </ListItem>
                   <ListItem href="/outreach" title="Outreach">
-                    Discover how we're making an impact to younger generations and the community.
+                    Discover how we&apos;re making an impact to younger generations and the community.
                   </ListItem>
                 </ul>
               </NavigationMenuContent>

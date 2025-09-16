@@ -224,7 +224,7 @@ const OurRobot = () => {
         variants={itemVariants}
       >
         <p className="text-gray-700 text-lg mb-6">
-          Our robot is designed to solve the complex problems in each year's FRC
+          Our robot is designed to solve the complex problems in each year&apos;s FRC
           game. Featuring swerve and advanced vision systems, it is engineered
           for agility and precision.
         </p>

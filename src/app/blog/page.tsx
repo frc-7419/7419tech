@@ -9,7 +9,7 @@ export default function BlogPage() {
         <Image src="/logo.png" alt="7419 Logo" width={150} height={150} className="mb-8" />
         <h1 className="text-4xl font-bold text-center mb-4">Blog Coming Soon</h1>
         <p className="text-xl text-center text-gray-600">
-          We're working hard to bring you amazing content. Stay tuned!
+          We&apos;re working hard to bring you amazing content. Stay tuned!
         </p>
       </div>
     </>

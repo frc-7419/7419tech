@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -24,11 +24,7 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
   const router = useRouter()
   const supabase = createClient()
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
-
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       // Fetch pending users (public role = pending approval)
       const { data: pending } = await (supabase as any)
@@ -50,7 +46,11 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [supabase])
+
+  useEffect(() => {
+    fetchUsers()
+  }, [fetchUsers])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()

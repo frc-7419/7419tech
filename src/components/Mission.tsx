@@ -12,7 +12,7 @@ export default function Mission() {
       setCurrentWord((prev) => (prev + 1) % words.length)
     }, 5000) // Increased duration for better readability
     return () => clearInterval(interval)
-  }, [])
+  }, [words.length])
 
   return (
     <section className="bg-[#11224e] py-20 md:py-24 flex items-center justify-center overflow-hidden">

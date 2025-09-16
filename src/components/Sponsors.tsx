@@ -26,7 +26,7 @@ function Sponsors() {
           >
             <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Our Amazing Sponsors</h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
-              We're incredibly grateful for the support from these outstanding organizations. 
+              We&apos;re incredibly grateful for the support from these outstanding organizations. 
               Their partnerships fuel our innovation and drive us forward.
             </p>
           </motion.div>

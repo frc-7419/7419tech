@@ -242,7 +242,7 @@ export default function Leadership() {
                             rel="noreferrer"
                           >
                             <p className="font-semibold break-normal">
-                              {member.name} '{member.year}
+                              {member.name} &apos;{member.year}
                             </p>
                           </a>
                           <p className="mt-1 text-base inline text-transparent bg-clip-text bg-gradient-to-r from-[#11224e] to-[#11226e] font-medium">

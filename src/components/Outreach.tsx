@@ -99,8 +99,8 @@ export default function Outreach() {
                                                 of advanced tools like 3D printers and CNC mills for FTC teams.
                                             </p>
                                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                                We've successfully hosted both FLL and FTC tournaments, providing more 
-                                                opportunities for teams to compete and strengthening FIRST's presence in 
+                                                We&apos;ve successfully hosted both FLL and FTC tournaments, providing more 
+                                                opportunities for teams to compete and strengthening FIRST&apos;s presence in 
                                                 the tri-valley area. Our members are involved in all aspects, from planning 
                                                 to volunteering at these events.
                                             </p>

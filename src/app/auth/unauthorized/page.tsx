@@ -15,7 +15,7 @@ export default function UnauthorizedPage() {
               <AlertTriangle className="mx-auto h-12 w-12 text-yellow-500 mb-4" />
               <CardTitle className="text-red-600">Access Denied</CardTitle>
               <CardDescription>
-                You don't have permission to access this area
+                You don&apos;t have permission to access this area
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center space-y-4">
