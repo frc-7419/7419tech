@@ -10,7 +10,7 @@ export default function Outreach() {
     const fadeInUp = {
         initial: { opacity: 0, y: 20 },
         animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.8 }
+        transition: { duration: 1.5, ease: "easeOut" }
     };
 
     return (
@@ -18,7 +18,9 @@ export default function Outreach() {
             <div className="container py-16 md:py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div 
                     className="text-center"
-                    {...fadeInUp}
+                    initial={fadeInUp.initial}
+                    animate={fadeInUp.animate}
+                    transition={fadeInUp.transition}
                 >
                     <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Empowering Through Outreach</h1>
                     <p className="text-xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto">
@@ -30,25 +32,26 @@ export default function Outreach() {
 
                 <motion.div 
                     className="mb-16"
-                    {...fadeInUp}
-                    transition={{ delay: 0.2 }}
+                    initial={fadeInUp.initial}
+                    animate={fadeInUp.animate}
+                    transition={{ ...fadeInUp.transition, delay: 0.2 }}
                 >
                     <Tabs defaultValue="impact" className="w-full">
-                        <TabsList className="grid w-full grid-cols-3 mb-8">
-                            <TabsTrigger value="impact">Our Impact</TabsTrigger>
-                            <TabsTrigger value="commitment">Our Commitment</TabsTrigger>
-                            <TabsTrigger value="fll-ftc">FLL & FTC Support</TabsTrigger>
+                        <TabsList className="grid w-full grid-cols-3 mb-8 bg-muted/50">
+                            <TabsTrigger value="impact" className="transition-all duration-300 hover:bg-primary/10">Our Impact</TabsTrigger>
+                            <TabsTrigger value="commitment" className="transition-all duration-300 hover:bg-primary/10">Our Commitment</TabsTrigger>
+                            <TabsTrigger value="fll-ftc" className="transition-all duration-300 hover:bg-primary/10">FLL & FTC Support</TabsTrigger>
                         </TabsList>
-                        <TabsContent value="impact">
-                            <Card>
+                        <TabsContent value="impact" className="transition-all duration-500 ease-in-out">
+                            <Card className="transition-all duration-300 hover:shadow-lg">
                                 <CardContent className="p-6">
                                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">Our Impact</h2>
                                     <ImpactStats />
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                        <TabsContent value="commitment">
-                            <Card>
+                        <TabsContent value="commitment" className="transition-all duration-500 ease-in-out">
+                            <Card className="transition-all duration-300 hover:shadow-lg">
                                 <CardContent className="p-6">
                                     <div className="grid md:grid-cols-2 gap-8 items-center">
                                         <div>
@@ -65,31 +68,31 @@ export default function Outreach() {
                                                 <li>Engaging with the community at local events and donations</li>
                                             </ul>
                                         </div>
-                                        <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
+                                        <div className="relative h-80 rounded-lg overflow-hidden shadow-xl group">
                                             <Image
                                                 src="/static/fll_ftc/kickoff.jpg"
                                                 alt="Team members engaged in outreach activities"
-                                                layout="fill"
-                                                objectFit="cover"
-                                                className="rounded-lg"
+                                                fill
+                                                style={{ objectFit: 'cover' }}
+                                                className="rounded-lg transition-transform duration-300 group-hover:scale-105"
                                             />
                                         </div>
                                     </div>
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                        <TabsContent value="fll-ftc">
-                            <Card>
+                        <TabsContent value="fll-ftc" className="transition-all duration-500 ease-in-out">
+                            <Card className="transition-all duration-300 hover:shadow-lg">
                                 <CardContent className="p-6">
                                     <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl text-center">FLL & FTC Support</h2>
                                     <div className="grid md:grid-cols-2 gap-8">
-                                        <div className="relative h-96 rounded-lg overflow-hidden shadow-xl">
+                                        <div className="relative h-96 rounded-lg overflow-hidden shadow-xl group">
                                             <Image
                                                 src="/static/fll_ftc/DSC07546.JPEG"
                                                 alt="FLL and FTC teams in action"
-                                                layout="fill"
-                                                objectFit="cover"
-                                                className="rounded-lg"
+                                                fill
+                                                style={{ objectFit: 'cover' }}
+                                                className="rounded-lg transition-transform duration-300 group-hover:scale-105"
                                             />
                                         </div>
                                         <div className="flex flex-col justify-center">

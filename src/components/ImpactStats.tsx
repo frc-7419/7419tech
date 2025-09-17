@@ -33,7 +33,7 @@ const AnimatedNumber = ({ value = 0, duration = 1000 }) => {
     return () => {
       prevValueRef.current = count
     }
-  }, [value, duration, count])
+  }, [value, duration])
 
   return <span>{count.toLocaleString()}</span>
 }
@@ -41,6 +41,7 @@ const AnimatedNumber = ({ value = 0, duration = 1000 }) => {
 export default function ImpactStats() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef(null)
+  const [cardDelays, setCardDelays] = useState([0, 200, 400])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -50,7 +51,7 @@ export default function ImpactStats() {
           observer.unobserve(entry.target)
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.2, rootMargin: '0px 0px -50px 0px' }
     )
 
     const currentSectionRef = sectionRef.current
@@ -69,29 +70,38 @@ export default function ImpactStats() {
     <section ref={sectionRef} className="py-16">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Card className={`overflow-hidden transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <Card 
+            className={`overflow-hidden transition-all duration-1000 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            style={{ transitionDelay: isVisible ? `${cardDelays[0]}ms` : '0ms' }}
+          >
             <CardContent className="p-6 text-center">
               <h3 className="text-2xl font-semibold mb-2 text-yellow-500">Students Reached</h3>
               <p className="text-6xl font-bold text-blue-800 mb-4 ">
-                {isVisible && <AnimatedNumber value={1300}/>}+
+                {isVisible && <AnimatedNumber value={1300} duration={1500}/>}+
               </p>
               <p className="text-muted-foreground"></p>
             </CardContent>
           </Card>
-          <Card className={`overflow-hidden transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <Card 
+            className={`overflow-hidden transition-all duration-1000 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            style={{ transitionDelay: isVisible ? `${cardDelays[1]}ms` : '0ms' }}
+          >
             <CardContent className="p-6 text-center">
               <h3 className="text-2xl font-semibold mb-2 text-yellow-500">Workshops Hosted</h3>
               <p className="text-6xl font-bold text-blue-800 mb-4">
-                {isVisible && <AnimatedNumber value={30} />}+
+                {isVisible && <AnimatedNumber value={30} duration={1500} />}+
               </p>
               <p className="text-muted-foreground"></p>
             </CardContent>
           </Card>
-          <Card className={`overflow-hidden transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <Card 
+            className={`overflow-hidden transition-all duration-1000 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            style={{ transitionDelay: isVisible ? `${cardDelays[2]}ms` : '0ms' }}
+          >
             <CardContent className="p-6 text-center">
               <h3 className="text-2xl font-semibold mb-2 text-yellow-500">Tournaments Hosted</h3>
               <p className="text-6xl font-bold text-blue-800 mb-4">
-                {isVisible && <AnimatedNumber value={10} />}+
+                {isVisible && <AnimatedNumber value={10} duration={1500} />}+
               </p>
               <p className="text-muted-foreground"></p>
             </CardContent>
