@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
-import { LogOut, Users, Settings, BarChart3 } from 'lucide-react'
+import { LogOut, Users, Settings, BarChart3, FileText } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { NavHeader } from '@/components/NavHeader'
 import { Profile } from '@/lib/supabase/types'
@@ -125,7 +125,7 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Pending Approvals</CardTitle>
@@ -164,6 +164,26 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
                 <p className="text-xs text-muted-foreground">
                   Approved team members
                 </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Content Management</CardTitle>
+                <FileText className="h-4 w-4" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">CMS</div>
+                <p className="text-xs opacity-90 mb-3">
+                  Manage website content
+                </p>
+                <Button 
+                  size="sm"
+                  className="w-full bg-white/20 hover:bg-white/30 border-white/30"
+                  onClick={() => window.open('/admin/cms', '_blank')}
+                >
+                  Open CMS Manager
+                </Button>
               </CardContent>
             </Card>
           </div>
