@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "media_items",
+  "info": {
+    "singularName": "media-item",
+    "pluralName": "media-items",
+    "displayName": "Media Item",
+    "description": "Photos and videos for media gallery"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images", "videos"]
+    },
+    "season": {
+      "type": "enumeration",
+      "enum": ["season_2024_25", "season_2023_24", "season_2022_23", "season_2021_22"],
+      "required": true,
+      "default": "season_2024_25"
+    },
+    "event_name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "event_date": {
+      "type": "date",
+      "required": false
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": ["competition", "build_season", "outreach", "team_photos", "robot", "awards"],
+      "required": true,
+      "default": "competition"
+    },
+    "display_order": {
+      "type": "integer",
+      "default": 0
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

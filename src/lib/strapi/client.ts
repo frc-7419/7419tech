@@ -156,6 +156,120 @@ class StrapiClient {
     return this.fetchAPI<StrapiItem[]>(`/tags?${params.toString()}`)
   }
 
+  // Sponsors
+  async getSponsors(options: {
+    populate?: string[]
+    filters?: Record<string, any>
+    sort?: string[]
+    pagination?: { page?: number; pageSize?: number }
+  } = {}) {
+    const params = new URLSearchParams()
+    
+    if (options.populate) {
+      options.populate.forEach(field => params.append('populate[]', field))
+    } else {
+      params.append('populate[]', 'logo')
+    }
+
+    if (options.filters) {
+      Object.entries(options.filters).forEach(([key, value]) => {
+        params.append(`filters[${key}]`, value as string)
+      })
+    }
+
+    if (options.sort) {
+      options.sort.forEach(sortField => params.append('sort[]', sortField))
+    } else {
+      params.append('sort[]', 'display_order:asc')
+      params.append('sort[]', 'name:asc')
+    }
+
+    if (options.pagination?.page) {
+      params.append('pagination[page]', options.pagination.page.toString())
+    }
+    if (options.pagination?.pageSize) {
+      params.append('pagination[pageSize]', options.pagination.pageSize.toString())
+    }
+
+    return this.fetchAPI<StrapiItem[]>(`/sponsors?${params.toString()}`)
+  }
+
+  // Media Items
+  async getMediaItems(options: {
+    populate?: string[]
+    filters?: Record<string, any>
+    sort?: string[]
+    pagination?: { page?: number; pageSize?: number }
+  } = {}) {
+    const params = new URLSearchParams()
+    
+    if (options.populate) {
+      options.populate.forEach(field => params.append('populate[]', field))
+    } else {
+      params.append('populate[]', 'media')
+    }
+
+    if (options.filters) {
+      Object.entries(options.filters).forEach(([key, value]) => {
+        params.append(`filters[${key}]`, value as string)
+      })
+    }
+
+    if (options.sort) {
+      options.sort.forEach(sortField => params.append('sort[]', sortField))
+    } else {
+      params.append('sort[]', 'event_date:desc')
+      params.append('sort[]', 'display_order:asc')
+    }
+
+    if (options.pagination?.page) {
+      params.append('pagination[page]', options.pagination.page.toString())
+    }
+    if (options.pagination?.pageSize) {
+      params.append('pagination[pageSize]', options.pagination.pageSize.toString())
+    }
+
+    return this.fetchAPI<StrapiItem[]>(`/media-items?${params.toString()}`)
+  }
+
+  // Student Leaders
+  async getStudentLeaders(options: {
+    populate?: string[]
+    filters?: Record<string, any>
+    sort?: string[]
+    pagination?: { page?: number; pageSize?: number }
+  } = {}) {
+    const params = new URLSearchParams()
+    
+    if (options.populate) {
+      options.populate.forEach(field => params.append('populate[]', field))
+    } else {
+      params.append('populate[]', 'profile_picture')
+    }
+
+    if (options.filters) {
+      Object.entries(options.filters).forEach(([key, value]) => {
+        params.append(`filters[${key}]`, value as string)
+      })
+    }
+
+    if (options.sort) {
+      options.sort.forEach(sortField => params.append('sort[]', sortField))
+    } else {
+      params.append('sort[]', 'display_order:asc')
+      params.append('sort[]', 'name:asc')
+    }
+
+    if (options.pagination?.page) {
+      params.append('pagination[page]', options.pagination.page.toString())
+    }
+    if (options.pagination?.pageSize) {
+      params.append('pagination[pageSize]', options.pagination.pageSize.toString())
+    }
+
+    return this.fetchAPI<StrapiItem[]>(`/student-leaders?${params.toString()}`)
+  }
+
   // Featured content
   async getFeaturedBlogPosts(limit = 3) {
     return this.getBlogPosts({
@@ -168,6 +282,33 @@ class StrapiClient {
     return this.getEvents({
       filters: { is_featured: true },
       pagination: { pageSize: limit }
+    })
+  }
+
+  async getActiveSponsors() {
+    return this.getSponsors({
+      filters: { is_active: true }
+    })
+  }
+
+  async getMediaBySeason(season: string) {
+    return this.getMediaItems({
+      filters: { season: season }
+    })
+  }
+
+  // Helper method for common season values
+  async getMedia2024() {
+    return this.getMediaBySeason('season_2024_25')
+  }
+
+  async getMedia2023() {
+    return this.getMediaBySeason('season_2023_24')
+  }
+
+  async getCurrentLeadership() {
+    return this.getStudentLeaders({
+      filters: { is_current: true }
     })
   }
 }

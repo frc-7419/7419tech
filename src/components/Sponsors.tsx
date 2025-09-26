@@ -1,10 +1,12 @@
 "use client"
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { strapiClient } from "@/lib/strapi/client"
 
-const sponsors = [
+// Original hardcoded sponsors (preserved!)
+const originalSponsors = [
   { name: "QLS", logo: "/static/sponsors/qls.png", url: "https://www.quarrylane.org/" },
   { name: "Notion", logo: "/static/sponsors/notion-logo.png", url: "https://www.notion.so" },
   { name: "Intuitive Foundation", logo: "/static/sponsors/IntuitiveFoundation.png", url: "https://www.intuitive-foundation.org/first-robotics/" },
@@ -13,7 +15,52 @@ const sponsors = [
   { name: "LDL", logo: "/static/sponsors/ldl.svg", url: "https://littledesignlab.org/" },
 ]
 
+interface StrapiSponsor {
+  id: number
+  name: string
+  logo: {
+    url: string
+  }
+  website_url?: string
+  tier: string
+  description?: string
+}
+
 function Sponsors() {
+  const [strapiSponsors, setStrapiSponsors] = useState<StrapiSponsor[]>([])
+  const [strapiLoading, setStrapiLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchSponsors() {
+      try {
+        const response = await strapiClient.getActiveSponsors()
+        setStrapiSponsors(response.data)
+      } catch (err) {
+        console.log('Strapi sponsors not available, showing original sponsors only')
+      } finally {
+        setStrapiLoading(false)
+      }
+    }
+
+    fetchSponsors()
+  }, [])
+
+  // Combine original sponsors with Strapi sponsors
+  const allSponsors = [
+    ...originalSponsors.map(sponsor => ({
+      ...sponsor,
+      id: sponsor.name,
+      isOriginal: true
+    })),
+    ...strapiSponsors.map(sponsor => ({
+      id: sponsor.id,
+      name: sponsor.name,
+      logo: `http://localhost:1337${sponsor.logo.url}`,
+      url: sponsor.website_url,
+      isOriginal: false
+    }))
+  ]
+
   return (
     <main className="flex-grow bg-gradient-to-b from-white via-gray-100 to-white min-h-screen">
       <section className="relative py-32 md:py-48">
@@ -32,25 +79,34 @@ function Sponsors() {
           </motion.div>
 
           <div className="grid grid-cols-3 grid-rows-2 gap-8">
-            {sponsors.map((sponsor, index) => (
+            {allSponsors.map((sponsor, index) => (
               <motion.div
-                key={sponsor.name}
+                key={sponsor.id}
                 className="bg-white rounded-xl shadow-lg p-8 flex items-center justify-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.05 }}
               >
-                <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+                {sponsor.url ? (
+                  <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+                    <Image
+                      src={sponsor.logo}
+                      alt={`${sponsor.name} logo`}
+                      width={150}
+                      height={100}
+                      className="max-h-24 object-contain"
+                    />
+                  </a>
+                ) : (
                   <Image
                     src={sponsor.logo}
                     alt={`${sponsor.name} logo`}
                     width={150}
                     height={100}
-                    objectFit="contain"
-                    className="max-h-24"
+                    className="max-h-24 object-contain"
                   />
-                </a>
+                )}
               </motion.div>
             ))}
           </div>

@@ -28,14 +28,22 @@ export async function middleware(request: NextRequest) {
   )
 
   // Refresh session if expired - required for Server Components
-  await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  // Redirect logged-in users away from auth pages
+  if (request.nextUrl.pathname.startsWith('/auth/login') || request.nextUrl.pathname.startsWith('/auth/signup')) {
+    if (user) {
+      const redirectUrl = request.nextUrl.clone()
+      redirectUrl.pathname = '/dashboard'
+      redirectUrl.search = '' // Clear query params
+      return NextResponse.redirect(redirectUrl)
+    }
+  }
 
   // Protect admin routes
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
     if (!user) {
       // Redirect to login if not authenticated
       const redirectUrl = request.nextUrl.clone()
