@@ -35,7 +35,7 @@ export default function BlogPage() {
     async function fetchBlogPosts() {
       try {
         const response = await strapiClient.getBlogPosts()
-        setBlogPosts(response.data)
+        setBlogPosts(response.data as unknown as BlogPost[])
       } catch (err) {
         setError('Failed to load blog posts')
         console.error('Error:', err)

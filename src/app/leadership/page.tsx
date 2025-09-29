@@ -221,7 +221,7 @@ export default function Leadership() {
       try {
         const response = await strapiClient.getCurrentLeadership()
         console.log('Strapi response:', response) // Debug log
-        setStrapiLeaders(response.data)
+        setStrapiLeaders(response.data as unknown as StrapiStudentLeader[])
       } catch (err) {
         console.log('Strapi leaders not available, showing original team only', err)
       } finally {
@@ -269,7 +269,7 @@ export default function Leadership() {
                 We have three main
                 departments: Hardware, Software, and Business. In each
                 of these sub-teams, leadership positions are earned through
-                continuous effort and dedication. We take pride in our team's
+                continuous effort and dedication. We take pride in our team&apos;s
                 culture that helps our leaders further explore their own skills
                 and passions while finding joy in helping others.
               </p>
@@ -303,7 +303,7 @@ export default function Leadership() {
                       <p className="mt-1 text-base inline text-transparent bg-clip-text bg-gradient-to-r from-[#11224e] to-[#11226e] font-medium">
                         {member.position}
                       </p>
-                      {member.bio && (
+                      {'bio' in member && member.bio && (
                         <p className="text-sm text-gray-600 mt-1">
                           {member.bio}
                         </p>

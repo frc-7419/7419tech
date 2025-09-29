@@ -60,16 +60,16 @@ export function CMSAccessClient({ user }: CMSAccessClientProps) {
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             Access CMS Manager
           </h1>
-          <p className="text-gray-600 mb-6">
-            Welcome, {user.name}! You're verified as an admin.
-          </p>
+              <p className="text-gray-600 mb-6">
+                Welcome, {user.name}! You&apos;re verified as an admin.
+              </p>
           
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
             <h3 className="font-medium text-blue-900 mb-2">First Time Setup:</h3>
             <ol className="text-sm text-blue-800 text-left space-y-1">
               <li>1. Use your <strong>7419tech email</strong>: {user.email}</li>
               <li>2. Create a password for the CMS</li>
-              <li>3. You'll have full admin access</li>
+              <li>3. You&apos;ll have full admin access</li>
             </ol>
           </div>
 

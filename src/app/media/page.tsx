@@ -58,8 +58,8 @@ export default function MediaPage() {
           strapiClient.getMediaBySeason('season_2024_25'),
           strapiClient.getMediaBySeason('season_2023_24')
         ])
-        setStrapiMedia2024(response2024.data)
-        setStrapiMedia2023(response2023.data)
+        setStrapiMedia2024(response2024.data as unknown as StrapiMediaItem[])
+        setStrapiMedia2023(response2023.data as unknown as StrapiMediaItem[])
       } catch (err) {
         console.log('Strapi media not available, showing original media only')
       } finally {
