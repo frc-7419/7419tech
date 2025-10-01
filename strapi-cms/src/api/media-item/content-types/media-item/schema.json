@@ -4,8 +4,8 @@
   "info": {
     "singularName": "media-item",
     "pluralName": "media-items",
-    "displayName": "Media Item",
-    "description": "Photos and videos for media gallery"
+    "displayName": "Dynamic Media",
+    "description": "Images that can be dynamically placed at specific locations"
   },
   "options": {
     "draftAndPublish": true
@@ -21,40 +21,41 @@
       "type": "text",
       "maxLength": 500
     },
-    "media": {
+    "image": {
       "type": "media",
       "multiple": false,
       "required": true,
-      "allowedTypes": ["images", "videos"]
+      "allowedTypes": ["images"]
     },
-    "season": {
+    "location": {
       "type": "enumeration",
-      "enum": ["season_2024_25", "season_2023_24", "season_2022_23", "season_2021_22"],
-      "required": true,
-      "default": "season_2024_25"
-    },
-    "event_name": {
-      "type": "string",
-      "required": true,
-      "maxLength": 100
-    },
-    "event_date": {
-      "type": "date",
-      "required": false
-    },
-    "category": {
-      "type": "enumeration",
-      "enum": ["competition", "build_season", "outreach", "team_photos", "robot", "awards"],
-      "required": true,
-      "default": "competition"
+      "enum": [
+        "about-us",
+        "about-us-gallery",
+        "our-robot",
+        "our-commitment",
+        "fll-ftc-support",
+        "season-2025-2026",
+        "season-2024-2025",
+        "season-2023-2024",
+        "home-page"
+      ],
+      "required": true
     },
     "display_order": {
       "type": "integer",
-      "default": 0
+      "default": 0,
+      "min": 0,
+      "max": 100
     },
-    "is_featured": {
+    "is_active": {
       "type": "boolean",
-      "default": false
+      "default": true
+    },
+    "alt_text": {
+      "type": "string",
+      "maxLength": 200,
+      "required": true
     }
   }
 }

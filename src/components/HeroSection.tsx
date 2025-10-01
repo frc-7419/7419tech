@@ -13,6 +13,7 @@ import Link from 'next/link'
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import "../app/styles/carousel.css"
+import { useDynamicMedia } from '@/hooks/useDynamicMedia'
 
 export function HeroSection() {
   const containerVariants = {
@@ -49,10 +50,20 @@ export function HeroSection() {
     nextArrow: <ChevronRight className="text-white w-8 h-8 cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 z-10" />,
   }
 
-  const carouselImages = [
+  // Get dynamic images for home page slideshow
+  const { media: carouselMedia, loading: carouselLoading } = useDynamicMedia({ 
+    location: 'home-page' 
+  })
+
+  // Fallback images if no dynamic media is available
+  const fallbackImages = [
     "/Robot.png?height=400&width=600",
     "/static/team/teamphoto.avif"
   ]
+
+  const carouselImages = carouselMedia && carouselMedia.length > 0 
+    ? carouselMedia.map(item => `http://localhost:1337${item.image.url}`)
+    : fallbackImages
 
   return (
     <section className="relative min-h-[85vh] bg-white flex items-center py-14">
@@ -136,11 +147,10 @@ export function HeroSection() {
               <Slider {...carouselSettings}>
                 {carouselImages.map((src, index) => (
                   <div key={index} className="relative aspect-video">
-                    <Image
+                    <img
                       src={src}
                       alt={`Robot image ${index + 1}`}
-                      fill
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 ))}

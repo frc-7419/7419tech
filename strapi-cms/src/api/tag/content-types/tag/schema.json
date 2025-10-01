@@ -37,12 +37,6 @@
       "relation": "manyToMany",
       "target": "api::blog-post.blog-post",
       "inversedBy": "tags"
-    },
-    "events": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::event.event",
-      "inversedBy": "tags"
     }
   }
 }

@@ -430,65 +430,11 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiEventEvent extends Struct.CollectionTypeSchema {
-  collectionName: 'events';
-  info: {
-    description: 'Events for 7419 Tech team - competitions, workshops, meetings';
-    displayName: 'Event';
-    pluralName: 'events';
-    singularName: 'event';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    address: Schema.Attribute.Text;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    current_participants: Schema.Attribute.Integer &
-      Schema.Attribute.DefaultTo<0>;
-    description: Schema.Attribute.RichText & Schema.Attribute.Required;
-    end_date: Schema.Attribute.DateTime;
-    event_type: Schema.Attribute.Enumeration<
-      ['competition', 'workshop', 'outreach', 'meeting', 'presentation']
-    > &
-      Schema.Attribute.Required;
-    featured_image: Schema.Attribute.Media<'images'> &
-      Schema.Attribute.Required;
-    gallery: Schema.Attribute.Media<'images', true>;
-    is_all_day: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    is_virtual: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
-      Schema.Attribute.Private;
-    location: Schema.Attribute.String & Schema.Attribute.Required;
-    max_participants: Schema.Attribute.Integer;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetMinMaxLength<{
-        maxLength: 100;
-      }>;
-    publishedAt: Schema.Attribute.DateTime;
-    registration_required: Schema.Attribute.Boolean &
-      Schema.Attribute.DefaultTo<false>;
-    registration_url: Schema.Attribute.String;
-    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
-    start_date: Schema.Attribute.DateTime & Schema.Attribute.Required;
-    tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    virtual_link: Schema.Attribute.String;
-  };
-}
-
 export interface ApiMediaItemMediaItem extends Struct.CollectionTypeSchema {
   collectionName: 'media_items';
   info: {
-    description: 'Photos and videos for media gallery';
-    displayName: 'Media Item';
+    description: 'Images that can be dynamically placed at specific locations';
+    displayName: 'Dynamic Media';
     pluralName: 'media-items';
     singularName: 'media-item';
   };
@@ -496,18 +442,11 @@ export interface ApiMediaItemMediaItem extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    category: Schema.Attribute.Enumeration<
-      [
-        'competition',
-        'build_season',
-        'outreach',
-        'team_photos',
-        'robot',
-        'awards',
-      ]
-    > &
+    alt_text: Schema.Attribute.String &
       Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'competition'>;
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -515,28 +454,38 @@ export interface ApiMediaItemMediaItem extends Struct.CollectionTypeSchema {
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 500;
       }>;
-    display_order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-    event_date: Schema.Attribute.Date;
-    event_name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetMinMaxLength<{
-        maxLength: 100;
-      }>;
-    is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    display_order: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 100;
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    is_active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::media-item.media-item'
     > &
       Schema.Attribute.Private;
-    media: Schema.Attribute.Media<'images' | 'videos'> &
+    location: Schema.Attribute.Enumeration<
+      [
+        'about-us',
+        'about-us-gallery',
+        'our-robot',
+        'our-commitment',
+        'fll-ftc-support',
+        'season-2025-2026',
+        'season-2024-2025',
+        'season-2023-2024',
+        'home-page',
+      ]
+    > &
       Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    season: Schema.Attribute.Enumeration<
-      ['season_2024_25', 'season_2023_24', 'season_2022_23', 'season_2021_22']
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'season_2024_25'>;
     title: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
@@ -677,7 +626,6 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 200;
       }>;
-    events: Schema.Attribute.Relation<'manyToMany', 'api::event.event'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
       Schema.Attribute.Private;
@@ -692,57 +640,6 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-  };
-}
-
-export interface ApiTeamInfoTeamInfo extends Struct.SingleTypeSchema {
-  collectionName: 'team_infos';
-  info: {
-    description: 'General information about the 7419 Tech team';
-    displayName: 'Team Info';
-    pluralName: 'team-infos';
-    singularName: 'team-info';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    active_projects: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    current_season: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'2024-2025'>;
-    description: Schema.Attribute.RichText & Schema.Attribute.Required;
-    email: Schema.Attribute.Email & Schema.Attribute.Required;
-    founding_year: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<2018>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::team-info.team-info'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    social_links: Schema.Attribute.Component<'shared.social-link', true>;
-    team_logo: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
-    team_name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetMinMaxLength<{
-        maxLength: 50;
-      }> &
-      Schema.Attribute.DefaultTo<'7419 Tech'>;
-    team_number: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetMinMaxLength<{
-        maxLength: 10;
-      }> &
-      Schema.Attribute.DefaultTo<'7419'>;
-    team_photo: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
-    total_members: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    website: Schema.Attribute.String;
   };
 }
 
@@ -1256,12 +1153,10 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::blog-post.blog-post': ApiBlogPostBlogPost;
-      'api::event.event': ApiEventEvent;
       'api::media-item.media-item': ApiMediaItemMediaItem;
       'api::sponsor.sponsor': ApiSponsorSponsor;
       'api::student-leader.student-leader': ApiStudentLeaderStudentLeader;
       'api::tag.tag': ApiTagTag;
-      'api::team-info.team-info': ApiTeamInfoTeamInfo;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

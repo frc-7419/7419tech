@@ -98,55 +98,6 @@ class StrapiClient {
     return response.data[0] || null
   }
 
-  // Events
-  async getEvents(options: {
-    populate?: string[]
-    filters?: Record<string, any>
-    sort?: string[]
-    pagination?: { page?: number; pageSize?: number }
-  } = {}) {
-    const params = new URLSearchParams()
-    
-    if (options.populate) {
-      options.populate.forEach(field => params.append('populate[]', field))
-    } else {
-      params.append('populate[]', 'featured_image')
-      params.append('populate[]', 'gallery')
-      params.append('populate[]', 'tags')
-    }
-
-    if (options.filters) {
-      Object.entries(options.filters).forEach(([key, value]) => {
-        params.append(`filters[${key}]`, value as string)
-      })
-    }
-
-    if (options.sort) {
-      options.sort.forEach(sortField => params.append('sort[]', sortField))
-    } else {
-      params.append('sort[]', 'start_date:desc')
-    }
-
-    if (options.pagination?.page) {
-      params.append('pagination[page]', options.pagination.page.toString())
-    }
-    if (options.pagination?.pageSize) {
-      params.append('pagination[pageSize]', options.pagination.pageSize.toString())
-    }
-
-    return this.fetchAPI<StrapiItem[]>(`/events?${params.toString()}`)
-  }
-
-  // Team Info (Single Type)
-  async getTeamInfo() {
-    const params = new URLSearchParams()
-    params.append('populate[]', 'team_photo')
-    params.append('populate[]', 'team_logo')
-    params.append('populate[]', 'social_links')
-
-    const response = await this.fetchAPI<StrapiItem>(`/team-info?${params.toString()}`)
-    return response.data
-  }
 
   // Tags
   async getTags() {
@@ -194,19 +145,19 @@ class StrapiClient {
     return this.fetchAPI<StrapiItem[]>(`/sponsors?${params.toString()}`)
   }
 
-  // Media Items
+  // Media Items (Dynamic Media)
   async getMediaItems(options: {
     populate?: string[]
     filters?: Record<string, any>
     sort?: string[]
-    pagination?: { page?: number; pageSize?: number }
+    pagination?: { page?: number; pageSize?: number; limit?: number }
   } = {}) {
     const params = new URLSearchParams()
     
     if (options.populate) {
       options.populate.forEach(field => params.append('populate[]', field))
     } else {
-      params.append('populate[]', 'media')
+      params.append('populate[]', 'image')
     }
 
     if (options.filters) {
@@ -218,15 +169,15 @@ class StrapiClient {
     if (options.sort) {
       options.sort.forEach(sortField => params.append('sort[]', sortField))
     } else {
-      params.append('sort[]', 'event_date:desc')
       params.append('sort[]', 'display_order:asc')
     }
 
     if (options.pagination?.page) {
       params.append('pagination[page]', options.pagination.page.toString())
     }
-    if (options.pagination?.pageSize) {
-      params.append('pagination[pageSize]', options.pagination.pageSize.toString())
+    if (options.pagination?.pageSize || options.pagination?.limit) {
+      const limit = options.pagination.pageSize || options.pagination.limit || 25
+      params.append('pagination[pageSize]', limit.toString())
     }
 
     return this.fetchAPI<StrapiItem[]>(`/media-items?${params.toString()}`)
@@ -278,12 +229,6 @@ class StrapiClient {
     })
   }
 
-  async getFeaturedEvents(limit = 3) {
-    return this.getEvents({
-      filters: { is_featured: true },
-      pagination: { pageSize: limit }
-    })
-  }
 
   async getActiveSponsors() {
     return this.getSponsors({

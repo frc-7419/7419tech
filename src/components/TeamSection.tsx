@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import { AboutUsHero, AboutUsGallery } from "@/components/DynamicMedia";
 
 const events = [
     {
@@ -118,12 +119,7 @@ export default function TeamSection() {
 
                 {/* Hero Image */}
                 <div className="relative w-full h-96 mb-12">
-                    <Image
-                        src="/static/team/teamphoto.avif"
-                        alt="Team photo"
-                        fill
-                        className="object-cover rounded-lg"
-                    />
+                    <AboutUsHero />
                 </div>
 
                 {/* About Section */}
@@ -195,6 +191,14 @@ export default function TeamSection() {
                             </CardContent>
                         </Card>
                     </div>
+                </div>
+
+                {/* Team Gallery */}
+                <div className="mt-16">
+                    <h3 className="text-3xl font-bold tracking-tight text-center mb-8">
+                        Team Gallery
+                    </h3>
+                    <AboutUsGallery />
                 </div>
             </div>
         </section>

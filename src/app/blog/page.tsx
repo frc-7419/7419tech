@@ -6,6 +6,7 @@ import { strapiClient } from '@/lib/strapi/client'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Calendar, User, Star } from 'lucide-react'
+import Link from 'next/link'
 
 interface BlogPost {
   id: number
@@ -116,7 +117,8 @@ export default function BlogPage() {
                       .filter(post => post.is_featured)
                       .slice(0, 2)
                       .map((post) => (
-                        <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                        <Link key={post.id} href={`/blog/${post.slug}`}>
+                          <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                           {post.featured_image && (
                             <div className="h-48 bg-gray-200 overflow-hidden">
                               <img
@@ -134,7 +136,7 @@ export default function BlogPage() {
                                 Featured
                               </Badge>
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-2">{post.title}</h3>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">{post.title}</h3>
                             <p className="text-gray-600 mb-4">{post.excerpt}</p>
                             <div className="flex items-center justify-between text-sm text-gray-500">
                               <span className="flex items-center">
@@ -146,8 +148,15 @@ export default function BlogPage() {
                                 {new Date(post.publishedAt).toLocaleDateString()}
                               </span>
                             </div>
+                            <div className="mt-4 text-blue-600 font-medium text-sm flex items-center">
+                              Read more 
+                              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              </svg>
+                            </div>
                           </CardContent>
                         </Card>
+                        </Link>
                       ))}
                   </div>
                 </div>
@@ -158,7 +167,8 @@ export default function BlogPage() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-8">All Posts</h2>
                 <div className="grid gap-8">
                   {blogPosts.map((post) => (
-                    <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                    <Link key={post.id} href={`/blog/${post.slug}`}>
+                      <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                       <div className="md:flex">
                         {post.featured_image && (
                           <div className="md:w-1/3 h-48 md:h-auto bg-gray-200">
@@ -179,7 +189,7 @@ export default function BlogPage() {
                               </Badge>
                             )}
                           </div>
-                          <h3 className="text-2xl font-bold text-gray-900 mb-2">{post.title}</h3>
+                          <h3 className="text-2xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">{post.title}</h3>
                           <p className="text-gray-600 mb-4">{post.excerpt}</p>
                           <div className="flex items-center justify-between text-sm text-gray-500">
                             <span className="flex items-center">
@@ -191,9 +201,16 @@ export default function BlogPage() {
                               {new Date(post.publishedAt).toLocaleDateString()}
                             </span>
                           </div>
+                          <div className="mt-4 text-blue-600 font-medium text-sm flex items-center">
+                            Read more 
+                            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
                         </CardContent>
                       </div>
                     </Card>
+                    </Link>
                   ))}
                 </div>
               </div>

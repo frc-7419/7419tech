@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import ImpactStats from './ImpactStats'
+import { OurCommitmentImages, FllFtcSupportImages } from '@/components/DynamicMedia'
 
 export default function Outreach() {
     const fadeInUp = {
@@ -68,14 +69,8 @@ export default function Outreach() {
                                                 <li>Engaging with the community at local events and donations</li>
                                             </ul>
                                         </div>
-                                        <div className="relative h-80 rounded-lg overflow-hidden shadow-xl group">
-                                            <Image
-                                                src="/static/fll_ftc/kickoff.jpg"
-                                                alt="Team members engaged in outreach activities"
-                                                fill
-                                                style={{ objectFit: 'cover' }}
-                                                className="rounded-lg transition-transform duration-300 group-hover:scale-105"
-                                            />
+                                        <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
+                                            <OurCommitmentImages />
                                         </div>
                                     </div>
                                 </CardContent>
@@ -86,14 +81,8 @@ export default function Outreach() {
                                 <CardContent className="p-6">
                                     <h2 className="mb-8 text-3xl font-bold tracking-tighter sm:text-4xl text-center">FLL & FTC Support</h2>
                                     <div className="grid md:grid-cols-2 gap-8">
-                                        <div className="relative h-96 rounded-lg overflow-hidden shadow-xl group">
-                                            <Image
-                                                src="/static/fll_ftc/DSC07546.JPEG"
-                                                alt="FLL and FTC teams in action"
-                                                fill
-                                                style={{ objectFit: 'cover' }}
-                                                className="rounded-lg transition-transform duration-300 group-hover:scale-105"
-                                            />
+                                        <div className="relative h-96 rounded-lg overflow-hidden shadow-xl">
+                                            <FllFtcSupportImages />
                                         </div>
                                         <div className="flex flex-col justify-center">
                                             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
