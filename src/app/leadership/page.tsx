@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { NavHeader } from "@/components/NavHeader";
 import Image from "next/image";
-import { strapiClient } from "@/lib/strapi/client";
+import { strapiClient, getStrapiMediaUrl } from "@/lib/strapi/client";
 import ada from "./photos/ada.jpeg";
 import alex from "./photos/alex.jpeg";
 import ananya from "./photos/ananya.jpeg";
@@ -240,7 +240,7 @@ export default function Leadership() {
       isOriginal: true
     })),
     ...strapiLeaders.map(leader => {
-      const imageUrl = `http://localhost:1337${leader.profile_picture.url}`
+      const imageUrl = getStrapiMediaUrl(leader.profile_picture)
       console.log('Leader image URL:', imageUrl, 'for', leader.name) // Debug log
       return {
         id: leader.id,

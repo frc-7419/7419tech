@@ -1,6 +1,9 @@
 // Strapi API client for fetching content
 const STRAPI_API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api'
 
+// Helper to get the base URL for media files
+const STRAPI_BASE_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL?.replace('/api', '') || 'http://localhost:1337'
+
 interface StrapiResponse<T> {
   data: T
   meta: {
@@ -263,9 +266,21 @@ export const strapiClient = new StrapiClient()
 
 // Helper function to get media URL
 export function getStrapiMediaUrl(media: any): string | null {
-  if (!media?.data?.attributes?.url) return null
+  if (!media) return null
   
-  const url = media.data.attributes.url
+  // Handle both Strapi v4 and v5 formats
+  let url: string | null = null
+  
+  // Strapi v5 format (direct object with url property)
+  if (media.url) {
+    url = media.url
+  }
+  // Strapi v4 format (nested in data.attributes)
+  else if (media.data?.attributes?.url) {
+    url = media.data.attributes.url
+  }
+  
+  if (!url) return null
   
   // If it's already a full URL, return it
   if (url.startsWith('http')) {
@@ -273,6 +288,5 @@ export function getStrapiMediaUrl(media: any): string | null {
   }
   
   // Otherwise, prepend Strapi base URL
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL?.replace('/api', '') || 'http://localhost:1337'
-  return `${baseUrl}${url}`
+  return `${STRAPI_BASE_URL}${url}`
 }

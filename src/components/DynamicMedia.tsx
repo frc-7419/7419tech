@@ -1,6 +1,7 @@
 'use client'
 
 import { useDynamicMedia } from '@/hooks/useDynamicMedia'
+import { getStrapiMediaUrl } from '@/lib/strapi/client'
 import Image from 'next/image'
 
 interface DynamicMediaProps {
@@ -51,7 +52,7 @@ export function DynamicMedia({ location, className = '', limit, showOverlay = tr
       {media.map((item) => (
         <div key={item.id} className="relative group overflow-hidden rounded-lg">
           <img
-            src={`http://localhost:1337${item.image.url}`}
+            src={getStrapiMediaUrl(item.image)}
             alt={item.alt_text || item.title}
             className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
           />
@@ -83,7 +84,7 @@ export function AboutUsHero() {
   }
   
   const imageSrc = media && media.length > 0 
-    ? `http://localhost:1337${media[0].image.url}`
+    ? getStrapiMediaUrl(media[0].image)
     : fallbackSrc
     
   return (

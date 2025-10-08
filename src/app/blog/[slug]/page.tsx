@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
-import { strapiClient } from '@/lib/strapi/client'
+import { strapiClient, getStrapiMediaUrl } from '@/lib/strapi/client'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -155,7 +155,7 @@ export default function BlogPostPage() {
           {post.featured_image && (
             <div className="mb-8">
               <img
-                src={`http://localhost:1337${post.featured_image.url}`}
+                src={getStrapiMediaUrl(post.featured_image)}
                 alt={post.featured_image.alternativeText || post.title}
                 className="w-full h-auto rounded-lg shadow-lg max-w-4xl mx-auto"
               />

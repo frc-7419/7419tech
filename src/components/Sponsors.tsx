@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { strapiClient } from "@/lib/strapi/client"
+import { strapiClient, getStrapiMediaUrl } from "@/lib/strapi/client"
 
 // Original hardcoded sponsors (preserved!)
 const originalSponsors = [
@@ -55,7 +55,7 @@ function Sponsors() {
     ...strapiSponsors.map(sponsor => ({
       id: sponsor.id,
       name: sponsor.name,
-      logo: `http://localhost:1337${sponsor.logo.url}`,
+      logo: getStrapiMediaUrl(sponsor.logo),
       url: sponsor.website_url,
       isOriginal: false
     }))

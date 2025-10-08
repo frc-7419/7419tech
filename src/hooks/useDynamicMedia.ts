@@ -47,14 +47,13 @@ export function useDynamicMedia({ location, limit }: UseDynamicMediaOptions) {
         // Transform Strapi v5 response format
         const transformedData = response.data.map((item: any) => {
           console.log('Processing item:', item)
+          console.log('Item image data:', item.image)
+          
           return {
             id: item.id,
             title: item.title,
             description: item.description,
-            image: {
-              url: item.image?.url || '',
-              alternativeText: item.image?.alternativeText || item.alt_text
-            },
+            image: item.image || {}, // Pass the entire image object
             location: item.location,
             display_order: item.display_order,
             is_active: item.is_active,

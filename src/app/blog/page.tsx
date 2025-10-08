@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { NavHeader } from "@/components/NavHeader"
-import { strapiClient } from '@/lib/strapi/client'
+import { strapiClient, getStrapiMediaUrl } from '@/lib/strapi/client'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Calendar, User, Star } from 'lucide-react'
@@ -122,7 +122,7 @@ export default function BlogPage() {
                           {post.featured_image && (
                             <div className="h-48 bg-gray-200 overflow-hidden">
                               <img
-                                src={`http://localhost:1337${post.featured_image.url}`}
+                                src={getStrapiMediaUrl(post.featured_image)}
                                 alt={post.title}
                                 className="w-full h-full object-cover hover:scale-105 transition-transform"
                               />
@@ -173,7 +173,7 @@ export default function BlogPage() {
                         {post.featured_image && (
                           <div className="md:w-1/3 h-48 md:h-auto bg-gray-200">
                             <img
-                              src={`http://localhost:1337${post.featured_image.url}`}
+                              src={getStrapiMediaUrl(post.featured_image)}
                               alt={post.title}
                               className="w-full h-full object-cover"
                             />

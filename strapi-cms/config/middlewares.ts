@@ -5,7 +5,13 @@ export default [
   {
     name: 'strapi::cors',
     config: {
-      origin: ['http://localhost:3000', 'http://localhost:3001'],
+      origin: [
+        'http://localhost:3000', 
+        'http://localhost:3001',
+        'https://7419tech.vercel.app',
+        'https://7419tech.org',
+        // Add your production domains here
+      ],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
       headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
       keepHeaderOnError: true,

@@ -124,7 +124,8 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import "../app/styles/carousel.css"
 import { FaArrowRight } from "react-icons/fa";
-import { useDynamicMedia } from '@/hooks/useDynamicMedia';
+import { useDynamicMedia } from '@/hooks/useDynamicMedia'
+import { getStrapiMediaUrl } from '@/lib/strapi/client';
 
 const descriptions = [
   "The robot has a mounted Arducam camera. Using the PhotonVision library, our robot is able to identify AprilTags and their rotation and position relative to the robot. This allows the robot to estimate its pose on the field with incredible accuracy.",
@@ -193,7 +194,7 @@ const OurRobot = () => {
   ]
 
   const carouselImages = robotMedia && robotMedia.length > 0 
-    ? robotMedia.map(item => `http://localhost:1337${item.image.url}`)
+    ? robotMedia.map(item => getStrapiMediaUrl(item.image))
     : fallbackImages
 
   return (

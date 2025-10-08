@@ -14,6 +14,7 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import "../app/styles/carousel.css"
 import { useDynamicMedia } from '@/hooks/useDynamicMedia'
+import { getStrapiMediaUrl } from '@/lib/strapi/client'
 
 export function HeroSection() {
   const containerVariants = {
@@ -62,7 +63,7 @@ export function HeroSection() {
   ]
 
   const carouselImages = carouselMedia && carouselMedia.length > 0 
-    ? carouselMedia.map(item => `http://localhost:1337${item.image.url}`)
+    ? carouselMedia.map(item => getStrapiMediaUrl(item.image))
     : fallbackImages
 
   return (
