@@ -42,7 +42,12 @@ next-env.d.ts
 
 .idea
 node_modules
-node_modules
+
+# Strapi CMS build files and temp files
+strapi-cms/dist/
+strapi-cms/.tmp/
+strapi-cms/build/
+strapi-cms/.cache/
 strapi-cms/STRAPI_SETUP_NEXT_STEPS.md
 strapi-cms/STRAPI_CMS_SPECIFICATION.md
 CMS_WORKFLOW_GUIDE.md
