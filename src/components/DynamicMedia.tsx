@@ -52,7 +52,7 @@ export function DynamicMedia({ location, className = '', limit, showOverlay = tr
       {media.map((item) => (
         <div key={item.id} className="relative group overflow-hidden rounded-lg">
           <img
-            src={getStrapiMediaUrl(item.image)}
+            src={getStrapiMediaUrl(item.image) || ''}
             alt={item.alt_text || item.title}
             className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
           />
@@ -84,7 +84,7 @@ export function AboutUsHero() {
   }
   
   const imageSrc = media && media.length > 0 
-    ? getStrapiMediaUrl(media[0].image)
+    ? getStrapiMediaUrl(media[0].image) || fallbackSrc
     : fallbackSrc
     
   return (

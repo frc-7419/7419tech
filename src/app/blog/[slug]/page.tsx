@@ -49,7 +49,7 @@ export default function BlogPostPage() {
         
         if (foundPost) {
           console.log('Found post:', foundPost)
-          console.log('Featured image:', foundPost.featured_image)
+          console.log('Featured image:', (foundPost as any).featured_image)
           setPost(foundPost as unknown as BlogPost)
         } else {
           setError('Blog post not found')
@@ -155,7 +155,7 @@ export default function BlogPostPage() {
           {post.featured_image && (
             <div className="mb-8">
               <img
-                src={getStrapiMediaUrl(post.featured_image)}
+                src={getStrapiMediaUrl(post.featured_image) || ''}
                 alt={post.featured_image.alternativeText || post.title}
                 className="w-full h-auto rounded-lg shadow-lg max-w-4xl mx-auto"
               />

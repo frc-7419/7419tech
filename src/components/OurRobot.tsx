@@ -218,7 +218,7 @@ const OurRobot = () => {
                 {carouselImages.map((src, index) => (
                   <div key={index} className="relative aspect-video">
                     <img
-                      src={src}
+                      src={src || ''}
                       alt={`Robot image ${index + 1}`}
                       className="w-full h-full object-cover"
                     />

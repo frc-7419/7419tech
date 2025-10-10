@@ -91,7 +91,7 @@ function Sponsors() {
                 {sponsor.url ? (
                   <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
                     <Image
-                      src={sponsor.logo}
+                      src={sponsor.logo || ''}
                       alt={`${sponsor.name} logo`}
                       width={150}
                       height={100}
@@ -100,7 +100,7 @@ function Sponsors() {
                   </a>
                 ) : (
                   <Image
-                    src={sponsor.logo}
+                    src={sponsor.logo || ''}
                     alt={`${sponsor.name} logo`}
                     width={150}
                     height={100}

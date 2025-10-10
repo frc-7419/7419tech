@@ -285,7 +285,7 @@ export default function Leadership() {
                     style={{ marginLeft: "25%" }}
                   >
                     <Image
-                      src={member.isOriginal ? member.img : member.img}
+                      src={(member.isOriginal ? member.img : member.img) || ''}
                       height={100}
                       width={100}
                       className="h-16 object-cover w-16 rounded-xl bg-gray-800 border-none shadow-sm"

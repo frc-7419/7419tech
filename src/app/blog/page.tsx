@@ -83,7 +83,7 @@ export default function BlogPage() {
       <NavHeader />
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+        <div className="bg-gradient-to-r from-[#11224e] via-[#7c3aed] to-[#11224e] text-white">
           <div className="max-w-6xl mx-auto px-4 py-16">
             <div className="text-center">
               <h1 className="text-5xl font-bold mb-4">Team 7419 Blog</h1>
@@ -122,7 +122,7 @@ export default function BlogPage() {
                           {post.featured_image && (
                             <div className="h-48 bg-gray-200 overflow-hidden">
                               <img
-                                src={getStrapiMediaUrl(post.featured_image)}
+                                src={getStrapiMediaUrl(post.featured_image) ?? undefined}
                                 alt={post.title}
                                 className="w-full h-full object-cover hover:scale-105 transition-transform"
                               />
@@ -173,7 +173,7 @@ export default function BlogPage() {
                         {post.featured_image && (
                           <div className="md:w-1/3 h-48 md:h-auto bg-gray-200">
                             <img
-                              src={getStrapiMediaUrl(post.featured_image)}
+                              src={getStrapiMediaUrl(post.featured_image) ?? undefined}
                               alt={post.title}
                               className="w-full h-full object-cover"
                             />
