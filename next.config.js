@@ -26,6 +26,18 @@ const nextConfig = {
       ...config.watchOptions,
       ignored: ['**/strapi-cms/**', '**/node_modules/**'],
     };
+    
+    // Exclude strapi-cms from module resolution
+    config.resolve.alias = {
+      ...config.resolve.alias,
+    };
+    
+    // Ignore strapi-cms directory completely
+    config.externals = config.externals || [];
+    if (Array.isArray(config.externals)) {
+      config.externals.push(/^strapi-cms\//);
+    }
+    
     return config;
   },
   // Set output file tracing root to silence warnings

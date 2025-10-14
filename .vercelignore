@@ -1,9 +1,13 @@
 # Ignore Strapi CMS directory during Vercel deployment
 strapi-cms/
-strapi-cms/**
+strapi-cms/**/*
 
 # Ignore other unnecessary files
 *.md
 !README.md
 .env.example
 .gitignore
+
+# Ignore any TypeScript files in strapi-cms
+strapi-cms/**/*.ts
+strapi-cms/**/*.tsx
