@@ -10,12 +10,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'honest-hero-e5c6b36041.strapiapp.com',
+        hostname: 'talented-angel-a773e54857.strapiapp.com',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'honest-hero-e5c6b36041.media.strapiapp.com',
+        hostname: 'talented-angel-a773e54857.media.strapiapp.com',
         pathname: '/**',
       },
     ],
@@ -24,7 +24,7 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     config.watchOptions = {
       ...config.watchOptions,
-      ignored: ['**/strapi-cms/**', '**/node_modules/**'],
+      ignored: ['**/strapi-cms/**', '**/strapi-cms-v2/**', '**/node_modules/**'],
     };
     
     // Exclude strapi-cms from module resolution
@@ -36,6 +36,7 @@ const nextConfig = {
     config.externals = config.externals || [];
     if (Array.isArray(config.externals)) {
       config.externals.push(/^strapi-cms\//);
+      config.externals.push(/^strapi-cms-v2\//);
     }
     
     return config;

@@ -1,8 +1,8 @@
 // Strapi API client for fetching content
-const STRAPI_API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api'
+const STRAPI_API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://talented-angel-a773e54857.strapiapp.com/api'
 
 // Helper to get the base URL for media files
-const STRAPI_BASE_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL?.replace('/api', '') || 'http://localhost:1337'
+const STRAPI_BASE_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL?.replace('/api', '') || 'https://talented-angel-a773e54857.strapiapp.com'
 
 interface StrapiResponse<T> {
   data: T
