@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { User } from '@supabase/supabase-js'
@@ -28,7 +28,7 @@ export default function DashboardPage() {
   })
   
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
   const { toast } = useToast()
 
   useEffect(() => {
@@ -42,23 +42,53 @@ export default function DashboardPage() {
 
       setUser(session.user)
 
-      // Fetch user profile
-      const { data: profileData } = await (supabase as any)
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-        .single()
+      // Fetch user profile with better error handling
+      try {
+        const { data: profileData, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single()
 
-      const typedProfileData = profileData as Profile | null
+        if (error) {
+          console.error('Profile fetch error:', error)
+          // If profile doesn't exist, create one
+          if (error.code === 'PGRST116') {
+            const { data: newProfile, error: createError } = await supabase
+              .from('profiles')
+              .insert({
+                id: session.user.id,
+                email: session.user.email || '',
+                role: 'public'
+              })
+              .select()
+              .single()
 
-      if (typedProfileData) {
-        setProfile(typedProfileData)
-        setFormData({
-          name: typedProfileData.name || '',
-          graduation_year: typedProfileData.graduation_year?.toString() || '',
-          department: typedProfileData.department || '',
-          bio: typedProfileData.bio || ''
-        })
+            if (createError) {
+              console.error('Profile creation error:', createError)
+              setProfile(null)
+            } else {
+              setProfile(newProfile as Profile)
+            }
+          } else {
+            setProfile(null)
+          }
+        } else {
+          const typedProfileData = profileData as Profile | null
+          setProfile(typedProfileData)
+          
+          if (typedProfileData) {
+            setFormData({
+              name: typedProfileData.name || '',
+              graduation_year: typedProfileData.graduation_year?.toString() || '',
+              department: typedProfileData.department || '',
+              bio: typedProfileData.bio || ''
+            })
+          }
+        }
+      } catch (error) {
+        console.error('Unexpected error:', error)
+        setProfile(null)
       }
 
       setLoading(false)
@@ -74,7 +104,7 @@ export default function DashboardPage() {
     })
 
     return () => subscription.unsubscribe()
-  }, [supabase, router])
+  }, [router, supabase])
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -85,23 +115,21 @@ export default function DashboardPage() {
 
     setSaving(true)
     try {
-      const updateData = {
-        name: formData.name || null,
-        graduation_year: formData.graduation_year ? parseInt(formData.graduation_year) : null,
-        department: formData.department || null,
-        bio: formData.bio || null,
-        updated_at: new Date().toISOString()
-      }
-
-      const { error } = await (supabase as any)
+      // Update profile fields with proper typing
+      const { error } = await supabase
         .from('profiles')
-        .update(updateData)
+        .update({
+          name: formData.name || null,
+          graduation_year: formData.graduation_year ? parseInt(formData.graduation_year) : null,
+          department: formData.department || null,
+          bio: formData.bio || null,
+        })
         .eq('id', user.id)
 
       if (error) throw error
 
       // Refresh profile data
-      const { data: updatedProfile } = await (supabase as any)
+      const { data: updatedProfile } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
@@ -152,18 +180,23 @@ export default function DashboardPage() {
     )
   }
 
-  if (!profile) {
+  if (!profile && !loading) {
     return (
       <div className="min-h-screen bg-background">
         <NavHeader />
         <div className="container mx-auto px-4 py-8">
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
-              <CardTitle>Profile Not Found</CardTitle>
+              <CardTitle>Setting up your profile...</CardTitle>
               <CardDescription>
-                Unable to load your profile information.
+                We&apos;re creating your profile. Please refresh the page if this doesn&apos;t complete automatically.
               </CardDescription>
             </CardHeader>
+            <div className="p-6 text-center">
+              <Button onClick={() => window.location.reload()}>
+                Refresh Page
+              </Button>
+            </div>
           </Card>
         </div>
       </div>
@@ -171,7 +204,7 @@ export default function DashboardPage() {
   }
 
   // Show different content based on user role
-  if (profile.role === 'public') {
+  if (profile?.role === 'public') {
     return (
       <div className="min-h-screen bg-background">
         <NavHeader />
@@ -242,7 +275,7 @@ export default function DashboardPage() {
                     <p className="font-medium">Account Status</p>
                     <p className="text-sm text-muted-foreground">Your current role and permissions</p>
                   </div>
-                  {getRoleDisplay(profile.role)}
+                  {profile && getRoleDisplay(profile.role)}
                 </div>
                 
                 <div>
@@ -265,6 +298,7 @@ export default function DashboardPage() {
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
                       placeholder="Enter your full name"
+                      disabled={saving}
                     />
                   </div>
 
@@ -280,6 +314,7 @@ export default function DashboardPage() {
                       placeholder="e.g., 2025"
                       min="2020"
                       max="2030"
+                      disabled={saving}
                     />
                   </div>
                 </div>
@@ -293,6 +328,7 @@ export default function DashboardPage() {
                     value={formData.department}
                     onChange={(e) => handleInputChange('department', e.target.value)}
                     placeholder="e.g., Programming, Mechanical, Electrical, Marketing"
+                    disabled={saving}
                   />
                 </div>
 
@@ -306,6 +342,7 @@ export default function DashboardPage() {
                     onChange={(e) => handleInputChange('bio', e.target.value)}
                     placeholder="Tell us about yourself, your interests, and your role on the team..."
                     rows={4}
+                    disabled={saving}
                   />
                 </div>
               </div>
@@ -344,7 +381,7 @@ export default function DashboardPage() {
                 <div>
                   <p className="font-medium">Account Created</p>
                   <p className="text-sm text-muted-foreground">
-                    {new Date(profile.created_at).toLocaleDateString('en-US', {
+                    {profile && new Date(profile.created_at).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
@@ -354,7 +391,7 @@ export default function DashboardPage() {
                 <div>
                   <p className="font-medium">Last Updated</p>
                   <p className="text-sm text-muted-foreground">
-                    {new Date(profile.updated_at).toLocaleDateString('en-US', {
+                    {profile && new Date(profile.updated_at).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'

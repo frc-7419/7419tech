@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import Image from "next/image"
+import ErrorBoundary from "@/components/ErrorBoundary"
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -19,7 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <link rel="icon" href="/7419.ico" sizes="any" />
       <body className={inter.className}>
-        <MobileCheck>{children}</MobileCheck>
+        <ErrorBoundary>
+          <MobileCheck>{children}</MobileCheck>
+          <Toaster />
+        </ErrorBoundary>
       </body>
     </html>
   )

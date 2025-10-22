@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
@@ -56,41 +56,46 @@ export function NavHeader() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   const [mounted, setMounted] = useState(false)
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   useEffect(() => {
     setMounted(true)
     
-    // Get initial session
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setUser(session?.user || null)
-      setLoading(false) // Set loading to false immediately after getting session
-      
-      if (session?.user) {
-        // Fetch user profile in background
-        const { data } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single()
-        setProfile(data)
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        setUser(session?.user || null)
+        
+        if (session?.user) {
+          const { data } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single()
+          setProfile(data as Profile | null)
+        }
+      } catch (error) {
+        console.error('Auth error:', error)
+      } finally {
+        setLoading(false)
       }
     }
 
     getSession()
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setUser(session?.user || null)
-      
       if (session?.user) {
-        const { data } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single()
-        setProfile(data)
+        try {
+          const { data } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single()
+          setProfile(data as Profile | null)
+        } catch (error) {
+          setProfile(null)
+        }
       } else {
         setProfile(null)
       }
@@ -104,7 +109,7 @@ export function NavHeader() {
   }
 
   const isAdmin = profile?.role === 'admin'
-  const isMember = profile?.role === 'member' || profile?.role === 'admin'
+
 
   return (
     <header className="sticky top-0 z-50 bg-[#11224e] shadow-lg">

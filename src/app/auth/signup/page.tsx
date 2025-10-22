@@ -134,7 +134,7 @@ export default function SignupPage() {
 
       if (authData.user) {
         // Create profile directly - simple and straightforward
-        const { error: profileError } = await (supabase as any)
+        const { error: profileError } = await supabase
           .from('profiles')
           .insert({
             id: authData.user.id,

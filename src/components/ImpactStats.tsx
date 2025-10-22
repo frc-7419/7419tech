@@ -33,6 +33,7 @@ const AnimatedNumber = ({ value = 0, duration = 1000 }) => {
     return () => {
       prevValueRef.current = count
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, duration])
 
   return <span>{count.toLocaleString()}</span>

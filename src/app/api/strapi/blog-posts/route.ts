@@ -1,7 +1,14 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { strapiClient } from '@/lib/strapi/client'
+import { rateLimit, generalLimiter } from '@/lib/rate-limit'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Apply rate limiting
+  const rateLimitResponse = await rateLimit(request, generalLimiter)
+  if (rateLimitResponse) {
+    return rateLimitResponse
+  }
+
   try {
     const response = await strapiClient.getBlogPosts({
       pagination: { pageSize: 10 }

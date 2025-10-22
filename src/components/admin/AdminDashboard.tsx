@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import { NavHeader } from '@/components/NavHeader'
 import { Profile } from '@/lib/supabase/types'
 import { User } from '@supabase/supabase-js'
+import { useToast } from '@/hooks/use-toast'
 
 interface AdminDashboardProps {
   user: User
@@ -21,20 +22,23 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
   const [pendingUsers, setPendingUsers] = useState<Profile[]>([])
   const [allUsers, setAllUsers] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
+  const [actionLoading, setActionLoading] = useState<string | null>(null)
   const router = useRouter()
   const supabase = createClient()
+  const { toast } = useToast()
 
   const fetchUsers = useCallback(async () => {
+    const supabase = createClient()
     try {
       // Fetch pending users (public role = pending approval)
-      const { data: pending } = await (supabase as any)
+      const { data: pending } = await supabase
         .from('profiles')
         .select('*')
         .eq('role', 'public')
         .order('created_at', { ascending: false })
 
       // Fetch all users
-      const { data: all } = await (supabase as any)
+      const { data: all } = await supabase
         .from('profiles')
         .select('*')
         .order('created_at', { ascending: false })
@@ -46,7 +50,7 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
     } finally {
       setLoading(false)
     }
-  }, [supabase])
+  }, [])
 
   useEffect(() => {
     fetchUsers()
@@ -59,36 +63,78 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
   }
 
   const approveUser = async (userId: string, newRole: 'member' | 'admin' = 'member') => {
+    setActionLoading(userId)
     try {
-      const { error } = await (supabase as any)
-        .from('profiles')
-        .update({ 
-          role: newRole
+      const response = await fetch('/api/admin/update-user-role', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          newRole
         })
-        .eq('id', userId)
+      })
 
-      if (error) throw error
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to update user role')
+      }
+
+      toast({
+        title: "User approved",
+        description: `User has been approved as ${newRole}.`,
+      })
 
       // Refresh user lists
       await fetchUsers()
     } catch (error) {
       console.error('Error approving user:', error)
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to approve user. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setActionLoading(null)
     }
   }
 
   const updateUserRole = async (userId: string, newRole: 'public' | 'member' | 'admin') => {
+    setActionLoading(userId)
     try {
-      const { error } = await (supabase as any)
-        .from('profiles')
-        .update({ role: newRole })
-        .eq('id', userId)
+      const response = await fetch('/api/admin/update-user-role', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          newRole
+        })
+      })
 
-      if (error) throw error
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to update user role')
+      }
+
+      toast({
+        title: "Role updated",
+        description: `User role has been updated to ${newRole}.`,
+      })
 
       // Refresh user lists
       await fetchUsers()
     } catch (error) {
       console.error('Error updating user role:', error)
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to update user role. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setActionLoading(null)
     }
   }
 
@@ -236,15 +282,17 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
                               size="sm"
                               onClick={() => approveUser(pendingUser.id, 'member')}
                               className="bg-green-600 hover:bg-green-700"
+                              disabled={actionLoading === pendingUser.id}
                             >
-                              Approve as Member
+                              {actionLoading === pendingUser.id ? 'Approving...' : 'Approve as Member'}
                             </Button>
                             <Button
                               size="sm"
                               onClick={() => approveUser(pendingUser.id, 'admin')}
                               className="bg-blue-600 hover:bg-blue-700"
+                              disabled={actionLoading === pendingUser.id}
                             >
-                              Approve as Admin
+                              {actionLoading === pendingUser.id ? 'Approving...' : 'Approve as Admin'}
                             </Button>
                           </div>
                         </div>
@@ -296,8 +344,9 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
                             <div className="flex space-x-2">
                               <select
                                 value={userProfile.role}
-                                onChange={(e) => updateUserRole(userProfile.id, e.target.value as any)}
+                                onChange={(e) => updateUserRole(userProfile.id, e.target.value as 'public' | 'member' | 'admin')}
                                 className="text-sm border rounded px-2 py-1"
+                                disabled={actionLoading === userProfile.id}
                               >
                                 <option value="public">Public</option>
                                 <option value="member">Member</option>
