@@ -5,6 +5,7 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { AboutUsHero, AboutUsGallery } from "@/components/DynamicMedia";
+import { motion } from "framer-motion";
 
 const events = [
     {
@@ -47,7 +48,7 @@ function MentorshipCard() {
                     <Button
                         variant="outline"
                         size="lg"
-                        className="border-[#ffb41a] text-[#ffb41a] hover:bg-[#ffb41a] hover:text-white"
+                        className="border-[hsl(var(--brand-gold))] text-[hsl(var(--brand-gold))] hover:bg-[hsl(var(--brand-gold))] hover:text-white"
                     >
                         <Link href={"/outreach"}>
                             Learn more
@@ -106,16 +107,22 @@ export default function TeamSection() {
         <section className="relative py-16 md:py-24 bg-muted">
             <div className="container mx-auto px-4">
                 {/* Section Title and Introduction */}
-                <div className="max-w-4xl mx-auto text-center mb-12">
+                <motion.div 
+                    className="max-w-4xl mx-auto text-center mb-12"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                >
                     <h2 className="font-bold tracking-tight text-5xl lg:text-6xl xl:text-7xl">
-                    <span className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent">
-                      About Us
-                    </span>
+                        <span className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent">
+                            About Us
+                        </span>
                     </h2>
                     <p className="text-xl text-gray-500 mx-auto mt-8">
                         Team 7419 Tech Support is much more than just a robotics team. We solve problems and help people. We’re a family. We’ve done many great things and look forward to many more in the future.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Hero Image */}
                 <div className="relative w-full h-96 mb-12">
@@ -179,7 +186,7 @@ export default function TeamSection() {
                                 <CardTitle className="text-2xl font-bold">Mechanical</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p>Our mechanical team discusses our training structure, curriculum, and projects in our <a href="https://www.team7419.tech/_files/ugd/355c51_00cfc2cca4f4407497e71d2276e4800d.pptx?dn=CHAMP24_PPT_7419_Mechanical%20(1).pptx" className="text-[#ffb41a] hover:underline">presentation</a>.</p>
+                                <p>Our mechanical team discusses our training structure, curriculum, and projects in our <a href="https://www.team7419.tech/_files/ugd/355c51_00cfc2cca4f4407497e71d2276e4800d.pptx?dn=CHAMP24_PPT_7419_Mechanical%20(1).pptx" className="text-[hsl(var(--brand-gold))] hover:underline">presentation</a>.</p>
                             </CardContent>
                         </Card>
                         <Card className="p-6 rounded-lg bg-white bg-opacity-80 shadow-lg">
@@ -187,7 +194,7 @@ export default function TeamSection() {
                                 <CardTitle className="text-2xl font-bold">Programming</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p>Our programming team shares teaching resources and collaborative strategies in their <a href="https://www.team7419.tech/_files/ugd/355c51_6be1b3ee1fea425daaf56d3613251a39.pptx?dn=7419%20Worlds%27%20Programming%20Presentation.pptx" className="text-[#ffb41a] hover:underline">presentation</a>.</p>
+                                <p>Our programming team shares teaching resources and collaborative strategies in their <a href="https://www.team7419.tech/_files/ugd/355c51_6be1b3ee1fea425daaf56d3613251a39.pptx?dn=7419%20Worlds%27%20Programming%20Presentation.pptx" className="text-[hsl(var(--brand-gold))] hover:underline">presentation</a>.</p>
                             </CardContent>
                         </Card>
                     </div>

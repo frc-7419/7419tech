@@ -100,7 +100,7 @@ export function AuthNavHeader() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-all duration-200" aria-label="Home">
           <div className="flex items-center">
-            <span className="text-3xl font-bold text-[#ffb41a] mr-3">Team</span>
+            <span className="text-3xl font-bold text-[hsl(var(--brand-gold))] mr-3">Team</span>
             <Image 
               width="48" 
               height="48" 
@@ -147,14 +147,14 @@ export function AuthNavHeader() {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/media" legacyBehavior passHref>
-                <NavigationMenuLink className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[#1a2f5e] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[#ffb41a] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4">
+                <NavigationMenuLink className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[#1a2f5e] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-gold))] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4">
                   Media
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/sponsors" legacyBehavior passHref>
-                <NavigationMenuLink className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[#1a2f5e] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[#ffb41a] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4">
+                <NavigationMenuLink className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[#1a2f5e] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-gold))] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4">
                   Sponsors
                 </NavigationMenuLink>
               </Link>
@@ -164,7 +164,7 @@ export function AuthNavHeader() {
             {isAdmin && (
               <NavigationMenuItem>
                 <Link href="/admin" legacyBehavior passHref>
-                  <NavigationMenuLink className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[#1a2f5e] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[#ffb41a] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4">
+                  <NavigationMenuLink className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[#1a2f5e] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-gold))] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4">
                     <Settings className="h-4 w-4 mr-2" />
                     Admin
                   </NavigationMenuLink>
@@ -195,7 +195,7 @@ export function AuthNavHeader() {
               ) : (
                 <>
                   <Link href="/contact" passHref>
-                    <Button className="bg-[#ffb41a] text-[#1a2f5e] hover:bg-[#ffc14a] font-semibold mr-2">
+                    <Button className="bg-[hsl(var(--brand-gold))] text-[#1a2f5e] hover:bg-[#ffc14a] font-semibold mr-2">
                       Contact Us
                     </Button>
                   </Link>

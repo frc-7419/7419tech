@@ -15,6 +15,7 @@ import "slick-carousel/slick/slick-theme.css"
 import "../app/styles/carousel.css"
 import { useDynamicMedia } from '@/hooks/useDynamicMedia'
 import { getStrapiMediaUrl } from '@/lib/strapi/client'
+import Aurora from '@/components/Aurora'
 
 export function HeroSection() {
   const containerVariants = {
@@ -67,15 +68,34 @@ export function HeroSection() {
     : fallbackImages
 
   return (
-    <section className="relative min-h-[85vh] bg-white flex items-center py-14">
-      <div className="container mx-auto px-4">
+    <section className="relative min-h-screen bg-gray-900 flex items-center pt-0 pb-14 overflow-hidden">
+      {/* Full-height aurora effect with top-to-bottom fade */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div 
+          className="w-full h-full"
+          style={{
+            maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,0) 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,0) 100%)',
+          }}
+        >
+          <Aurora
+            colorStops={["#f9c837", "#05214e", "#ffe27a"]}
+            blend={0.8}
+            amplitude={3.0}
+            speed={0.5}
+            className="w-full h-full"
+          />
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10 pt-20">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
-          {/* Left Content */}
+          {/* Left Content - White rounded container */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-4">
+            className="bg-white/85 backdrop-blur-sm rounded-2xl p-8 shadow-2xl space-y-6">
 
             <motion.h1 
               variants={itemVariants}
@@ -83,7 +103,7 @@ export function HeroSection() {
             >
               The Future of
               <br />
-              <span className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[hsl(var(--brand-gold))] to-[#d59a25] bg-clip-text text-transparent">
                 <Typewriter
                   words={['Robotics', 'Innovation', 'Teamwork']}
                   loop={0}
@@ -98,7 +118,7 @@ export function HeroSection() {
 
             <motion.p 
               variants={itemVariants}
-              className="text-lg text-gray-600 max-w-lg mt-4"
+              className="text-lg text-gray-600 max-w-lg"
             >
               A student-led competitive robotics team pushing the boundaries of innovation, 
               engineering excellence, and technical education at The Quarry Lane School.
@@ -106,7 +126,7 @@ export function HeroSection() {
 
             <motion.div 
               variants={itemVariants}
-              className="flex flex-wrap gap-3 pt-6"
+              className="flex flex-wrap gap-3 pt-2"
             >
               <Button 
                 size="lg"
@@ -130,7 +150,7 @@ export function HeroSection() {
 
             <motion.div 
               variants={itemVariants}
-              className="pt-6 flex items-center gap-3 text-sm text-gray-600"
+              className="flex items-center gap-3 text-sm text-gray-600"
             >
               <Bot className="h-5 w-5 text-[#11224e]" />
               <span> Competition-ready robotics solutions</span>

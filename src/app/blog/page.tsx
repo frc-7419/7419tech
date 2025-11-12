@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { NavHeader } from "@/components/NavHeader"
 import { strapiClient, getStrapiMediaUrl } from '@/lib/strapi/client'
 import { Card, CardContent } from '@/components/ui/card'
@@ -83,7 +84,12 @@ export default function BlogPage() {
       <NavHeader />
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-[#11224e] via-[#7c3aed] to-[#11224e] text-white">
+        <motion.div 
+          className="bg-gradient-to-r from-[#11224e] via-[#7c3aed] to-[#11224e] text-white"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.25 }}
+        >
           <div className="max-w-6xl mx-auto px-4 py-16">
             <div className="text-center">
               <h1 className="text-5xl font-bold mb-4">Team 7419 Blog</h1>
@@ -92,7 +98,7 @@ export default function BlogPage() {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Blog Content */}
         <div className="max-w-6xl mx-auto px-4 py-12">
@@ -165,10 +171,26 @@ export default function BlogPage() {
               {/* All Posts */}
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-8">All Posts</h2>
-                <div className="grid gap-8">
+                <motion.div 
+                  className="grid gap-8"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-100px" }}
+                  variants={{ 
+                    hidden: {}, 
+                    visible: { transition: { staggerChildren: 0.06 } } 
+                  }}
+                >
                   {blogPosts.map((post) => (
-                    <Link key={post.id} href={`/blog/${post.slug}`}>
-                      <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
+                    <motion.div
+                      key={post.id}
+                      variants={{
+                        hidden: { opacity: 0, y: 14 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.25, ease: 'easeOut' } }
+                      }}
+                    >
+                      <Link href={`/blog/${post.slug}`}>
+                        <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                       <div className="md:flex">
                         {post.featured_image && (
                           <div className="md:w-1/3 h-48 md:h-auto bg-gray-200">
@@ -210,9 +232,10 @@ export default function BlogPage() {
                         </CardContent>
                       </div>
                     </Card>
-                    </Link>
+                      </Link>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
             </>
           )}

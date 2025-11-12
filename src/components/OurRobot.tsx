@@ -249,7 +249,7 @@ const OurRobot = () => {
       </motion.div>
 
       <motion.div
-        className="mt-12 space-y-8 w-full max-w-4xl bg-[#ffb41a] p-8 rounded-3xl "
+        className="mt-12 space-y-8 w-full max-w-4xl bg-[#f9c837] p-8 rounded-3xl "
         variants={itemVariants}
       >
         <h3 className="text-3xl font-semibold text-center text-white">Key Features</h3>

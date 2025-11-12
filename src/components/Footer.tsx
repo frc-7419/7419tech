@@ -11,7 +11,7 @@ export default function Footer() {
             <Link href="/">
 
               <div className="flex items-center ml-28">
-            <span className="text-3xl font-bold text-[#ffb41a] mr-3">Team</span>
+            <span className="text-3xl font-bold text-[hsl(var(--brand-gold))] mr-3">Team</span>
             <Image 
               width="48" 
               height="48" 

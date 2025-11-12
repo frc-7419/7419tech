@@ -4,6 +4,7 @@ import Image from "next/image"
 import ErrorBoundary from "@/components/ErrorBoundary"
 import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
+import PageTransition from "@/components/PageTransition"
 
 export const metadata: Metadata = {
   title: "7419",
@@ -22,7 +23,9 @@ export default function RootLayout({
       <link rel="icon" href="/7419.ico" sizes="any" />
       <body className={inter.className}>
         <ErrorBoundary>
-          <MobileCheck>{children}</MobileCheck>
+          <PageTransition>
+            <MobileCheck>{children}</MobileCheck>
+          </PageTransition>
           <Toaster />
         </ErrorBoundary>
       </body>
