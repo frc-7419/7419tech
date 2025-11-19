@@ -6,7 +6,7 @@
 @layer base {
   :root {
     /* Brand colors (hex for docs): #f9c837 (gold), #05214e (navy) */
-    --brand-gold: 45 94% 55%; /* #e6b800, slighty darker gold */
+    --brand-gold: 45 96% 44%; /* #b39522, a tad bit rich darker gold */
     --brand-navy: 217 88% 16%; /* #05214e */
 
     /* Base */
@@ -121,5 +121,14 @@ h1 {
   button a, .btn a, .button a, [role="button"] a {
     color: inherit;
     text-decoration: none;
+  }
+
+  /* Navigation links should not have underlines */
+  nav a, header a {
+    text-decoration: none !important;
+  }
+
+  nav a:hover, header a:hover {
+    text-decoration: none !important;
   }
 }

@@ -255,15 +255,15 @@ export default function Leadership() {
   ]
 
   return (
-    <main className="flex-grow">
+    <main className="flex-grow" style={{ backgroundColor: "#1b2947" }}>
       <NavHeader />
       <section className="relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="py-12 md:py-20">
+          <div className="pt-24 pb-12 md:pb-20">
             {/* Section header */}
             <div className="max-w-3xl mx-auto text-center pb-12 md:pb-14">
               <h2 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Student Leadership</h2> 
-              <p className="text-lg text-gray-600 mt-10" data-aos="zoom-y-out">
+              <p className="text-lg text-gray-300 mt-10" data-aos="zoom-y-out">
                 Team operations are entirely student-led; 
                 we stay true to the FIRST® mission of sparking invention and creativity.
                 We have three main
@@ -295,16 +295,16 @@ export default function Leadership() {
                       }}
                     />
                     <div className="block text-lg">
-                      <div className="hover:text-gray-700">
-                        <p className="font-semibold break-normal">
+                      <div className="hover:text-gray-400">
+                        <p className="font-semibold break-normal text-gray-200">
                           {member.name} &apos;{member.year}
                         </p>
                       </div>
-                      <p className="mt-1 text-base inline text-transparent bg-clip-text bg-gradient-to-r from-[#11224e] to-[#11226e] font-medium">
+                      <p className="mt-1 text-base inline text-transparent bg-clip-text bg-gradient-to-r from-[hsl(var(--brand-gold))] to-[#d59a25] font-medium">
                         {member.position}
                       </p>
                       {'bio' in member && member.bio && (
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-gray-300 mt-1">
                           {member.bio}
                         </p>
                       )}

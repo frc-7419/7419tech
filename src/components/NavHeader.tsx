@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
@@ -52,11 +53,15 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem"
 
 export function NavHeader() {
+  const pathname = usePathname()
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   const [mounted, setMounted] = useState(false)
   const supabase = useMemo(() => createClient(), [])
+  
+  // Check if we're on an auth, dashboard, or admin page
+  const isSpecialPage = pathname?.startsWith('/auth') || pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin')
 
   useEffect(() => {
     setMounted(true)
@@ -113,8 +118,13 @@ export function NavHeader() {
 
   return (
     <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl">
-      <div className="bg-[#11224e]/20 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 flex h-16 items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-all duration-200" aria-label="Home">
+      <div className={cn(
+        "backdrop-blur-md rounded-2xl shadow-2xl border flex h-16 items-center justify-between px-6 transition-all duration-500",
+        isSpecialPage 
+          ? "bg-gradient-to-r from-[#1b2947] via-[#2a3f6b] to-[#1b2947] border-[hsl(var(--brand-gold))]/30 shadow-[hsl(var(--brand-gold))]/20" 
+          : "bg-gray-800/30 border-gray-400/20"
+      )}>
+        <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-all duration-200 no-underline" aria-label="Home">
           <div className="flex items-center">
             <span className="text-3xl font-bold text-[hsl(var(--brand-gold))] mr-3">Team</span>
             <Image 
@@ -130,7 +140,12 @@ export function NavHeader() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[rgb(26,47,94)] hover:text-white focus:text-white">About</NavigationMenuTrigger>
+              <NavigationMenuTrigger className={cn(
+                "bg-transparent text-white hover:text-white focus:text-white transition-all duration-300",
+                isSpecialPage 
+                  ? "hover:bg-[hsl(var(--brand-gold))]/20 focus:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] focus:text-[hsl(var(--brand-gold))]"
+                  : "hover:bg-[#1a2f5e] focus:bg-[rgb(26,47,94)]"
+              )}>About</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                   <ListItem href="/team" title="Our Team">
@@ -149,7 +164,12 @@ export function NavHeader() {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[rgb(26,47,94)] hover:text-white focus:text-white">Resources</NavigationMenuTrigger>
+              <NavigationMenuTrigger className={cn(
+                "bg-transparent text-white hover:text-white focus:text-white transition-all duration-300",
+                isSpecialPage 
+                  ? "hover:bg-[hsl(var(--brand-gold))]/20 focus:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] focus:text-[hsl(var(--brand-gold))]"
+                  : "hover:bg-[#1a2f5e] focus:bg-[rgb(26,47,94)]"
+              )}>Resources</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                   <ListItem href="/blog" title="Team Blog">
@@ -163,14 +183,24 @@ export function NavHeader() {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
-                <Link href="/media" className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[#1a2f5e] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-gold))] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4">
+                <Link href="/media" className={cn(
+                  "bg-transparent text-white inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-gold))] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4 no-underline hover:no-underline",
+                  isSpecialPage 
+                    ? "hover:bg-[hsl(var(--brand-gold))]/20 focus:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] focus:text-[hsl(var(--brand-gold))]"
+                    : "hover:bg-[#1a2f5e] focus:bg-[#1a2f5e]"
+                )}>
                   Media
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
-                <Link href="/sponsors" className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[#1a2f5e] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-gold))] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4">
+                <Link href="/sponsors" className={cn(
+                  "bg-transparent text-white inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-gold))] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4 no-underline hover:no-underline",
+                  isSpecialPage 
+                    ? "hover:bg-[hsl(var(--brand-gold))]/20 focus:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] focus:text-[hsl(var(--brand-gold))]"
+                    : "hover:bg-[#1a2f5e] focus:bg-[#1a2f5e]"
+                )}>
                   Sponsors
                 </Link>
               </NavigationMenuLink>
@@ -179,15 +209,20 @@ export function NavHeader() {
         </NavigationMenu>
 
         <div className="flex items-center gap-2">
-          <Link href="/contact" passHref>
-            <Button className="bg-[hsl(var(--brand-gold))] text-[#1a2f5e] hover:bg-[#ffc14a] font-semibold">
+          <Button asChild className={cn(
+            "font-semibold transition-all duration-300",
+            isSpecialPage 
+              ? "bg-[hsl(var(--brand-gold))] text-[#1a2f5e] hover:bg-[hsl(var(--brand-gold))]/90 hover:shadow-[hsl(var(--brand-gold))]/50 hover:shadow-lg"
+              : "bg-[hsl(var(--brand-gold))] text-[#1a2f5e] hover:bg-[#ffc14a]"
+          )}>
+            <Link href="/contact" className="no-underline hover:no-underline">
               Contact Us
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           
-          {mounted && !loading && (
+          {mounted && (
             <>
-              {user ? (
+              {!loading && user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="icon" className="text-white border-white hover:bg-white hover:text-[#11224e] bg-transparent">
@@ -218,17 +253,27 @@ export function NavHeader() {
                 </DropdownMenu>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Link href="/auth/signup" passHref>
-                    <Button variant="ghost" size="sm" className="text-white bg-transparent hover:bg-[#1a2f5e] hover:text-white">
+                  <Button asChild variant="ghost" size="sm" className={cn(
+                    "text-white bg-transparent transition-all duration-300",
+                    isSpecialPage 
+                      ? "hover:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] border border-transparent hover:border-[hsl(var(--brand-gold))]/30"
+                      : "hover:bg-[#1a2f5e] hover:text-white"
+                  )}>
+                    <Link href="/auth/signup" className="no-underline hover:no-underline">
                       Sign Up
-                    </Button>
-                  </Link>
-                  <Link href="/auth/login" passHref>
-                    <Button variant="outline" size="sm" className="text-white border-white bg-transparent hover:bg-white hover:text-[#11224e]">
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className={cn(
+                    "text-white bg-transparent transition-all duration-300",
+                    isSpecialPage 
+                      ? "border-[hsl(var(--brand-gold))]/50 hover:bg-[hsl(var(--brand-gold))] hover:text-[#1a2f5e] hover:shadow-[hsl(var(--brand-gold))]/30 hover:shadow-lg"
+                      : "border-white hover:bg-white hover:text-[#11224e]"
+                  )}>
+                    <Link href="/auth/login" className="no-underline hover:no-underline">
                       <LogIn className="h-4 w-4 mr-2" />
                       Sign In
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
               )}
             </>

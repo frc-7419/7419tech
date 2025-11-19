@@ -184,7 +184,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen bg-background">
         <NavHeader />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 pt-32 pb-8">
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle>Setting up your profile...</CardTitle>
@@ -208,7 +208,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen bg-background">
         <NavHeader />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 pt-32 pb-8">
           <Card className="max-w-2xl mx-auto">
             <CardHeader className="text-center">
               <CardTitle className="flex items-center justify-center gap-2">
@@ -248,7 +248,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background">
       <NavHeader />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 pt-32 pb-8">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
           <div className="text-center space-y-2">

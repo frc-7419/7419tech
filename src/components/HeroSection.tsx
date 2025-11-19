@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { ChevronRight, Bot, ChevronLeft } from "lucide-react"
-import { Typewriter } from 'react-simple-typewriter'
 import Image from "next/image"
 import Slider from "react-slick"
 import Link from 'next/link'
@@ -104,15 +103,7 @@ export function HeroSection() {
               The Future of
               <br />
               <span className="bg-gradient-to-r from-[hsl(var(--brand-gold))] to-[#d59a25] bg-clip-text text-transparent">
-                <Typewriter
-                  words={['Robotics', 'Innovation', 'Teamwork']}
-                  loop={0}
-                  cursor
-                  cursorStyle='_'
-                  typeSpeed={70}
-                  deleteSpeed={50}
-                  delaySpeed={1000}
-                />
+                Robotics
               </span>
             </motion.h1>
 
@@ -184,6 +175,9 @@ export function HeroSection() {
           </motion.div>
         </div>
       </div>
+      
+      {/* Smooth transition gradient to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-[#11224e] z-5"></div>
     </section>
   )
 }
