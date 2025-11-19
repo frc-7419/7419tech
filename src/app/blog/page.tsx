@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Calendar, User, Star } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface BlogPost {
   id: number
@@ -127,9 +128,11 @@ export default function BlogPage() {
                           <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                           {post.featured_image && (
                             <div className="h-48 bg-gray-200 overflow-hidden">
-                              <img
-                                src={getStrapiMediaUrl(post.featured_image) ?? undefined}
+                              <Image
+                                src={getStrapiMediaUrl(post.featured_image) ?? ''}
                                 alt={post.title}
+                                width={800}
+                                height={400}
                                 className="w-full h-full object-cover hover:scale-105 transition-transform"
                               />
                             </div>
@@ -194,9 +197,11 @@ export default function BlogPage() {
                       <div className="md:flex">
                         {post.featured_image && (
                           <div className="md:w-1/3 h-48 md:h-auto bg-gray-200">
-                            <img
-                              src={getStrapiMediaUrl(post.featured_image) ?? undefined}
+                            <Image
+                              src={getStrapiMediaUrl(post.featured_image) ?? ''}
                               alt={post.title}
+                              width={400}
+                              height={300}
                               className="w-full h-full object-cover"
                             />
                           </div>

@@ -159,9 +159,11 @@ export function HeroSection() {
               <Slider {...carouselSettings}>
                 {carouselImages.map((src, index) => (
                   <div key={index} className="relative aspect-video">
-                    <img
+                    <Image
                       src={src || ''}
                       alt={`Robot image ${index + 1}`}
+                      width={800}
+                      height={600}
                       className="w-full h-full object-cover"
                     />
                   </div>

@@ -51,9 +51,11 @@ export function DynamicMedia({ location, className = '', limit, showOverlay = tr
     <div className={`${getGridClass(media.length)} ${className}`}>
       {media.map((item) => (
         <div key={item.id} className="relative group overflow-hidden rounded-lg">
-          <img
+          <Image
             src={getStrapiMediaUrl(item.image) || ''}
             alt={item.alt_text || item.title}
+            width={800}
+            height={600}
             className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
           />
           {showOverlay && (item.title || item.description) && (
@@ -88,9 +90,11 @@ export function AboutUsHero() {
     : fallbackSrc
     
   return (
-    <img
+    <Image
       src={imageSrc}
       alt={media?.[0]?.alt_text || "Team photo"}
+      width={800}
+      height={600}
       className="w-full h-full object-cover rounded-lg"
     />
   )
@@ -118,9 +122,11 @@ export function OurCommitmentImages() {
   if (!media || media.length === 0) {
     return (
       <div className="mt-6 relative group overflow-hidden rounded-lg">
-        <img
+        <Image
           src={fallbackSrc}
           alt="Team members engaged in outreach activities"
+          width={800}
+          height={600}
           className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>
@@ -144,9 +150,11 @@ export function FllFtcSupportImages() {
   if (!media || media.length === 0) {
     return (
       <div className="mt-6 relative group overflow-hidden rounded-lg">
-        <img
+        <Image
           src={fallbackSrc}
           alt="FLL and FTC teams in action"
+          width={800}
+          height={600}
           className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>
@@ -203,9 +211,11 @@ export function SeasonMedia2024() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {fallbackImages.map((src, index) => (
             <div key={index} className="relative group overflow-hidden rounded-lg">
-              <img
+              <Image
                 src={src}
                 alt={`CCC 2024 Photo ${index + 1}`}
+                width={400}
+                height={300}
                 className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </div>
@@ -253,9 +263,11 @@ export function SeasonMedia2023() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {champsImages.map((src, index) => (
               <div key={`champs-${index}`} className="relative group overflow-hidden rounded-lg">
-                <img
+                <Image
                   src={src}
                   alt={`Champs 2024 Photo ${index + 1}`}
+                  width={400}
+                  height={300}
                   className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
@@ -269,9 +281,11 @@ export function SeasonMedia2023() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {svrImages.map((src, index) => (
               <div key={`svr-${index}`} className="relative group overflow-hidden rounded-lg">
-                <img
+                <Image
                   src={src}
                   alt={`SVR 2024 Photo ${index + 1}`}
+                  width={400}
+                  height={300}
                   className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               </div>

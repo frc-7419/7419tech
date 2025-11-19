@@ -122,7 +122,7 @@ export default function TeamSection() {
                         </span>
                     </h2>
                     <p className="text-xl text-gray-300 mx-auto mt-8">
-                        Team 7419 Tech Support is much more than just a robotics team. We solve problems and help people. We're a family. We've done many great things and look forward to many more in the future.
+                        Team 7419 Tech Support is much more than just a robotics team. We solve problems and help people. We&apos;re a family. We&apos;ve done many great things and look forward to many more in the future.
                     </p>
                 </motion.div>
 

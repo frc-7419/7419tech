@@ -154,9 +154,11 @@ export default function BlogPostPage() {
           {/* Featured image */}
           {post.featured_image && (
             <div className="mb-8">
-              <img
+              <Image
                 src={getStrapiMediaUrl(post.featured_image) || ''}
                 alt={post.featured_image.alternativeText || post.title}
+                width={800}
+                height={600}
                 className="w-full h-auto rounded-lg shadow-lg max-w-4xl mx-auto"
               />
             </div>
