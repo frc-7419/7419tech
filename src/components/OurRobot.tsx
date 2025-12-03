@@ -124,6 +124,8 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import "../app/styles/carousel.css"
 import { FaArrowRight } from "react-icons/fa";
+import { useDynamicMedia } from '@/hooks/useDynamicMedia'
+import { getStrapiMediaUrl } from '@/lib/strapi/client';
 
 const descriptions = [
   "The robot has a mounted Arducam camera. Using the PhotonVision library, our robot is able to identify AprilTags and their rotation and position relative to the robot. This allows the robot to estimate its pose on the field with incredible accuracy.",
@@ -177,7 +179,13 @@ const OurRobot = () => {
     nextArrow: <ChevronRight className="bg-black text-white w-8 h-8 cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 z-10" />
   }
   
-  const carouselImages = [
+  // Get dynamic images for robot carousel
+  const { media: robotMedia, loading: robotLoading } = useDynamicMedia({ 
+    location: 'our-robot' 
+  })
+
+  // Fallback images if no dynamic media is available
+  const fallbackImages = [
     "/static/robot/robot1.JPG",
     "/static/robot/DSC06883.JPG",
     "/static/robot/robot3.JPG",
@@ -185,16 +193,21 @@ const OurRobot = () => {
     "/static/robot/robot5.JPG",
   ]
 
+  const carouselImages = robotMedia && robotMedia.length > 0 
+    ? robotMedia.map(item => getStrapiMediaUrl(item.image))
+    : fallbackImages
+
   return (
     <motion.div
-      className="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen flex flex-col items-center justify-center py-12 px-4 overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center pt-24 pb-12 px-4 overflow-hidden"
+      style={{ backgroundColor: "#1b2947" }}
       initial="hidden"
       animate={isLoaded ? "visible" : "hidden"}
       variants={containerVariants}
     >
       <motion.header className="text-center mb-12" variants={itemVariants}>
         <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl ">Our Robot</h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-gray-300">
           A glimpse into our innovative robot technology.
         </p>
       </motion.header>
@@ -205,13 +218,14 @@ const OurRobot = () => {
           <Slider {...carouselSettings}>
                 {carouselImages.map((src, index) => (
                   <div key={index} className="relative aspect-video">
-                  <Image
-                    src={src}
-                    alt={`Robot image ${index + 1}`}
-                    fill
-                    className="object-cover z-20"
-                  />
-                </div>
+                    <Image
+                      src={src || ''}
+                      alt={`Robot image ${index + 1}`}
+                      width={800}
+                      height={600}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 ))} 
           </Slider>
         </Card>
@@ -223,13 +237,13 @@ const OurRobot = () => {
         className="max-w-3xl text-center px-4 md:px-8"
         variants={itemVariants}
       >
-        <p className="text-gray-700 text-lg mb-6">
-          Our robot is designed to solve the complex problems in each year's FRC
+        <p className="text-gray-300 text-lg mb-6">
+          Our robot is designed to solve the complex problems in each year&apos;s FRC
           game. Featuring swerve and advanced vision systems, it is engineered
           for agility and precision.
         </p>
 
-        <p className="text-gray-700 text-lg mb-6">
+        <p className="text-gray-300 text-lg mb-6">
           The robot showcases an innovative combination of hardware and software
           that enables it to interact seamlessly with its surroundings. As we
           continue to improve its capabilities, we aim to push the boundaries of
@@ -238,7 +252,7 @@ const OurRobot = () => {
       </motion.div>
 
       <motion.div
-        className="mt-12 space-y-8 w-full max-w-4xl bg-[#ffb41a] p-8 rounded-3xl "
+        className="mt-12 space-y-8 w-full max-w-4xl bg-[hsl(var(--brand-gold))] p-8 rounded-3xl "
         variants={itemVariants}
       >
         <h3 className="text-3xl font-semibold text-center text-white">Key Features</h3>
@@ -248,7 +262,7 @@ const OurRobot = () => {
               <motion.div key={index} variants={itemVariants}>
                 <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                   <CardContent className="p-6  flex flex-col item-center text-center">
-                    <h4 className="text-xl font-semibold mb-2">{feature}</h4>
+                    <h4 className="text-xl font-semibold mb-2 text-gray-800">{feature}</h4>
                     <p className="text-gray-600">{descriptions[index]}</p>
                   </CardContent>
                 </Card>

@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
@@ -12,7 +13,18 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
+import { createClient } from '@/lib/supabase/client'
+import { User } from '@supabase/supabase-js'
+import { Profile } from '@/lib/supabase/types'
+import { LogIn, LogOut, Settings, User as UserIcon, Shield } from 'lucide-react'
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -41,12 +53,80 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem"
 
 export function NavHeader() {
+  const pathname = usePathname()
+  const [user, setUser] = useState<User | null>(null)
+  const [profile, setProfile] = useState<Profile | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
+  const supabase = useMemo(() => createClient(), [])
+  
+  // Check if we're on an auth, dashboard, or admin page
+  const isSpecialPage = pathname?.startsWith('/auth') || pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin')
+
+  useEffect(() => {
+    setMounted(true)
+    
+    const getSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        setUser(session?.user || null)
+        
+        if (session?.user) {
+          const { data } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single()
+          setProfile(data as Profile | null)
+        }
+      } catch (error) {
+        console.error('Auth error:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    getSession()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setUser(session?.user || null)
+      if (session?.user) {
+        try {
+          const { data } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single()
+          setProfile(data as Profile | null)
+        } catch (error) {
+          setProfile(null)
+        }
+      } else {
+        setProfile(null)
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [supabase])
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+  }
+
+  const isAdmin = profile?.role === 'admin'
+
+
   return (
-    <header className="sticky top-0 z-50 bg-[#11224e] shadow-lg">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-all duration-200" aria-label="Home">
+    <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl">
+      <div className={cn(
+        "backdrop-blur-md rounded-2xl shadow-2xl border flex h-16 items-center justify-between px-6 transition-all duration-500",
+        isSpecialPage 
+          ? "bg-gradient-to-r from-[#1b2947] via-[#2a3f6b] to-[#1b2947] border-[hsl(var(--brand-gold))]/30 shadow-[hsl(var(--brand-gold))]/20" 
+          : "bg-gray-800/30 border-gray-400/20"
+      )}>
+        <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-all duration-200 no-underline" aria-label="Home">
           <div className="flex items-center">
-            <span className="text-3xl font-bold text-[#ffb41a] mr-3">Team</span>
+            <span className="text-3xl font-bold text-[hsl(var(--brand-gold))] mr-3">Team</span>
             <Image 
               width="48" 
               height="48" 
@@ -60,7 +140,12 @@ export function NavHeader() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[rgb(26,47,94)] hover:text-white focus:text-white">About</NavigationMenuTrigger>
+              <NavigationMenuTrigger className={cn(
+                "bg-transparent text-white hover:text-white focus:text-white transition-all duration-300",
+                isSpecialPage 
+                  ? "hover:bg-[hsl(var(--brand-gold))]/20 focus:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] focus:text-[hsl(var(--brand-gold))]"
+                  : "hover:bg-[#1a2f5e] focus:bg-[rgb(26,47,94)]"
+              )}>About</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                   <ListItem href="/team" title="Our Team">
@@ -79,40 +164,121 @@ export function NavHeader() {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[rgb(26,47,94)] hover:text-white focus:text-white">Resources</NavigationMenuTrigger>
+              <NavigationMenuTrigger className={cn(
+                "bg-transparent text-white hover:text-white focus:text-white transition-all duration-300",
+                isSpecialPage 
+                  ? "hover:bg-[hsl(var(--brand-gold))]/20 focus:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] focus:text-[hsl(var(--brand-gold))]"
+                  : "hover:bg-[#1a2f5e] focus:bg-[rgb(26,47,94)]"
+              )}>Resources</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                   <ListItem href="/blog" title="Team Blog">
                       Read about our latest achievements and ongoing projects.
                     </ListItem>
                   <ListItem href="/outreach" title="Outreach">
-                    Discover how we're making an impact to younger generations and the community.
+                    Discover how we&apos;re making an impact to younger generations and the community.
                   </ListItem>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/media" legacyBehavior passHref>
-                <NavigationMenuLink className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[#1a2f5e] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[#ffb41a] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4">
+              <NavigationMenuLink asChild>
+                <Link href="/media" className={cn(
+                  "bg-transparent text-white inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-gold))] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4 no-underline hover:no-underline",
+                  isSpecialPage 
+                    ? "hover:bg-[hsl(var(--brand-gold))]/20 focus:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] focus:text-[hsl(var(--brand-gold))]"
+                    : "hover:bg-[#1a2f5e] focus:bg-[#1a2f5e]"
+                )}>
                   Media
-                </NavigationMenuLink>
-              </Link>
+                </Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/sponsors" legacyBehavior passHref>
-                <NavigationMenuLink className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[#1a2f5e] inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[#ffb41a] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4">
+              <NavigationMenuLink asChild>
+                <Link href="/sponsors" className={cn(
+                  "bg-transparent text-white inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-gold))] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-10 py-2 px-4 no-underline hover:no-underline",
+                  isSpecialPage 
+                    ? "hover:bg-[hsl(var(--brand-gold))]/20 focus:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] focus:text-[hsl(var(--brand-gold))]"
+                    : "hover:bg-[#1a2f5e] focus:bg-[#1a2f5e]"
+                )}>
                   Sponsors
-                </NavigationMenuLink>
-              </Link>
+                </Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
 
-        <Link href="/contact" passHref>
-          <Button className="bg-[#ffb41a] text-[#1a2f5e] hover:bg-[#ffc14a] font-semibold">
-            Contact Us
+        <div className="flex items-center gap-2">
+          <Button asChild className={cn(
+            "font-semibold transition-all duration-300",
+            isSpecialPage 
+              ? "bg-[hsl(var(--brand-gold))] text-[#1a2f5e] hover:bg-[hsl(var(--brand-gold))]/90 hover:shadow-[hsl(var(--brand-gold))]/50 hover:shadow-lg"
+              : "bg-[hsl(var(--brand-gold))] text-[#1a2f5e] hover:bg-[#ffc14a]"
+          )}>
+            <Link href="/contact" className="no-underline hover:no-underline">
+              Contact Us
+            </Link>
           </Button>
-        </Link>
+          
+          {mounted && (
+            <>
+              {!loading && user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon" className="text-white border-white hover:bg-white hover:text-[#11224e] bg-transparent">
+                      <UserIcon className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="flex items-center">
+                        <Settings className="h-4 w-4 mr-2" />
+                        Member Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    {isAdmin && (
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin" className="flex items-center">
+                          <Shield className="h-4 w-4 mr-2" />
+                          Admin Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut} className="flex items-center text-red-600">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Button asChild variant="ghost" size="sm" className={cn(
+                    "text-white bg-transparent transition-all duration-300",
+                    isSpecialPage 
+                      ? "hover:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] border border-transparent hover:border-[hsl(var(--brand-gold))]/30"
+                      : "hover:bg-[#1a2f5e] hover:text-white"
+                  )}>
+                    <Link href="/auth/signup" className="no-underline hover:no-underline">
+                      Sign Up
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className={cn(
+                    "text-white bg-transparent transition-all duration-300",
+                    isSpecialPage 
+                      ? "border-[hsl(var(--brand-gold))]/50 hover:bg-[hsl(var(--brand-gold))] hover:text-[#1a2f5e] hover:shadow-[hsl(var(--brand-gold))]/30 hover:shadow-lg"
+                      : "border-white hover:bg-white hover:text-[#11224e]"
+                  )}>
+                    <Link href="/auth/login" className="no-underline hover:no-underline">
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Sign In
+                    </Link>
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </header>
   )

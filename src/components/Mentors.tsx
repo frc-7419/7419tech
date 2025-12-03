@@ -49,7 +49,7 @@ export default function Mentors() {
   const [highlightedArea, setHighlightedArea] = useState<{ x: number; y: number } | null>(null);
 
   return (
-    <section className="py-12 bg-gray-50">
+    <section className="pt-24 pb-12" style={{ backgroundColor: "#1b2947" }}>
       <div className="container px-4 md:px-6 mx-auto">
         <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl text-center mb-14">Our Mentors</h1>
         <div className="flex flex-wrap justify-center gap-8">
@@ -75,7 +75,7 @@ export default function Mentors() {
                     onMouseLeave={() => setHighlightedArea(null)} 
                   />
                 </div>
-                <h2 className="text-2xl font-semibold text-center mb-2">
+                <h2 className="text-2xl font-semibold text-center mb-2 text-gray-800">
                   {mentor.name}
                 </h2>
                 <div className="flex flex-wrap justify-center gap-2 mb-4">

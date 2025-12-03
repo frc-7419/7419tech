@@ -1,7 +1,10 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import Image from "next/image"
+import ErrorBoundary from "@/components/ErrorBoundary"
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
+import PageTransition from "@/components/PageTransition"
 
 export const metadata: Metadata = {
   title: "7419",
@@ -19,7 +22,12 @@ export default function RootLayout({
     <html lang="en">
       <link rel="icon" href="/7419.ico" sizes="any" />
       <body className={inter.className}>
-        <MobileCheck>{children}</MobileCheck>
+        <ErrorBoundary>
+          <PageTransition>
+            <MobileCheck>{children}</MobileCheck>
+          </PageTransition>
+          <Toaster />
+        </ErrorBoundary>
       </body>
     </html>
   )

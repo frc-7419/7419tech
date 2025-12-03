@@ -1,9 +1,13 @@
+"use client"
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import { AboutUsHero, AboutUsGallery } from "@/components/DynamicMedia";
+import { motion } from "framer-motion";
 
 const events = [
     {
@@ -29,7 +33,7 @@ function MentorshipCard() {
     return (
         <Card className="p-6 rounded-lg bg-white bg-opacity-80 shadow-lg">
             <CardHeader>
-                <CardTitle className="text-2xl font-bold">Mentorship & Outreach</CardTitle>
+                <CardTitle className="text-2xl font-bold text-gray-800">Mentorship & Outreach</CardTitle>
             </CardHeader>
             <CardContent>
                 <p>
@@ -46,7 +50,7 @@ function MentorshipCard() {
                     <Button
                         variant="outline"
                         size="lg"
-                        className="border-[#ffb41a] text-[#ffb41a] hover:bg-[#ffb41a] hover:text-white"
+                        className="border-[hsl(var(--brand-gold))] text-[hsl(var(--brand-gold))] hover:bg-[hsl(var(--brand-gold))] hover:text-white"
                     >
                         <Link href={"/outreach"}>
                             Learn more
@@ -62,7 +66,7 @@ function ValuesCard() {
     return (
         <Card className="p-6 rounded-lg bg-white bg-opacity-80 shadow-lg">
             <CardHeader>
-                <CardTitle className="text-2xl font-bold">Our Values</CardTitle>
+                <CardTitle className="text-2xl font-bold text-gray-800">Our Values</CardTitle>
             </CardHeader>
             <CardContent>
                 <p><strong>Teamwork:</strong> Our team is mentor-driven but student-organized. We train, support, and elevate each other while holding ourselves accountable.</p>
@@ -76,7 +80,7 @@ function EventsCard() {
     return (
         <Card className="p-6 rounded-lg bg-white bg-opacity-80 shadow-lg">
             <CardHeader>
-                <CardTitle className="text-2xl font-bold">FRC Events</CardTitle>
+                <CardTitle className="text-2xl font-bold text-gray-800">FRC Events</CardTitle>
             </CardHeader>
             <CardContent>
                 <p>Here’s where you can find us this season:</p>
@@ -102,36 +106,37 @@ function EventsCard() {
 
 export default function TeamSection() {
     return (
-        <section className="relative py-16 md:py-24 bg-muted">
+        <section className="relative py-16 md:py-24" style={{ backgroundColor: "#1b2947" }}>
             <div className="container mx-auto px-4">
                 {/* Section Title and Introduction */}
-                <div className="max-w-4xl mx-auto text-center mb-12">
+                <motion.div 
+                    className="max-w-4xl mx-auto text-center mb-12"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                >
                     <h2 className="font-bold tracking-tight text-5xl lg:text-6xl xl:text-7xl">
-                    <span className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent">
-                      About Us
-                    </span>
+                        <span className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent">
+                            About Us
+                        </span>
                     </h2>
-                    <p className="text-xl text-gray-500 mx-auto mt-8">
-                        Team 7419 Tech Support is much more than just a robotics team. We solve problems and help people. We’re a family. We’ve done many great things and look forward to many more in the future.
+                    <p className="text-xl text-gray-300 mx-auto mt-8">
+                        Team 7419 Tech Support is much more than just a robotics team. We solve problems and help people. We&apos;re a family. We&apos;ve done many great things and look forward to many more in the future.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Hero Image */}
                 <div className="relative w-full h-96 mb-12">
-                    <Image
-                        src="/static/team/teamphoto.avif"
-                        alt="Team photo"
-                        fill
-                        className="object-cover rounded-lg"
-                    />
+                    <AboutUsHero />
                 </div>
 
                 {/* About Section */}
                 <div className="mb-16">
-                    <h3 className="text-3xl font-bold tracking-tight text-center mb-8">
+                    <h3 className="text-3xl font-bold tracking-tight text-center mb-8 text-gray-200">
                         About Team 7419
                     </h3>
-                    <div className="text-lg text-gray-500 tracking-tight text-center mb-8">
+                    <div className="text-lg text-gray-300 tracking-tight text-center mb-8">
                         <p>
                             Team 7419 is a dedicated group of high school students who design, build, and program competitive robots for the FIRST Robotics Competition.
                             Our programmers use Java to code complex behaviors and autonomous routines, while our mechanical team fabricates custom robot parts using CNC machines and manual mills.
@@ -176,25 +181,33 @@ export default function TeamSection() {
 
                 {/* Presentations Section */}
                 <div className="mb-16">
-                    <h3 className="text-3xl font-bold tracking-tight text-center mb-8">Worlds Presentations</h3>
+                    <h3 className="text-3xl font-bold tracking-tight text-center mb-8 text-gray-200">Worlds Presentations</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <Card className="p-6 rounded-lg bg-white bg-opacity-80 shadow-lg">
                             <CardHeader>
-                                <CardTitle className="text-2xl font-bold">Mechanical</CardTitle>
+                                <CardTitle className="text-2xl font-bold text-gray-800">Mechanical</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p>Our mechanical team discusses our training structure, curriculum, and projects in our <a href="https://www.team7419.tech/_files/ugd/355c51_00cfc2cca4f4407497e71d2276e4800d.pptx?dn=CHAMP24_PPT_7419_Mechanical%20(1).pptx" className="text-[#ffb41a] hover:underline">presentation</a>.</p>
+                                <p>Our mechanical team discusses our training structure, curriculum, and projects in our <a href="https://www.team7419.tech/_files/ugd/355c51_00cfc2cca4f4407497e71d2276e4800d.pptx?dn=CHAMP24_PPT_7419_Mechanical%20(1).pptx" className="text-[hsl(var(--brand-gold))] hover:underline">presentation</a>.</p>
                             </CardContent>
                         </Card>
                         <Card className="p-6 rounded-lg bg-white bg-opacity-80 shadow-lg">
                             <CardHeader>
-                                <CardTitle className="text-2xl font-bold">Programming</CardTitle>
+                                <CardTitle className="text-2xl font-bold text-gray-800">Programming</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p>Our programming team shares teaching resources and collaborative strategies in their <a href="https://www.team7419.tech/_files/ugd/355c51_6be1b3ee1fea425daaf56d3613251a39.pptx?dn=7419%20Worlds%27%20Programming%20Presentation.pptx" className="text-[#ffb41a] hover:underline">presentation</a>.</p>
+                                <p>Our programming team shares teaching resources and collaborative strategies in their <a href="https://www.team7419.tech/_files/ugd/355c51_6be1b3ee1fea425daaf56d3613251a39.pptx?dn=7419%20Worlds%27%20Programming%20Presentation.pptx" className="text-[hsl(var(--brand-gold))] hover:underline">presentation</a>.</p>
                             </CardContent>
                         </Card>
                     </div>
+                </div>
+
+                {/* Team Gallery */}
+                <div className="mt-16">
+                    <h3 className="text-3xl font-bold tracking-tight text-center mb-8 text-gray-200">
+                        Team Gallery
+                    </h3>
+                    <AboutUsGallery />
                 </div>
             </div>
         </section>

@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "media_items",
+  "info": {
+    "singularName": "media-item",
+    "pluralName": "media-items",
+    "displayName": "Dynamic Media",
+    "description": "Images that can be dynamically placed at specific locations"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images"]
+    },
+    "location": {
+      "type": "enumeration",
+      "enum": [
+        "about-us",
+        "about-us-gallery",
+        "our-robot",
+        "our-commitment",
+        "fll-ftc-support",
+        "season-2025-2026",
+        "season-2024-2025",
+        "season-2023-2024",
+        "home-page"
+      ],
+      "required": true
+    },
+    "display_order": {
+      "type": "integer",
+      "default": 0,
+      "min": 0,
+      "max": 100
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "alt_text": {
+      "type": "string",
+      "maxLength": 200,
+      "required": true
+    }
+  }
+}

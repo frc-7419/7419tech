@@ -124,12 +124,12 @@ export default function Contact() {
     <div className="min-h-screen bg-white text-[#1a2f5e] flex flex-col items-center justify-center transition-all duration-700 relative">
       {/* Airplane Icon */}
       <FaPlane
-        className="absolute top-20 text-[#ffb41a] animate-bounce"
+        className="absolute top-20 text-[hsl(var(--brand-gold))] animate-bounce"
         size={40}
       />
 
       <div className="w-full max-w-md px-6 py-10 bg-[#f4f4f8] rounded-lg shadow-lg transition-transform transform hover:scale-105">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-[#ffb41a] to-[#926408] bg-clip-text text-transparent mb-8 text-center transition-opacity duration-500 hover:opacity-90">
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-[hsl(var(--brand-gold))] to-[#926408] bg-clip-text text-transparent mb-8 text-center transition-opacity duration-500 hover:opacity-90">
           Contact Us
         </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -146,7 +146,7 @@ export default function Contact() {
               id="name"
               name="name"
               required
-              className="w-full bg-white border border-[#ffb41a] text-[#1a2f5e] px-3 py-2 rounded-md focus:border-[#ffb41a] focus:ring-2 focus:ring-[#ffb41a] transition-colors duration-300"
+              className="w-full bg-white border border-[hsl(var(--brand-gold))] text-[#1a2f5e] px-3 py-2 rounded-md focus:border-[hsl(var(--brand-gold))] focus:ring-2 focus:ring-[hsl(var(--brand-gold))] transition-colors duration-300"
               onChange={(e) => setName(e.target.value)}
             />
           </div>
@@ -162,7 +162,7 @@ export default function Contact() {
               name="email"
               type="email"
               required
-              className="w-full bg-white border border-[#ffb41a] text-[#1a2f5e] px-3 py-2 rounded-md focus:border-[#ffb41a] focus:ring-2 focus:ring-[#ffb41a] transition-colors duration-300"
+              className="w-full bg-white border border-[hsl(var(--brand-gold))] text-[#1a2f5e] px-3 py-2 rounded-md focus:border-[hsl(var(--brand-gold))] focus:ring-2 focus:ring-[hsl(var(--brand-gold))] transition-colors duration-300"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -177,13 +177,13 @@ export default function Contact() {
               id="subject"
               name="subject"
               required
-              className="w-full bg-white border border-[#ffb41a] text-[#1a2f5e] px-3 py-2 rounded-md focus:border-[#ffb41a] focus:ring-2 focus:ring-[#ffb41a] transition-colors duration-300"
+              className="w-full bg-white border border-[hsl(var(--brand-gold))] text-[#1a2f5e] px-3 py-2 rounded-md focus:border-[hsl(var(--brand-gold))] focus:ring-2 focus:ring-[hsl(var(--brand-gold))] transition-colors duration-300"
               onChange={(e) => setSubject(e.target.value)}
             />
           </div>
           <Button
             type="submit"
-            className="w-full bg-[#ffb41a] text-[#1a2f5e] hover:bg-[#ffc14a] font-semibold py-2 rounded-md flex items-center justify-center space-x-2 transition-transform duration-300 transform hover:scale-105"
+            className="w-full bg-[hsl(var(--brand-gold))] text-[#1a2f5e] hover:bg-[#ffc14a] font-semibold py-2 rounded-md flex items-center justify-center space-x-2 transition-transform duration-300 transform hover:scale-105"
           >
             <span>Send Message</span>
             <FiSend

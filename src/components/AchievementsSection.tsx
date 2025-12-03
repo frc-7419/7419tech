@@ -33,7 +33,7 @@ export default function Mentors() {
                 <CardTitle>Our Robot</CardTitle>
                 </CardHeader>
                 <CardContent>
-                <p className="mb-4">Explore our robot's features through an intuitive, interactive diagram.</p>
+                <p className="mb-4">Explore our robot&apos;s features through an intuitive, interactive diagram.</p>
                 <Button variant="secondary" asChild className="w-full">
                     <Link href="/achievements">View Trophies</Link>
                 </Button>
@@ -45,7 +45,7 @@ export default function Mentors() {
                 <CardTitle>Get Involved</CardTitle>
                 </CardHeader>
                 <CardContent>
-                <p className="mb-4">Whether you're a student, mentor, or sponsor, there are many ways to support our mission.</p>
+                <p className="mb-4">Whether you&apos;re a student, mentor, or sponsor, there are many ways to support our mission.</p>
                 <Button variant="secondary" asChild className="w-full">
                     <Link href="/support">Join Us</Link>
                 </Button>

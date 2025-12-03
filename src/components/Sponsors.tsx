@@ -1,10 +1,12 @@
 "use client"
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { strapiClient, getStrapiMediaUrl } from "@/lib/strapi/client"
 
-const sponsors = [
+// Original hardcoded sponsors (preserved!)
+const originalSponsors = [
   { name: "QLS", logo: "/static/sponsors/qls.png", url: "https://www.quarrylane.org/" },
   { name: "Notion", logo: "/static/sponsors/notion-logo.png", url: "https://www.notion.so" },
   { name: "Intuitive Foundation", logo: "/static/sponsors/IntuitiveFoundation.png", url: "https://www.intuitive-foundation.org/first-robotics/" },
@@ -13,10 +15,55 @@ const sponsors = [
   { name: "LDL", logo: "/static/sponsors/ldl.svg", url: "https://littledesignlab.org/" },
 ]
 
+interface StrapiSponsor {
+  id: number
+  name: string
+  logo: {
+    url: string
+  }
+  website_url?: string
+  tier: string
+  description?: string
+}
+
 function Sponsors() {
+  const [strapiSponsors, setStrapiSponsors] = useState<StrapiSponsor[]>([])
+  const [strapiLoading, setStrapiLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchSponsors() {
+      try {
+        const response = await strapiClient.getActiveSponsors()
+        setStrapiSponsors(response.data as unknown as StrapiSponsor[])
+      } catch (err) {
+        console.log('Strapi sponsors not available, showing original sponsors only')
+      } finally {
+        setStrapiLoading(false)
+      }
+    }
+
+    fetchSponsors()
+  }, [])
+
+  // Combine original sponsors with Strapi sponsors
+  const allSponsors = [
+    ...originalSponsors.map(sponsor => ({
+      ...sponsor,
+      id: sponsor.name,
+      isOriginal: true
+    })),
+    ...strapiSponsors.map(sponsor => ({
+      id: sponsor.id,
+      name: sponsor.name,
+      logo: getStrapiMediaUrl(sponsor.logo),
+      url: sponsor.website_url,
+      isOriginal: false
+    }))
+  ]
+
   return (
-    <main className="flex-grow bg-gradient-to-b from-white via-gray-100 to-white min-h-screen">
-      <section className="relative py-32 md:py-48">
+    <main className="flex-grow min-h-screen" style={{ backgroundColor: "#1b2947" }}>
+      <section className="relative pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -25,32 +72,41 @@ function Sponsors() {
             className="text-center mb-20"
           >
             <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Our Amazing Sponsors</h1>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
-              We're incredibly grateful for the support from these outstanding organizations. 
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
+              We&apos;re incredibly grateful for the support from these outstanding organizations. 
               Their partnerships fuel our innovation and drive us forward.
             </p>
           </motion.div>
 
           <div className="grid grid-cols-3 grid-rows-2 gap-8">
-            {sponsors.map((sponsor, index) => (
+            {allSponsors.map((sponsor, index) => (
               <motion.div
-                key={sponsor.name}
+                key={sponsor.id}
                 className="bg-white rounded-xl shadow-lg p-8 flex items-center justify-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.05 }}
               >
-                <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+                {sponsor.url ? (
+                  <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+                    <Image
+                      src={sponsor.logo || ''}
+                      alt={`${sponsor.name} logo`}
+                      width={150}
+                      height={100}
+                      className="max-h-24 object-contain"
+                    />
+                  </a>
+                ) : (
                   <Image
-                    src={sponsor.logo}
+                    src={sponsor.logo || ''}
                     alt={`${sponsor.name} logo`}
                     width={150}
                     height={100}
-                    objectFit="contain"
-                    className="max-h-24"
+                    className="max-h-24 object-contain"
                   />
-                </a>
+                )}
               </motion.div>
             ))}
           </div>
@@ -61,8 +117,8 @@ function Sponsors() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <h3 className="text-3xl font-bold text-gray-900 mb-6">Become a Sponsor</h3>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            <h3 className="text-3xl font-bold text-gray-200 mb-6">Become a Sponsor</h3>
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
               Join our mission to inspire and empower the next generation of innovators. 
               Your support can make a lasting impact.
             </p>
@@ -70,7 +126,7 @@ function Sponsors() {
               href="https://drive.google.com/file/d/1LEVCRtwa1jpuDWNEidyyyDOTDZumry4p/view?usp=drive_link"
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-block bg-white text-blue-600 font-semibold py-3 px-8 rounded-xl text-lg hover:bg-blue-50 transition-colors duration-300 border-2 border-blue-600"
+              className="inline-block bg-[hsl(var(--brand-gold))] text-white font-semibold py-3 px-8 rounded-xl text-lg hover:bg-[hsl(var(--brand-gold))]/90 transition-colors duration-300"
             >
               Learn About Sponsorship Opportunities
             </a>
