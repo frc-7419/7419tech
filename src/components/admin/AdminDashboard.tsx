@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { getSupabaseClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -12,6 +12,7 @@ import { NavHeader } from '@/components/NavHeader'
 import { Profile } from '@/lib/supabase/types'
 import { User } from '@supabase/supabase-js'
 import { useToast } from '@/hooks/use-toast'
+import { useAuth } from '@/contexts/AuthContext'
 
 interface AdminDashboardProps {
   user: User
@@ -24,11 +25,11 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const router = useRouter()
-  const supabase = createClient()
   const { toast } = useToast()
+  const { signOut } = useAuth()
 
   const fetchUsers = useCallback(async () => {
-    const supabase = createClient()
+    const supabase = getSupabaseClient()
     try {
       // Fetch pending users (public role = pending approval)
       const { data: pending } = await supabase
@@ -57,7 +58,7 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
   }, [fetchUsers])
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
+    await signOut()
     router.push('/')
     router.refresh()
   }

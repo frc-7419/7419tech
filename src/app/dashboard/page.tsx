@@ -1,10 +1,9 @@
 'use client'
 
-import { useEffect, useState, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
-import { User } from '@supabase/supabase-js'
-import { Profile } from '@/lib/supabase/types'
+import { useAuth } from '@/contexts/AuthContext'
+import { getSupabaseClient } from '@/lib/supabase/client'
 import { NavHeader } from '@/components/NavHeader'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -16,9 +15,7 @@ import { Loader2, Save, User as UserIcon, Calendar, Building, FileText } from 'l
 import { useToast } from '@/hooks/use-toast'
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<User | null>(null)
-  const [profile, setProfile] = useState<Profile | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { user, profile, isLoading, isAuthenticated, refreshProfile } = useAuth()
   const [saving, setSaving] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -28,83 +25,26 @@ export default function DashboardPage() {
   })
   
   const router = useRouter()
-  const supabase = useMemo(() => createClient(), [])
   const { toast } = useToast()
 
+  // Redirect if not authenticated (after loading completes)
   useEffect(() => {
-    const getUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      
-      if (!session) {
-        router.push('/auth/login')
-        return
-      }
-
-      setUser(session.user)
-
-      // Fetch user profile with better error handling
-      try {
-        const { data: profileData, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single()
-
-        if (error) {
-          console.error('Profile fetch error:', error)
-          // If profile doesn't exist, create one
-          if (error.code === 'PGRST116') {
-            const { data: newProfile, error: createError } = await supabase
-              .from('profiles')
-              .insert({
-                id: session.user.id,
-                email: session.user.email || '',
-                role: 'public'
-              })
-              .select()
-              .single()
-
-            if (createError) {
-              console.error('Profile creation error:', createError)
-              setProfile(null)
-            } else {
-              setProfile(newProfile as Profile)
-            }
-          } else {
-            setProfile(null)
-          }
-        } else {
-          const typedProfileData = profileData as Profile | null
-          setProfile(typedProfileData)
-          
-          if (typedProfileData) {
-            setFormData({
-              name: typedProfileData.name || '',
-              graduation_year: typedProfileData.graduation_year?.toString() || '',
-              department: typedProfileData.department || '',
-              bio: typedProfileData.bio || ''
-            })
-          }
-        }
-      } catch (error) {
-        console.error('Unexpected error:', error)
-        setProfile(null)
-      }
-
-      setLoading(false)
+    if (!isLoading && !isAuthenticated) {
+      router.push('/auth/login')
     }
+  }, [isLoading, isAuthenticated, router])
 
-    getUser()
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session) {
-        router.push('/auth/login')
-      }
-    })
-
-    return () => subscription.unsubscribe()
-  }, [router, supabase])
+  // Populate form when profile loads
+  useEffect(() => {
+    if (profile) {
+      setFormData({
+        name: profile.name || '',
+        graduation_year: profile.graduation_year?.toString() || '',
+        department: profile.department || '',
+        bio: profile.bio || ''
+      })
+    }
+  }, [profile])
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -115,7 +55,8 @@ export default function DashboardPage() {
 
     setSaving(true)
     try {
-      // Update profile fields with proper typing
+      const supabase = getSupabaseClient()
+      
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -128,17 +69,8 @@ export default function DashboardPage() {
 
       if (error) throw error
 
-      // Refresh profile data
-      const { data: updatedProfile } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single()
-
-      const typedUpdatedProfile = updatedProfile as Profile | null
-      if (typedUpdatedProfile) {
-        setProfile(typedUpdatedProfile)
-      }
+      // Refresh profile in context
+      await refreshProfile()
 
       toast({
         title: "Profile updated",
@@ -169,7 +101,8 @@ export default function DashboardPage() {
     }
   }
 
-  if (loading) {
+  // Loading state
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
         <NavHeader />
@@ -180,7 +113,20 @@ export default function DashboardPage() {
     )
   }
 
-  if (!profile && !loading) {
+  // Not authenticated - will redirect via useEffect
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background">
+        <NavHeader />
+        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      </div>
+    )
+  }
+
+  // Profile not yet loaded (should be rare with our context)
+  if (!profile) {
     return (
       <div className="min-h-screen bg-background">
         <NavHeader />
@@ -204,7 +150,7 @@ export default function DashboardPage() {
   }
 
   // Show different content based on user role
-  if (profile?.role === 'public') {
+  if (profile.role === 'public') {
     return (
       <div className="min-h-screen bg-background">
         <NavHeader />
@@ -275,7 +221,7 @@ export default function DashboardPage() {
                     <p className="font-medium">Account Status</p>
                     <p className="text-sm text-muted-foreground">Your current role and permissions</p>
                   </div>
-                  {profile && getRoleDisplay(profile.role)}
+                  {getRoleDisplay(profile.role)}
                 </div>
                 
                 <div>
@@ -381,7 +327,7 @@ export default function DashboardPage() {
                 <div>
                   <p className="font-medium">Account Created</p>
                   <p className="text-sm text-muted-foreground">
-                    {profile && new Date(profile.created_at).toLocaleDateString('en-US', {
+                    {new Date(profile.created_at).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
@@ -391,7 +337,7 @@ export default function DashboardPage() {
                 <div>
                   <p className="font-medium">Last Updated</p>
                   <p className="text-sm text-muted-foreground">
-                    {profile && new Date(profile.updated_at).toLocaleDateString('en-US', {
+                    {new Date(profile.updated_at).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
