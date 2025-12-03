@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo, useEffect } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -21,9 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
-import { createClient } from '@/lib/supabase/client'
-import { User } from '@supabase/supabase-js'
-import { Profile } from '@/lib/supabase/types'
+import { useAuth } from '@/contexts/AuthContext'
 import { LogIn, LogOut, Settings, User as UserIcon, Shield } from 'lucide-react'
 
 const ListItem = React.forwardRef<
@@ -54,67 +52,10 @@ ListItem.displayName = "ListItem"
 
 export function NavHeader() {
   const pathname = usePathname()
-  const [user, setUser] = useState<User | null>(null)
-  const [profile, setProfile] = useState<Profile | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [mounted, setMounted] = useState(false)
-  const supabase = useMemo(() => createClient(), [])
+  const { user, isAdmin, isLoading, signOut } = useAuth()
   
   // Check if we're on an auth, dashboard, or admin page
   const isSpecialPage = pathname?.startsWith('/auth') || pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin')
-
-  useEffect(() => {
-    setMounted(true)
-    
-    const getSession = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
-        setUser(session?.user || null)
-        
-        if (session?.user) {
-          const { data } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single()
-          setProfile(data as Profile | null)
-        }
-      } catch (error) {
-        console.error('Auth error:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    getSession()
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user || null)
-      if (session?.user) {
-        try {
-          const { data } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single()
-          setProfile(data as Profile | null)
-        } catch (error) {
-          setProfile(null)
-        }
-      } else {
-        setProfile(null)
-      }
-    })
-
-    return () => subscription.unsubscribe()
-  }, [supabase])
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut()
-  }
-
-  const isAdmin = profile?.role === 'admin'
-
 
   return (
     <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl">
@@ -220,63 +161,63 @@ export function NavHeader() {
             </Link>
           </Button>
           
-          {mounted && (
-            <>
-              {!loading && user ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon" className="text-white border-white hover:bg-white hover:text-[#11224e] bg-transparent">
-                      <UserIcon className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard" className="flex items-center">
-                        <Settings className="h-4 w-4 mr-2" />
-                        Member Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                    {isAdmin && (
-                      <DropdownMenuItem asChild>
-                        <Link href="/admin" className="flex items-center">
-                          <Shield className="h-4 w-4 mr-2" />
-                          Admin Dashboard
-                        </Link>
-                      </DropdownMenuItem>
-                    )}
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleSignOut} className="flex items-center text-red-600">
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Sign Out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Button asChild variant="ghost" size="sm" className={cn(
-                    "text-white bg-transparent transition-all duration-300",
-                    isSpecialPage 
-                      ? "hover:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] border border-transparent hover:border-[hsl(var(--brand-gold))]/30"
-                      : "hover:bg-[#1a2f5e] hover:text-white"
-                  )}>
-                    <Link href="/auth/signup" className="no-underline hover:no-underline">
-                      Sign Up
+          {/* Auth buttons - show skeleton during load to prevent flicker */}
+          {isLoading ? (
+            // Skeleton placeholder - same size as auth button to prevent layout shift
+            <div className="w-10 h-10 rounded-md bg-white/10 animate-pulse" />
+          ) : user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon" className="text-white border-white hover:bg-white hover:text-[#11224e] bg-transparent">
+                  <UserIcon className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard" className="flex items-center">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Member Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link href="/admin" className="flex items-center">
+                      <Shield className="h-4 w-4 mr-2" />
+                      Admin Dashboard
                     </Link>
-                  </Button>
-                  <Button asChild variant="outline" size="sm" className={cn(
-                    "text-white bg-transparent transition-all duration-300",
-                    isSpecialPage 
-                      ? "border-[hsl(var(--brand-gold))]/50 hover:bg-[hsl(var(--brand-gold))] hover:text-[#1a2f5e] hover:shadow-[hsl(var(--brand-gold))]/30 hover:shadow-lg"
-                      : "border-white hover:bg-white hover:text-[#11224e]"
-                  )}>
-                    <Link href="/auth/login" className="no-underline hover:no-underline">
-                      <LogIn className="h-4 w-4 mr-2" />
-                      Sign In
-                    </Link>
-                  </Button>
-                </div>
-              )}
-            </>
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={signOut} className="flex items-center text-red-600">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Button asChild variant="ghost" size="sm" className={cn(
+                "text-white bg-transparent transition-all duration-300",
+                isSpecialPage 
+                  ? "hover:bg-[hsl(var(--brand-gold))]/20 hover:text-[hsl(var(--brand-gold))] border border-transparent hover:border-[hsl(var(--brand-gold))]/30"
+                  : "hover:bg-[#1a2f5e] hover:text-white"
+              )}>
+                <Link href="/auth/signup" className="no-underline hover:no-underline">
+                  Sign Up
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="sm" className={cn(
+                "text-white bg-transparent transition-all duration-300",
+                isSpecialPage 
+                  ? "border-[hsl(var(--brand-gold))]/50 hover:bg-[hsl(var(--brand-gold))] hover:text-[#1a2f5e] hover:shadow-[hsl(var(--brand-gold))]/30 hover:shadow-lg"
+                  : "border-white hover:bg-white hover:text-[#11224e]"
+              )}>
+                <Link href="/auth/login" className="no-underline hover:no-underline">
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Sign In
+                </Link>
+              </Button>
+            </div>
           )}
         </div>
       </div>

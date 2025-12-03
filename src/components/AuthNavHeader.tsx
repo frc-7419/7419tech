@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
@@ -13,9 +13,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
-import { createClient } from '@/lib/supabase/client'
-import { User } from '@supabase/supabase-js'
-import { Profile } from '@/lib/supabase/types'
+import { useAuth } from '@/contexts/AuthContext'
 import { LogIn, LogOut, Settings } from 'lucide-react'
 
 const ListItem = React.forwardRef<
@@ -45,55 +43,7 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem"
 
 export function AuthNavHeader() {
-  const [user, setUser] = useState<User | null>(null)
-  const [profile, setProfile] = useState<Profile | null>(null)
-  const [loading, setLoading] = useState(true)
-  const supabase = createClient()
-
-  useEffect(() => {
-    // Get initial session
-    const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setUser(session?.user || null)
-      
-      if (session?.user) {
-        // Fetch user profile
-        const { data } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single()
-        setProfile(data)
-      }
-      setLoading(false)
-    }
-
-    getSession()
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user || null)
-      
-      if (session?.user) {
-        const { data } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single()
-        setProfile(data)
-      } else {
-        setProfile(null)
-      }
-    })
-
-    return () => subscription.unsubscribe()
-  }, [supabase])
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut()
-  }
-
-  const isAdmin = profile?.role === 'admin'
+  const { user, profile, isAdmin, isLoading, signOut } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 bg-[#11224e] shadow-lg">
@@ -175,42 +125,40 @@ export function AuthNavHeader() {
         </NavigationMenu>
 
         <div className="flex items-center gap-2">
-          {!loading && (
+          {isLoading ? (
+            <div className="w-20 h-8 rounded bg-white/10 animate-pulse" />
+          ) : user ? (
+            <div className="flex items-center gap-2">
+              <span className="text-white text-sm">
+                {profile?.name || user.email}
+              </span>
+              <Button 
+                onClick={signOut}
+                variant="outline" 
+                size="sm"
+                className="text-white border-white hover:bg-white hover:text-[#11224e]"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
+            </div>
+          ) : (
             <>
-              {user ? (
-                <div className="flex items-center gap-2">
-                  <span className="text-white text-sm">
-                    {profile?.name || user.email}
-                  </span>
-                  <Button 
-                    onClick={handleSignOut}
-                    variant="outline" 
-                    size="sm"
-                    className="text-white border-white hover:bg-white hover:text-[#11224e]"
-                  >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Sign Out
-                  </Button>
-                </div>
-              ) : (
-                <>
-                  <Link href="/contact" passHref>
-                    <Button className="bg-[hsl(var(--brand-gold))] text-[#1a2f5e] hover:bg-[#ffc14a] font-semibold mr-2">
-                      Contact Us
-                    </Button>
-                  </Link>
-                  <Link href="/auth/login" passHref>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      className="text-white border-white hover:bg-white hover:text-[#11224e]"
-                    >
-                      <LogIn className="h-4 w-4 mr-2" />
-                      Sign In
-                    </Button>
-                  </Link>
-                </>
-              )}
+              <Link href="/contact" passHref>
+                <Button className="bg-[hsl(var(--brand-gold))] text-[#1a2f5e] hover:bg-[#ffc14a] font-semibold mr-2">
+                  Contact Us
+                </Button>
+              </Link>
+              <Link href="/auth/login" passHref>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="text-white border-white hover:bg-white hover:text-[#11224e]"
+                >
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Sign In
+                </Button>
+              </Link>
             </>
           )}
         </div>

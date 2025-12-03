@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import Image from "next/image"
 import ErrorBoundary from "@/components/ErrorBoundary"
 import { Toaster } from "@/components/ui/toaster"
+import { AuthProvider } from "@/contexts/AuthContext"
 import "./globals.css"
 import PageTransition from "@/components/PageTransition"
 
@@ -23,10 +24,12 @@ export default function RootLayout({
       <link rel="icon" href="/7419.ico" sizes="any" />
       <body className={inter.className}>
         <ErrorBoundary>
-          <PageTransition>
-            <MobileCheck>{children}</MobileCheck>
-          </PageTransition>
-          <Toaster />
+          <AuthProvider>
+            <PageTransition>
+              <MobileCheck>{children}</MobileCheck>
+            </PageTransition>
+            <Toaster />
+          </AuthProvider>
         </ErrorBoundary>
       </body>
     </html>
@@ -47,4 +50,3 @@ function MobileCheck({ children }: { children: React.ReactNode }) {
     </>
   )
 }
-
