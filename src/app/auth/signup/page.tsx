@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { getSupabaseClient } from '@/lib/supabase/client'
 import { Database } from '@/lib/supabase/types'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -62,7 +62,7 @@ export default function SignupPage() {
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false)
   
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = getSupabaseClient()
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))

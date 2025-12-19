@@ -1,14 +1,16 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { useState, useEffect } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { getSupabaseClient } from '@/lib/supabase/client'
+import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import Link from 'next/link'
 import { NavHeader } from '@/components/NavHeader'
+import { Loader2 } from 'lucide-react'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -16,10 +18,18 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   
-  const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo') || '/'
-  const supabase = createClient()
+  const router = useRouter()
+  const redirectTo = searchParams.get('redirectTo') || '/dashboard'
+  
+  const { isAuthenticated, isLoading: authLoading } = useAuth()
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.push(redirectTo)
+    }
+  }, [authLoading, isAuthenticated, router, redirectTo])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -27,6 +37,7 @@ export default function LoginPage() {
     setError('')
 
     try {
+      const supabase = getSupabaseClient()
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -34,16 +45,44 @@ export default function LoginPage() {
 
       if (error) {
         setError(error.message)
+        setLoading(false)
         return
       }
 
-      router.push(redirectTo)
-      router.refresh()
+      // Success - AuthContext will detect the sign in and update state
+      // Then the useEffect above will redirect
+      // Keep loading state until redirect happens
     } catch (err) {
       setError('An unexpected error occurred')
-    } finally {
       setLoading(false)
     }
+  }
+
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <>
+        <NavHeader />
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+        </div>
+      </>
+    )
+  }
+
+  // If already authenticated, show loading while redirecting
+  if (isAuthenticated) {
+    return (
+      <>
+        <NavHeader />
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin text-gray-500 mx-auto mb-4" />
+            <p className="text-gray-600">Redirecting...</p>
+          </div>
+        </div>
+      </>
+    )
   }
 
   return (
@@ -63,9 +102,6 @@ export default function LoginPage() {
           <Card>
             <CardHeader>
               <CardTitle>Login</CardTitle>
-              {/* <CardDescription>
-                Enter your email and password to access the admin dashboard
-              </CardDescription> */}
             </CardHeader>
             <CardContent>
               <form onSubmit={handleLogin} className="space-y-4">
@@ -87,6 +123,7 @@ export default function LoginPage() {
                     required
                     className="mt-1"
                     placeholder="your.email@example.com"
+                    disabled={loading}
                   />
                 </div>
                 
@@ -102,6 +139,7 @@ export default function LoginPage() {
                     required
                     className="mt-1"
                     placeholder="Enter your password"
+                    disabled={loading}
                   />
                 </div>
                 
@@ -110,7 +148,14 @@ export default function LoginPage() {
                   className="w-full bg-[#ffc14a] hover:bg-[#ffcd6b] text-white"
                   disabled={loading}
                 >
-                  {loading ? 'Signing in...' : 'Sign In'}
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    'Sign In'
+                  )}
                 </Button>
               </form>
               
