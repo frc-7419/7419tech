@@ -20,7 +20,7 @@ export function CMSAccessClient({ user }: CMSAccessClientProps) {
     
     if (hasSetup) {
       // Returning user - redirect directly to Strapi
-      window.location.href = 'https://talented-angel-a773e54857.strapiapp.com/admin'
+      window.location.href = 'https://innovative-luck-8fe8e1c24e.strapiapp.com/admin'
       return
     }
     
@@ -35,7 +35,7 @@ export function CMSAccessClient({ user }: CMSAccessClientProps) {
     setHasSetupAccount(true)
     
     // Open Strapi CMS
-    window.open('https://talented-angel-a773e54857.strapiapp.com/admin', '_blank')
+    window.open('https://innovative-luck-8fe8e1c24e.strapiapp.com/admin', '_blank')
   }
 
 

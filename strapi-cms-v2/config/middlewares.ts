@@ -5,6 +5,7 @@ export default [
   {
     name: 'strapi::cors',
     config: {
+      enabled: true,
       origin: [
         'http://localhost:3000', 
         'http://localhost:3001',
@@ -12,10 +13,10 @@ export default [
         'https://7419tech.org',
         'https://7419.tech',
         'https://www.7419.tech',
-        // Add your production domains here
       ],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
       headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
+      credentials: true,
       keepHeaderOnError: true,
     },
   },

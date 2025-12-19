@@ -10,12 +10,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'talented-angel-a773e54857.strapiapp.com',
+        hostname: 'innovative-luck-8fe8e1c24e.strapiapp.com',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'talented-angel-a773e54857.media.strapiapp.com',
+        hostname: 'innovative-luck-8fe8e1c24e.media.strapiapp.com',
         pathname: '/**',
       },
     ],
