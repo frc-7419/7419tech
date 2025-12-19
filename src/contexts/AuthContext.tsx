@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react'
 import { User, Session } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -27,7 +27,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
   
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
+
+  const fetchProfile = useCallback(async (userId: string) => {
+    const { data } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single()
+
+    setProfile(data as Profile | null)
+    setIsLoading(false)
+  }, [supabase])
 
   useEffect(() => {
     // Get initial session
@@ -56,28 +67,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     )
 
     return () => subscription.unsubscribe()
-  }, [])
-
-  const fetchProfile = async (userId: string) => {
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
-    
-    setProfile(data as Profile | null)
-    setIsLoading(false)
-  }
+  }, [supabase, fetchProfile])
 
   const refreshProfile = useCallback(async () => {
     if (user) await fetchProfile(user.id)
-  }, [user])
+  }, [user, fetchProfile])
 
   const signOut = useCallback(async () => {
     await supabase.auth.signOut()
     router.push('/')
     router.refresh()
-  }, [router])
+  }, [supabase, router])
 
   const value: AuthContextType = {
     user,
