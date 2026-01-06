@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { getSupabaseClient } from '@/lib/supabase/client'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,7 +21,7 @@ export default function LoginPage() {
   const router = useRouter()
   const redirectTo = searchParams.get('redirectTo') || '/dashboard'
   
-  const { isAuthenticated, isLoading: authLoading } = useAuth()
+  const { isAuthenticated, isLoading: authLoading, supabase } = useAuth()
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -37,7 +36,7 @@ export default function LoginPage() {
     setError('')
 
     try {
-      const supabase = getSupabaseClient()
+      // Use the supabase client from AuthContext (shared instance)
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,

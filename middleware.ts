@@ -1,6 +1,35 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+// Validate env vars at module load time for clear error messages
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    'Missing Supabase environment variables. Please check that NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set in your .env.local file.'
+  )
+}
+
+// Simple in-memory cache for admin role checks (TTL: 5 minutes)
+const roleCache = new Map<string, { role: string; timestamp: number }>()
+const ROLE_CACHE_TTL = 5 * 60 * 1000 // 5 minutes
+
+function getCachedRole(userId: string): string | null {
+  const cached = roleCache.get(userId)
+  if (cached && Date.now() - cached.timestamp < ROLE_CACHE_TTL) {
+    return cached.role
+  }
+  if (cached) {
+    roleCache.delete(userId) // Clean up expired entry
+  }
+  return null
+}
+
+function setCachedRole(userId: string, role: string): void {
+  roleCache.set(userId, { role, timestamp: Date.now() })
+}
+
 export async function middleware(request: NextRequest) {
   // Early return for non-protected routes - PREVENTS COOKIE BLOAT!
   const protectedRoutes = ['/admin', '/dashboard']
@@ -23,8 +52,8 @@ export async function middleware(request: NextRequest) {
   })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -76,14 +105,22 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(redirectUrl)
     }
 
-    // Check user role from profiles table
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single()
+    // Check cached role first to avoid DB query on every request
+    let userRole = getCachedRole(user.id)
+    
+    if (!userRole) {
+      // Cache miss - query the database
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+      
+      userRole = profile?.role || 'public'
+      setCachedRole(user.id, userRole)
+    }
 
-    if (profile?.role !== 'admin') {
+    if (userRole !== 'admin') {
       // Redirect to unauthorized page if not admin
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/auth/unauthorized'

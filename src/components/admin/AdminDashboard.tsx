@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { getSupabaseClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -10,26 +9,31 @@ import { LogOut, Users, Settings, BarChart3, FileText } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { NavHeader } from '@/components/NavHeader'
 import { Profile } from '@/lib/supabase/types'
-import { User } from '@supabase/supabase-js'
 import { useToast } from '@/hooks/use-toast'
 import { useAuth } from '@/contexts/AuthContext'
 
-interface AdminDashboardProps {
-  user: User
-  profile: Profile
-}
-
-export function AdminDashboard({ user, profile }: AdminDashboardProps) {
+export function AdminDashboard() {
   const [pendingUsers, setPendingUsers] = useState<Profile[]>([])
   const [allUsers, setAllUsers] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const router = useRouter()
   const { toast } = useToast()
-  const { signOut } = useAuth()
+  const { signOut, supabase, user, profile, isLoading: authLoading } = useAuth()
+
+  // Middleware protects this route, but keep a safe UI state while auth/profile loads.
+  if (authLoading || !user) {
+    return (
+      <>
+        <NavHeader />
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </>
+    )
+  }
 
   const fetchUsers = useCallback(async () => {
-    const supabase = getSupabaseClient()
     try {
       // Fetch pending users (public role = pending approval)
       const { data: pending } = await supabase
@@ -51,7 +55,7 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [supabase])
 
   useEffect(() => {
     fetchUsers()
@@ -161,7 +165,7 @@ export function AdminDashboard({ user, profile }: AdminDashboardProps) {
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
                 <p className="mt-1 text-sm text-gray-600">
-                  Welcome back, {profile.name || user.email}
+                  Welcome back, {profile?.name || user.email}
                 </p>
               </div>
               <Button onClick={handleSignOut} variant="outline">

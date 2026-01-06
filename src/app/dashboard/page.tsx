@@ -1,9 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
-import { getSupabaseClient } from '@/lib/supabase/client'
 import { NavHeader } from '@/components/NavHeader'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -15,7 +13,7 @@ import { Loader2, Save, User as UserIcon, Calendar, Building, FileText } from 'l
 import { useToast } from '@/hooks/use-toast'
 
 export default function DashboardPage() {
-  const { user, profile, isLoading, isAuthenticated, refreshProfile } = useAuth()
+  const { user, profile, isLoading, isAuthenticated, refreshProfile, supabase } = useAuth()
   const [saving, setSaving] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -24,15 +22,8 @@ export default function DashboardPage() {
     bio: ''
   })
   
-  const router = useRouter()
   const { toast } = useToast()
-
-  // Redirect if not authenticated (after loading completes)
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push('/auth/login')
-    }
-  }, [isLoading, isAuthenticated, router])
+  // Note: Auth redirect is handled by middleware - no client-side redirect needed
 
   // Populate form when profile loads
   useEffect(() => {
@@ -55,8 +46,7 @@ export default function DashboardPage() {
 
     setSaving(true)
     try {
-      const supabase = getSupabaseClient()
-      
+      // Use the supabase client from AuthContext (shared instance)
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -101,20 +91,8 @@ export default function DashboardPage() {
     }
   }
 
-  // Loading state
+  // Loading state (middleware ensures only authenticated users reach this page)
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <NavHeader />
-        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
-          <Loader2 className="h-8 w-8 animate-spin" />
-        </div>
-      </div>
-    )
-  }
-
-  // Not authenticated - will redirect via useEffect
-  if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-background">
         <NavHeader />

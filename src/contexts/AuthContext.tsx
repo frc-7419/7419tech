@@ -16,6 +16,7 @@ interface AuthContextType {
   isMember: boolean
   signOut: () => Promise<void>
   refreshProfile: () => Promise<void>
+  supabase: ReturnType<typeof createClient>
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -30,14 +31,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = useMemo(() => createClient(), [])
 
   const fetchProfile = useCallback(async (userId: string) => {
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
 
-    setProfile(data as Profile | null)
-    setIsLoading(false)
+      if (error) {
+        console.error('Failed to fetch user profile:', error.message)
+        setProfile(null)
+      } else {
+        setProfile(data as Profile | null)
+      }
+    } catch (err) {
+      console.error('Unexpected error fetching profile:', err)
+      setProfile(null)
+    } finally {
+      setIsLoading(false)
+    }
   }, [supabase])
 
   useEffect(() => {
@@ -89,6 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isMember: profile?.role === 'member' || profile?.role === 'admin',
     signOut,
     refreshProfile,
+    supabase,
   }
 
   return (
