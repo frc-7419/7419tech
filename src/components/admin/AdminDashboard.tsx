@@ -21,18 +21,6 @@ export function AdminDashboard() {
   const { toast } = useToast()
   const { signOut, supabase, user, profile, isLoading: authLoading } = useAuth()
 
-  // Middleware protects this route, but keep a safe UI state while auth/profile loads.
-  if (authLoading || !user) {
-    return (
-      <>
-        <NavHeader />
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </>
-    )
-  }
-
   const fetchUsers = useCallback(async () => {
     try {
       // Fetch pending users (public role = pending approval)
@@ -154,6 +142,18 @@ export function AdminDashboard() {
     }
   }
 
+  // Middleware protects this route, but keep a safe UI state while auth/profile loads.
+  if (authLoading || !user) {
+    return (
+      <>
+        <NavHeader />
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
       <NavHeader />
@@ -165,7 +165,7 @@ export function AdminDashboard() {
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
                 <p className="mt-1 text-sm text-gray-600">
-                  Welcome back, {profile?.name || user.email}
+                  Welcome back, {profile?.name || user?.email}
                 </p>
               </div>
               <Button onClick={handleSignOut} variant="outline">

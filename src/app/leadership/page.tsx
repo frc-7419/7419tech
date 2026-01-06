@@ -220,10 +220,9 @@ export default function Leadership() {
     async function fetchLeaders() {
       try {
         const response = await strapiClient.getCurrentLeadership()
-        console.log('Strapi response:', response) // Debug log
         setStrapiLeaders(response.data as unknown as StrapiStudentLeader[])
       } catch (err) {
-        console.log('Strapi leaders not available, showing original team only', err)
+        // Strapi leaders not available, showing original team only
       } finally {
         setStrapiLoading(false)
       }
@@ -241,7 +240,6 @@ export default function Leadership() {
     })),
     ...strapiLeaders.map(leader => {
       const imageUrl = getStrapiMediaUrl(leader.profile_picture)
-      console.log('Leader image URL:', imageUrl, 'for', leader.name) // Debug log
       return {
         id: leader.id,
         name: leader.name,
@@ -290,9 +288,6 @@ export default function Leadership() {
                       width={100}
                       className="h-16 object-cover w-16 rounded-xl bg-gray-800 border-none shadow-sm"
                       alt={member.name}
-                      onError={(e) => {
-                        console.log('Image failed to load:', member.img)
-                      }}
                     />
                     <div className="block text-lg">
                       <div className="hover:text-gray-400">

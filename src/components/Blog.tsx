@@ -52,7 +52,7 @@ export default function BlogPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Subscribed:', email)
+    // TODO: Implement newsletter subscription
     setEmail('')
   }
 

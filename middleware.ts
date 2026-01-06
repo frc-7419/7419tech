@@ -1,34 +1,16 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { getUserRoleFromAccessToken } from '@/lib/supabase/jwt'
 
 // Validate env vars at module load time for clear error messages
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-if (!supabaseUrl || !supabaseAnonKey) {
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
   throw new Error(
     'Missing Supabase environment variables. Please check that NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set in your .env.local file.'
   )
 }
 
-// Simple in-memory cache for admin role checks (TTL: 5 minutes)
-const roleCache = new Map<string, { role: string; timestamp: number }>()
-const ROLE_CACHE_TTL = 5 * 60 * 1000 // 5 minutes
-
-function getCachedRole(userId: string): string | null {
-  const cached = roleCache.get(userId)
-  if (cached && Date.now() - cached.timestamp < ROLE_CACHE_TTL) {
-    return cached.role
-  }
-  if (cached) {
-    roleCache.delete(userId) // Clean up expired entry
-  }
-  return null
-}
-
-function setCachedRole(userId: string, role: string): void {
-  roleCache.set(userId, { role, timestamp: Date.now() })
-}
+const supabaseUrl: string = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 export async function middleware(request: NextRequest) {
   // Early return for non-protected routes - PREVENTS COOKIE BLOAT!
@@ -59,7 +41,7 @@ export async function middleware(request: NextRequest) {
         getAll() {
           return request.cookies.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]) {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
@@ -71,7 +53,7 @@ export async function middleware(request: NextRequest) {
               httpOnly: true,
               secure: process.env.NODE_ENV === 'production',
               sameSite: 'lax' as const,
-              maxAge: options?.maxAge || 60 * 60 * 24 * 7, // 1 week default
+              maxAge: (options?.maxAge as number) || 60 * 60 * 24 * 7, // 1 week default
             }
             supabaseResponse.cookies.set(name, value, secureOptions)
           })
@@ -84,6 +66,12 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
+  // Session is only needed for role-checks (JWT claim lives on access_token).
+  // Note: this avoids DB reads and works across serverless instances.
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
   // Redirect logged-in users away from auth pages
   if (request.nextUrl.pathname.startsWith('/auth/login') || request.nextUrl.pathname.startsWith('/auth/signup')) {
@@ -105,20 +93,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(redirectUrl)
     }
 
-    // Check cached role first to avoid DB query on every request
-    let userRole = getCachedRole(user.id)
-    
-    if (!userRole) {
-      // Cache miss - query the database
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single()
-      
-      userRole = profile?.role || 'public'
-      setCachedRole(user.id, userRole)
-    }
+    const userRole = getUserRoleFromAccessToken(session?.access_token)
 
     if (userRole !== 'admin') {
       // Redirect to unauthorized page if not admin
@@ -128,10 +103,9 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Protect dashboard routes
+  // Protect dashboard routes (same pattern as admin above)
   if (request.nextUrl.pathname.startsWith('/dashboard')) {
     if (!user) {
-      // Redirect to login if not authenticated
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/auth/login'
       redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname)
@@ -145,7 +119,9 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/admin/:path*',
+    '/admin',
     '/dashboard/:path*',
+    '/dashboard',
     '/auth/login',
     '/auth/signup'
   ],

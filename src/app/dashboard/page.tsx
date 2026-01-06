@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { NavHeader } from '@/components/NavHeader'
 import { Button } from '@/components/ui/button'
@@ -13,6 +14,7 @@ import { Loader2, Save, User as UserIcon, Calendar, Building, FileText } from 'l
 import { useToast } from '@/hooks/use-toast'
 
 export default function DashboardPage() {
+  const router = useRouter()
   const { user, profile, isLoading, isAuthenticated, refreshProfile, supabase } = useAuth()
   const [saving, setSaving] = useState(false)
   const [formData, setFormData] = useState({
@@ -23,7 +25,13 @@ export default function DashboardPage() {
   })
   
   const { toast } = useToast()
-  // Note: Auth redirect is handled by middleware - no client-side redirect needed
+
+  // Redirect to login if not authenticated (fallback for middleware)
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.replace('/auth/login?redirectTo=/dashboard')
+    }
+  }, [isLoading, isAuthenticated, router])
 
   // Populate form when profile loads
   useEffect(() => {
@@ -103,7 +111,19 @@ export default function DashboardPage() {
     )
   }
 
-  // Profile not yet loaded (should be rare with our context)
+  // If not authenticated, show loading while middleware redirects
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="min-h-screen bg-background">
+        <NavHeader />
+        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      </div>
+    )
+  }
+
+  // Profile not yet loaded (should be rare with our context - only for authenticated users)
   if (!profile) {
     return (
       <div className="min-h-screen bg-background">

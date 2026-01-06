@@ -23,7 +23,6 @@ export function DynamicMedia({ location, className = '', limit, showOverlay = tr
   }
 
   if (error) {
-    console.error('Dynamic media error:', error)
     return null // Fail silently for better UX
   }
 
