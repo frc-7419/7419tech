@@ -27,11 +27,17 @@ export function CMSAccessClient() {
 
   const handleCMSAccess = () => {
     // Mark that user has accessed CMS (they'll set up account)
-    const setupKey = `strapi-setup-${user.email}`
-    localStorage.setItem(setupKey, 'true')
-    setHasSetupAccount(true)
-    
-    // Open Strapi CMS
+    const email = user?.email
+    if (email) {
+      const setupKey = `strapi-setup-${email}`
+      localStorage.setItem(setupKey, 'true')
+      setHasSetupAccount(true)
+      // Open Strapi CMS
+      window.open('https://innovative-luck-8fe8e1c24e.strapiapp.com/admin', '_blank')
+      return
+    }
+
+    // Fallback: if no user email available, just open the CMS without setting localStorage
     window.open('https://innovative-luck-8fe8e1c24e.strapiapp.com/admin', '_blank')
   }
 
