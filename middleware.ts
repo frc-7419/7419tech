@@ -13,7 +13,6 @@ const supabaseUrl: string = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 export async function middleware(request: NextRequest) {
-  // Early return for non-protected routes - PREVENTS COOKIE BLOAT!
   const protectedRoutes = ['/admin', '/dashboard']
   const authRoutes = ['/auth/login', '/auth/signup']
   
@@ -23,11 +22,6 @@ export async function middleware(request: NextRequest) {
   const isAuthRoute = authRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
-
-  // Skip middleware for non-protected routes
-  if (!isProtectedRoute && !isAuthRoute) {
-    return NextResponse.next()
-  }
 
   let supabaseResponse = NextResponse.next({
     request,
@@ -47,31 +41,26 @@ export async function middleware(request: NextRequest) {
             request,
           })
           cookiesToSet.forEach(({ name, value, options }) => {
-            // Add secure cookie options
-            const secureOptions = {
-              ...options,
-              httpOnly: true,
-              secure: process.env.NODE_ENV === 'production',
-              sameSite: 'lax' as const,
-              maxAge: (options?.maxAge as number) || 60 * 60 * 24 * 7, // 1 week default
-            }
-            supabaseResponse.cookies.set(name, value, secureOptions)
+            // IMPORTANT: do NOT override Supabase cookie options.
+            // The browser client (createBrowserClient) reads these cookies via document.cookie.
+            // Forcing httpOnly breaks refresh-token rotation and causes 400 refresh_token_not_found.
+            supabaseResponse.cookies.set(name, value, options)
           })
         },
       },
     }
   )
 
-  // Only get user for routes that actually need auth
+  // Always refresh the session cookie on navigation so auth doesn't silently
+  // expire when users browse public pages (e.g. /blog).
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Session is only needed for role-checks (JWT claim lives on access_token).
-  // Note: this avoids DB reads and works across serverless instances.
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  // For non-auth/non-protected routes, we only needed the refresh above.
+  if (!isProtectedRoute && !isAuthRoute) {
+    return supabaseResponse
+  }
 
   // Redirect logged-in users away from auth pages
   if (request.nextUrl.pathname.startsWith('/auth/login') || request.nextUrl.pathname.startsWith('/auth/signup')) {
@@ -92,6 +81,11 @@ export async function middleware(request: NextRequest) {
       redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname)
       return NextResponse.redirect(redirectUrl)
     }
+
+    // Session is only needed for role-checks (JWT claim lives on access_token).
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
 
     const userRole = getUserRoleFromAccessToken(session?.access_token)
 
@@ -118,11 +112,8 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/admin/:path*',
-    '/admin',
-    '/dashboard/:path*',
-    '/dashboard',
-    '/auth/login',
-    '/auth/signup'
+    // Run on all pages (not static assets or API routes) so the Supabase session
+    // cookie can refresh during normal browsing.
+    '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)',
   ],
 }

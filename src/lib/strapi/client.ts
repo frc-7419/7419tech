@@ -1,5 +1,11 @@
-// Strapi API client for fetching content
-const STRAPI_API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://innovative-luck-8fe8e1c24e.strapiapp.com/api'
+// Strapi API client for fetching content.
+// In the browser, we MUST go through our same-origin proxy to avoid CORS fragility.
+const STRAPI_API_URL =
+  typeof window !== 'undefined'
+    ? '/api/strapi'
+    : (process.env.STRAPI_API_URL ||
+      process.env.NEXT_PUBLIC_STRAPI_API_URL ||
+      'https://innovative-luck-8fe8e1c24e.strapiapp.com/api')
 
 // Helper to get the base URL for media files
 const STRAPI_BASE_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL?.replace('/api', '') || 'https://innovative-luck-8fe8e1c24e.strapiapp.com'

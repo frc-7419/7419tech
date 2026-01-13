@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { User, Session } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -30,8 +30,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
 
-  const fetchProfile = useCallback(async (userId: string) => {
+  // Avoid refetching the same profile unnecessarily (and dedupe concurrent calls).
+  const lastProfileUserIdRef = useRef<string | null>(null)
+  const inFlightProfileFetchRef = useRef<Promise<void> | null>(null)
+
+  const fetchProfile = useCallback(async (userId: string, options?: { force?: boolean }) => {
     try {
+      // Dedupe in-flight fetches for the same user.
+      if (!options?.force && lastProfileUserIdRef.current === userId && profile) {
+        return
+      }
+      if (inFlightProfileFetchRef.current) {
+        return await inFlightProfileFetchRef.current
+      }
+
+      const task = (async () => {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
@@ -43,14 +56,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setProfile(null)
       } else {
         setProfile(data as Profile | null)
+        lastProfileUserIdRef.current = userId
       }
+      })()
+
+      inFlightProfileFetchRef.current = task
+      await task
     } catch (err) {
       console.error('Unexpected error fetching profile:', err)
       setProfile(null)
     } finally {
+      inFlightProfileFetchRef.current = null
       setIsLoading(false)
     }
-  }, [supabase])
+  }, [supabase, profile])
 
   useEffect(() => {
     // Get initial session
@@ -58,7 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSession(session)
       setUser(session?.user ?? null)
       if (session?.user) {
-        fetchProfile(session.user.id)
+        fetchProfile(session.user.id, { force: true })
       } else {
         setIsLoading(false)
       }
@@ -66,13 +85,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Listen for changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (event, session) => {
         setSession(session)
         setUser(session?.user ?? null)
         if (session?.user) {
-          fetchProfile(session.user.id)
+          // IMPORTANT: don't refetch the profile on every token refresh.
+          // Fetch only when it can actually change (sign-in/user update) or if user changes.
+          const userId = session.user.id
+          const userChanged = lastProfileUserIdRef.current !== userId
+          const shouldFetch =
+            userChanged ||
+            event === 'SIGNED_IN' ||
+            event === 'USER_UPDATED' ||
+            event === 'PASSWORD_RECOVERY'
+
+          if (shouldFetch) {
+            fetchProfile(userId)
+          } else {
+            // Auth state updated but profile is still valid; ensure we don't show loading spinners.
+            setIsLoading(false)
+          }
         } else {
           setProfile(null)
+          lastProfileUserIdRef.current = null
           setIsLoading(false)
         }
       }
