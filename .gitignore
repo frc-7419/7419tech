@@ -51,3 +51,6 @@ strapi-cms/.cache/
 strapi-cms/STRAPI_SETUP_NEXT_STEPS.md
 strapi-cms/STRAPI_CMS_SPECIFICATION.md
 CMS_WORKFLOW_GUIDE.md
+
+# Strapi CMS v2 - separate repo
+strapi-cms-v2/

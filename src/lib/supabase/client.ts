@@ -1,24 +1,18 @@
 import { createBrowserClient } from '@supabase/ssr'
 import type { Database } from './types'
 
-// Singleton pattern - only create ONE client instance ever
-let supabaseInstance: ReturnType<typeof createBrowserClient<Database>> | null = null
-
-export const getSupabaseClient = () => {
-  if (supabaseInstance) {
-    return supabaseInstance
-  }
-
+export function createClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase environment variables. Please check your .env.local file.')
+    throw new Error(
+      'Missing Supabase environment variables. Please check that NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set in your .env.local file.'
+    )
   }
 
-  supabaseInstance = createBrowserClient<Database>(supabaseUrl, supabaseAnonKey)
-  return supabaseInstance
+  return createBrowserClient<Database>(supabaseUrl, supabaseAnonKey)
 }
 
-// Keep old export for backwards compatibility during migration
-export const createClient = getSupabaseClient
+// Alias for backwards compatibility
+export const getSupabaseClient = createClient

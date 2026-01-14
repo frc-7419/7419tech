@@ -7,12 +7,12 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Mail, CheckCircle, Clock, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
 import { NavHeader } from '@/components/NavHeader'
-import { createClient } from '@/lib/supabase/client'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function VerifyEmailPage() {
   const [resending, setResending] = useState(false)
   const [resendMessage, setResendMessage] = useState('')
-  const supabase = createClient()
+  const { supabase } = useAuth()
 
   const handleResendVerification = async () => {
     setResending(true)

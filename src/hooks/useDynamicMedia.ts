@@ -42,13 +42,8 @@ export function useDynamicMedia({ location, limit }: UseDynamicMediaOptions) {
           }
         })
 
-        console.log('Strapi response for location:', location, response)
-
         // Transform Strapi v5 response format
         const transformedData = response.data.map((item: any) => {
-          console.log('Processing item:', item)
-          console.log('Item image data:', item.image)
-          
           return {
             id: item.id,
             title: item.title,
@@ -61,11 +56,9 @@ export function useDynamicMedia({ location, limit }: UseDynamicMediaOptions) {
           }
         })
         
-        console.log('Transformed data:', transformedData)
         setMedia(transformedData)
       } catch (err) {
         setError('Failed to load media')
-        console.error('Error fetching dynamic media:', err)
       } finally {
         setLoading(false)
       }

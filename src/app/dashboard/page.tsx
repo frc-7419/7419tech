@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
-import { getSupabaseClient } from '@/lib/supabase/client'
 import { NavHeader } from '@/components/NavHeader'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -15,7 +14,8 @@ import { Loader2, Save, User as UserIcon, Calendar, Building, FileText } from 'l
 import { useToast } from '@/hooks/use-toast'
 
 export default function DashboardPage() {
-  const { user, profile, isLoading, isAuthenticated, refreshProfile } = useAuth()
+  const router = useRouter()
+  const { user, profile, isLoading, isAuthenticated, refreshProfile, supabase } = useAuth()
   const [saving, setSaving] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -24,13 +24,12 @@ export default function DashboardPage() {
     bio: ''
   })
   
-  const router = useRouter()
   const { toast } = useToast()
 
-  // Redirect if not authenticated (after loading completes)
+  // Redirect to login if not authenticated (fallback for middleware)
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push('/auth/login')
+      router.replace('/auth/login?redirectTo=/dashboard')
     }
   }, [isLoading, isAuthenticated, router])
 
@@ -55,8 +54,7 @@ export default function DashboardPage() {
 
     setSaving(true)
     try {
-      const supabase = getSupabaseClient()
-      
+      // Use the supabase client from AuthContext (shared instance)
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -101,7 +99,7 @@ export default function DashboardPage() {
     }
   }
 
-  // Loading state
+  // Loading state (middleware ensures only authenticated users reach this page)
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
@@ -113,8 +111,8 @@ export default function DashboardPage() {
     )
   }
 
-  // Not authenticated - will redirect via useEffect
-  if (!isAuthenticated) {
+  // If not authenticated, show loading while middleware redirects
+  if (!isAuthenticated || !user) {
     return (
       <div className="min-h-screen bg-background">
         <NavHeader />
@@ -125,7 +123,7 @@ export default function DashboardPage() {
     )
   }
 
-  // Profile not yet loaded (should be rare with our context)
+  // Profile not yet loaded (should be rare with our context - only for authenticated users)
   if (!profile) {
     return (
       <div className="min-h-screen bg-background">

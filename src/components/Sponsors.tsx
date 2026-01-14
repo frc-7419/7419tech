@@ -36,7 +36,7 @@ function Sponsors() {
         const response = await strapiClient.getActiveSponsors()
         setStrapiSponsors(response.data as unknown as StrapiSponsor[])
       } catch (err) {
-        console.log('Strapi sponsors not available, showing original sponsors only')
+        // Strapi sponsors not available, showing original sponsors only
       } finally {
         setStrapiLoading(false)
       }

@@ -1,11 +1,12 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { User, Session } from '@supabase/supabase-js'
-import { getSupabaseClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
 import { Profile } from '@/lib/supabase/types'
 
-interface AuthState {
+interface AuthContextType {
   user: User | null
   profile: Profile | null
   session: Session | null
@@ -13,208 +14,133 @@ interface AuthState {
   isAuthenticated: boolean
   isAdmin: boolean
   isMember: boolean
-}
-
-interface AuthContextType extends AuthState {
   signOut: () => Promise<void>
   refreshProfile: () => Promise<void>
+  supabase: ReturnType<typeof createClient>
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
-// Cache for profile data to avoid refetching
-const profileCache = new Map<string, { profile: Profile; timestamp: number }>()
-const CACHE_TTL = 60000 // 1 minute cache
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<AuthState>({
-    user: null,
-    profile: null,
-    session: null,
-    isLoading: true,
-    isAuthenticated: false,
-    isAdmin: false,
-    isMember: false,
-  })
+  const [user, setUser] = useState<User | null>(null)
+  const [profile, setProfile] = useState<Profile | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  
+  const router = useRouter()
+  const supabase = useMemo(() => createClient(), [])
 
-  // Use ref to get the supabase client - stable reference
-  const supabaseRef = useRef(getSupabaseClient())
-  const supabase = supabaseRef.current
+  // Avoid refetching the same profile unnecessarily (and dedupe concurrent calls).
+  const lastProfileUserIdRef = useRef<string | null>(null)
+  const inFlightProfileFetchRef = useRef<Promise<void> | null>(null)
 
-  // Fetch profile with timeout
-  const fetchProfile = async (userId: string): Promise<Profile | null> => {
-    // Check cache first
-    const cached = profileCache.get(userId)
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-      return cached.profile
-    }
-
+  const fetchProfile = useCallback(async (userId: string, options?: { force?: boolean }) => {
     try {
-      // Add 5 second timeout
-      const timeoutPromise = new Promise<never>((_, reject) => 
-        setTimeout(() => reject(new Error('Profile fetch timeout')), 5000)
-      )
+      // Dedupe in-flight fetches for the same user.
+      if (!options?.force && lastProfileUserIdRef.current === userId) {
+        return
+      }
+      if (inFlightProfileFetchRef.current) {
+        return await inFlightProfileFetchRef.current
+      }
 
-      const fetchPromise = supabase
+      const task = (async () => {
+      const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single()
 
-      const { data, error } = await Promise.race([fetchPromise, timeoutPromise])
-
       if (error) {
-        console.error('Profile fetch error:', error)
-        return null
+        console.error('Failed to fetch user profile:', error.message)
+        setProfile(null)
+      } else {
+        setProfile(data as Profile | null)
+        lastProfileUserIdRef.current = userId
       }
+      })()
 
-      const profile = data as Profile
-      profileCache.set(userId, { profile, timestamp: Date.now() })
-      return profile
-    } catch (error) {
-      console.error('Unexpected profile fetch error:', error)
-      return null
+      inFlightProfileFetchRef.current = task
+      await task
+    } catch (err) {
+      console.error('Unexpected error fetching profile:', err)
+      setProfile(null)
+    } finally {
+      inFlightProfileFetchRef.current = null
+      setIsLoading(false)
     }
-  }
+  }, [supabase])
 
-  // Initialize auth on mount - runs ONCE
   useEffect(() => {
-    let mounted = true
-
-    const initAuth = async () => {
-      try {
-        // Add timeout for session fetch too
-        const timeoutPromise = new Promise<never>((_, reject) => 
-          setTimeout(() => reject(new Error('Session fetch timeout')), 5000)
-        )
-
-        const sessionPromise = supabase.auth.getSession()
-        
-        const { data: { session }, error } = await Promise.race([sessionPromise, timeoutPromise])
-        
-        if (error) {
-          console.error('Session error:', error)
-          if (mounted) {
-            setState(prev => ({ ...prev, isLoading: false }))
-          }
-          return
-        }
-
-        if (!session?.user) {
-          if (mounted) {
-            setState({
-              user: null,
-              profile: null,
-              session: null,
-              isLoading: false,
-              isAuthenticated: false,
-              isAdmin: false,
-              isMember: false,
-            })
-          }
-          return
-        }
-
-        // Fetch profile for authenticated user
-        const profile = await fetchProfile(session.user.id)
-        
-        if (mounted) {
-          setState({
-            user: session.user,
-            profile,
-            session,
-            isLoading: false,
-            isAuthenticated: true,
-            isAdmin: profile?.role === 'admin',
-            isMember: profile?.role === 'member' || profile?.role === 'admin',
-          })
-        }
-      } catch (error) {
-        console.error('Auth init error:', error)
-        if (mounted) {
-          // Set loading to false even on error - show the page
-          setState(prev => ({ ...prev, isLoading: false }))
-        }
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setUser(session?.user ?? null)
+      if (session?.user) {
+        fetchProfile(session.user.id, { force: true })
+      } else {
+        setIsLoading(false)
       }
-    }
+    })
 
-    initAuth()
-
-    // Listen for auth changes
+    // Listen for changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (!mounted) return
-        
-        // Handle sign out
-        if (event === 'SIGNED_OUT' || !session?.user) {
-          setState({
-            user: null,
-            profile: null,
-            session: null,
-            isLoading: false,
-            isAuthenticated: false,
-            isAdmin: false,
-            isMember: false,
-          })
-          return
-        }
+      (event, session) => {
+        setSession(session)
+        setUser(session?.user ?? null)
+        if (session?.user) {
+          // IMPORTANT: don't refetch the profile on every token refresh.
+          // Fetch only when it can actually change (sign-in/user update) or if user changes.
+          const userId = session.user.id
+          const userChanged = lastProfileUserIdRef.current !== userId
+          const shouldFetch =
+            userChanged ||
+            event === 'SIGNED_IN' ||
+            event === 'USER_UPDATED' ||
+            event === 'PASSWORD_RECOVERY'
 
-        // Handle sign in or user update
-        if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
-          const profile = await fetchProfile(session.user.id)
-          
-          if (mounted) {
-            setState({
-              user: session.user,
-              profile,
-              session,
-              isLoading: false,
-              isAuthenticated: true,
-              isAdmin: profile?.role === 'admin',
-              isMember: profile?.role === 'member' || profile?.role === 'admin',
-            })
+          if (shouldFetch) {
+            fetchProfile(userId)
+          } else {
+            // Auth state updated but profile is still valid; ensure we don't show loading spinners.
+            setIsLoading(false)
           }
+        } else {
+          setProfile(null)
+          lastProfileUserIdRef.current = null
+          setIsLoading(false)
         }
       }
     )
 
-    return () => {
-      mounted = false
-      subscription.unsubscribe()
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // Empty deps - run once on mount
+    return () => subscription.unsubscribe()
+  }, [supabase, fetchProfile])
 
   const refreshProfile = useCallback(async () => {
-    if (!state.user) return
-    
-    // Clear cache
-    profileCache.delete(state.user.id)
-    
-    const profile = await fetchProfile(state.user.id)
-    setState(prev => ({
-      ...prev,
-      profile,
-      isAdmin: profile?.role === 'admin',
-      isMember: profile?.role === 'member' || profile?.role === 'admin',
-    }))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.user?.id])
+    if (user) await fetchProfile(user.id)
+  }, [user, fetchProfile])
 
   const signOut = useCallback(async () => {
-    if (state.user) {
-      profileCache.delete(state.user.id)
-    }
     await supabase.auth.signOut()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.user?.id])
+    router.push('/')
+    router.refresh()
+  }, [supabase, router])
+
+  const value: AuthContextType = {
+    user,
+    profile,
+    session,
+    isLoading,
+    isAuthenticated: !!user,
+    isAdmin: profile?.role === 'admin',
+    isMember: profile?.role === 'member' || profile?.role === 'admin',
+    signOut,
+    refreshProfile,
+    supabase,
+  }
 
   return (
-    <AuthContext.Provider value={{
-      ...state,
-      signOut,
-      refreshProfile,
-    }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   )
@@ -228,11 +154,7 @@ export function useAuth() {
   return context
 }
 
-// Convenience hook for components that need to wait for auth to load
 export function useRequireAuth() {
   const auth = useAuth()
-  return {
-    ...auth,
-    isReady: !auth.isLoading,
-  }
+  return { ...auth, isReady: !auth.isLoading }
 }

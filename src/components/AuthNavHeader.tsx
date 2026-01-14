@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
 import { useAuth } from '@/contexts/AuthContext'
-import { LogIn, LogOut, Settings } from 'lucide-react'
+import { LogIn, LogOut, Settings, Loader2 } from 'lucide-react'
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -126,7 +126,10 @@ export function AuthNavHeader() {
 
         <div className="flex items-center gap-2">
           {isLoading ? (
-            <div className="w-20 h-8 rounded bg-white/10 animate-pulse" />
+            // Show loading spinner while auth is being determined
+            <div className="w-20 h-8 flex items-center justify-center">
+              <Loader2 className="h-5 w-5 animate-spin text-white/70" />
+            </div>
           ) : user ? (
             <div className="flex items-center gap-2">
               <span className="text-white text-sm">

@@ -22,16 +22,20 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { useAuth } from '@/contexts/AuthContext'
-import { LogIn, LogOut, Settings, User as UserIcon, Shield } from 'lucide-react'
+import { LogIn, LogOut, Settings, User as UserIcon, Shield, Loader2 } from 'lucide-react'
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+type ListItemProps = React.ComponentPropsWithoutRef<typeof Link> & {
+  title: string
+  className?: string
+  children: React.ReactNode
+}
+
+const ListItem = React.forwardRef<React.ElementRef<'a'>, ListItemProps>(
+  ({ className, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
+        <Link
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
@@ -43,7 +47,7 @@ const ListItem = React.forwardRef<
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
-        </a>
+        </Link>
       </NavigationMenuLink>
     </li>
   )
@@ -161,11 +165,14 @@ export function NavHeader() {
             </Link>
           </Button>
           
-          {/* Auth buttons - show skeleton during load to prevent flicker */}
+          {/* Auth buttons with proper loading state */}
           {isLoading ? (
-            // Skeleton placeholder - same size as auth button to prevent layout shift
-            <div className="w-10 h-10 rounded-md bg-white/10 animate-pulse" />
+            // Show loading spinner while auth is being determined
+            <div className="w-10 h-10 flex items-center justify-center">
+              <Loader2 className="h-5 w-5 animate-spin text-white/70" />
+            </div>
           ) : user ? (
+            // User is logged in - show profile dropdown
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon" className="text-white border-white hover:bg-white hover:text-[#11224e] bg-transparent">
@@ -188,13 +195,17 @@ export function NavHeader() {
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={signOut} className="flex items-center text-red-600">
+                <DropdownMenuItem 
+                  onClick={signOut} 
+                  className="flex items-center text-red-600 cursor-pointer"
+                >
                   <LogOut className="h-4 w-4 mr-2" />
                   Sign Out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
+            // User is not logged in - show sign in/sign up buttons
             <div className="flex items-center gap-2">
               <Button asChild variant="ghost" size="sm" className={cn(
                 "text-white bg-transparent transition-all duration-300",

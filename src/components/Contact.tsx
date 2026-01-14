@@ -117,7 +117,6 @@ export default function Contact() {
     event.preventDefault();
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 1000);
-    console.log("Form submitted");
   };
 
   return (

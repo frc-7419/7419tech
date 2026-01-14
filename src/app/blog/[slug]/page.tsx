@@ -48,15 +48,12 @@ export default function BlogPostPage() {
         const foundPost = response.data.find((post: any) => post.slug === slug)
         
         if (foundPost) {
-          console.log('Found post:', foundPost)
-          console.log('Featured image:', (foundPost as any).featured_image)
           setPost(foundPost as unknown as BlogPost)
         } else {
           setError('Blog post not found')
         }
       } catch (err) {
         setError('Failed to load blog post')
-        console.error('Error:', err)
       } finally {
         setLoading(false)
       }

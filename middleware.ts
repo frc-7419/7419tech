@@ -1,8 +1,18 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { getUserRoleFromAccessToken } from '@/lib/supabase/jwt'
+
+// Validate env vars at module load time for clear error messages
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  throw new Error(
+    'Missing Supabase environment variables. Please check that NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set in your .env.local file.'
+  )
+}
+
+const supabaseUrl: string = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 export async function middleware(request: NextRequest) {
-  // Early return for non-protected routes - PREVENTS COOKIE BLOAT!
   const protectedRoutes = ['/admin', '/dashboard']
   const authRoutes = ['/auth/login', '/auth/signup']
   
@@ -13,48 +23,53 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   )
 
-  // Skip middleware for non-protected routes
-  if (!isProtectedRoute && !isAuthRoute) {
-    return NextResponse.next()
-  }
-
   let supabaseResponse = NextResponse.next({
     request,
   })
 
+  const redirectWithCookies = (url: URL) => {
+    const response = NextResponse.redirect(url)
+    // Preserve any updated auth cookies (e.g. refresh-token rotation) on redirects.
+    supabaseResponse.cookies.getAll().forEach(({ name, value, ...options }) => {
+      response.cookies.set(name, value, options)
+    })
+    return response
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
           return request.cookies.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]) {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
           cookiesToSet.forEach(({ name, value, options }) => {
-            // Add secure cookie options
-            const secureOptions = {
-              ...options,
-              httpOnly: true,
-              secure: process.env.NODE_ENV === 'production',
-              sameSite: 'lax' as const,
-              maxAge: options?.maxAge || 60 * 60 * 24 * 7, // 1 week default
-            }
-            supabaseResponse.cookies.set(name, value, secureOptions)
+            // IMPORTANT: do NOT override Supabase cookie options.
+            // The browser client (createBrowserClient) reads these cookies via document.cookie.
+            // Forcing httpOnly breaks refresh-token rotation and causes 400 refresh_token_not_found.
+            supabaseResponse.cookies.set(name, value, options)
           })
         },
       },
     }
   )
 
-  // Only get user for routes that actually need auth
+  // Always refresh the session cookie on navigation so auth doesn't silently
+  // expire when users browse public pages (e.g. /blog).
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
+  // For non-auth/non-protected routes, we only needed the refresh above.
+  if (!isProtectedRoute && !isAuthRoute) {
+    return supabaseResponse
+  }
 
   // Redirect logged-in users away from auth pages
   if (request.nextUrl.pathname.startsWith('/auth/login') || request.nextUrl.pathname.startsWith('/auth/signup')) {
@@ -62,7 +77,7 @@ export async function middleware(request: NextRequest) {
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/dashboard'
       redirectUrl.search = '' // Clear query params
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
   }
 
@@ -73,32 +88,31 @@ export async function middleware(request: NextRequest) {
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/auth/login'
       redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname)
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
 
-    // Check user role from profiles table
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single()
+    // Session is only needed for role-checks (JWT claim lives on access_token).
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
 
-    if (profile?.role !== 'admin') {
+    const userRole = getUserRoleFromAccessToken(session?.access_token)
+
+    if (userRole !== 'admin') {
       // Redirect to unauthorized page if not admin
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/auth/unauthorized'
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
   }
 
-  // Protect dashboard routes
+  // Protect dashboard routes (same pattern as admin above)
   if (request.nextUrl.pathname.startsWith('/dashboard')) {
     if (!user) {
-      // Redirect to login if not authenticated
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/auth/login'
       redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname)
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
   }
 
@@ -107,9 +121,8 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/admin/:path*',
-    '/dashboard/:path*',
-    '/auth/login',
-    '/auth/signup'
+    // Run on all pages (not static assets or API routes) so the Supabase session
+    // cookie can refresh during normal browsing.
+    '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)',
   ],
 }
