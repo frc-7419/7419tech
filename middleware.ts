@@ -27,6 +27,15 @@ export async function middleware(request: NextRequest) {
     request,
   })
 
+  const redirectWithCookies = (url: URL) => {
+    const response = NextResponse.redirect(url)
+    // Preserve any updated auth cookies (e.g. refresh-token rotation) on redirects.
+    supabaseResponse.cookies.getAll().forEach(({ name, value, ...options }) => {
+      response.cookies.set(name, value, options)
+    })
+    return response
+  }
+
   const supabase = createServerClient(
     supabaseUrl,
     supabaseAnonKey,
@@ -68,7 +77,7 @@ export async function middleware(request: NextRequest) {
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/dashboard'
       redirectUrl.search = '' // Clear query params
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
   }
 
@@ -79,7 +88,7 @@ export async function middleware(request: NextRequest) {
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/auth/login'
       redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname)
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
 
     // Session is only needed for role-checks (JWT claim lives on access_token).
@@ -93,7 +102,7 @@ export async function middleware(request: NextRequest) {
       // Redirect to unauthorized page if not admin
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/auth/unauthorized'
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
   }
 
@@ -103,7 +112,7 @@ export async function middleware(request: NextRequest) {
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/auth/login'
       redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname)
-      return NextResponse.redirect(redirectUrl)
+      return redirectWithCookies(redirectUrl)
     }
   }
 

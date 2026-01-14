@@ -14,13 +14,19 @@ function joinUrl(base: string, path: string) {
 
 export async function GET(
   request: NextRequest,
-  context: { params: Promise<{ path: string[] }> }
+  context: { params: Promise<Record<string, string | string[] | undefined>> }
 ) {
   // Apply rate limiting
   const rateLimitResponse = await rateLimit(request, generalLimiter)
   if (rateLimitResponse) return rateLimitResponse
 
-  const { path } = await context.params
+  const resolvedParams = await context.params
+  const pathParam = resolvedParams?.path
+  const path = Array.isArray(pathParam) ? pathParam : typeof pathParam === 'string' ? [pathParam] : null
+
+  if (!path || path.length === 0) {
+    return NextResponse.json({ error: 'Missing path' }, { status: 400 })
+  }
   const upstreamUrl = new URL(joinUrl(STRAPI_API_URL, path.join('/')))
 
   // Preserve querystring

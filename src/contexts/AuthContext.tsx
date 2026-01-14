@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const fetchProfile = useCallback(async (userId: string, options?: { force?: boolean }) => {
     try {
       // Dedupe in-flight fetches for the same user.
-      if (!options?.force && lastProfileUserIdRef.current === userId && profile) {
+      if (!options?.force && lastProfileUserIdRef.current === userId) {
         return
       }
       if (inFlightProfileFetchRef.current) {
@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       inFlightProfileFetchRef.current = null
       setIsLoading(false)
     }
-  }, [supabase, profile])
+  }, [supabase])
 
   useEffect(() => {
     // Get initial session

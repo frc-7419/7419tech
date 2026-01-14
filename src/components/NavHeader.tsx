@@ -24,10 +24,14 @@ import { cn } from "@/lib/utils"
 import { useAuth } from '@/contexts/AuthContext'
 import { LogIn, LogOut, Settings, User as UserIcon, Shield, Loader2 } from 'lucide-react'
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+type ListItemProps = React.ComponentPropsWithoutRef<typeof Link> & {
+  title: string
+  className?: string
+  children: React.ReactNode
+}
+
+const ListItem = React.forwardRef<React.ElementRef<'a'>, ListItemProps>(
+  ({ className, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
