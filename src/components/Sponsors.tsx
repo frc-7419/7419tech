@@ -45,21 +45,24 @@ function Sponsors() {
     fetchSponsors()
   }, [])
 
-  // Combine original sponsors with Strapi sponsors
-  const allSponsors = [
-    ...originalSponsors.map(sponsor => ({
-      ...sponsor,
-      id: sponsor.name,
-      isOriginal: true
-    })),
-    ...strapiSponsors.map(sponsor => ({
+  const strapiSponsorsWithLogos = strapiSponsors
+    .map(sponsor => ({
       id: sponsor.id,
       name: sponsor.name,
       logo: getStrapiMediaUrl(sponsor.logo),
       url: sponsor.website_url,
       isOriginal: false
     }))
-  ]
+    .filter(sponsor => sponsor.logo)
+
+  const useFallbackSponsors = !strapiLoading && strapiSponsorsWithLogos.length === 0
+  const allSponsors = useFallbackSponsors
+    ? originalSponsors.map(sponsor => ({
+        ...sponsor,
+        id: sponsor.name,
+        isOriginal: true
+      }))
+    : strapiSponsorsWithLogos
 
   return (
     <main className="flex-grow min-h-screen" style={{ backgroundColor: "#1b2947" }}>
@@ -79,36 +82,45 @@ function Sponsors() {
           </motion.div>
 
           <div className="grid grid-cols-3 grid-rows-2 gap-8">
-            {allSponsors.map((sponsor, index) => (
-              <motion.div
-                key={sponsor.id}
-                className="bg-white rounded-xl shadow-lg p-8 flex items-center justify-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05 }}
-              >
-                {sponsor.url ? (
-                  <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
-                    <Image
-                      src={sponsor.logo || ''}
-                      alt={`${sponsor.name} logo`}
-                      width={150}
-                      height={100}
-                      className="max-h-24 object-contain"
-                    />
-                  </a>
-                ) : (
-                  <Image
-                    src={sponsor.logo || ''}
-                    alt={`${sponsor.name} logo`}
-                    width={150}
-                    height={100}
-                    className="max-h-24 object-contain"
-                  />
-                )}
-              </motion.div>
-            ))}
+            {strapiLoading
+              ? Array.from({ length: 6 }).map((_, index) => (
+                  <div
+                    key={`sponsor-skeleton-${index}`}
+                    className="bg-white rounded-xl shadow-lg p-8 flex items-center justify-center"
+                  >
+                    <div className="w-36 h-16 bg-gray-200 animate-pulse rounded-lg" />
+                  </div>
+                ))
+              : allSponsors.map((sponsor, index) => (
+                  <motion.div
+                    key={sponsor.id}
+                    className="bg-white rounded-xl shadow-lg p-8 flex items-center justify-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    {sponsor.url ? (
+                      <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+                        <Image
+                          src={sponsor.logo || ''}
+                          alt={`${sponsor.name} logo`}
+                          width={150}
+                          height={100}
+                          className="max-h-24 object-contain"
+                        />
+                      </a>
+                    ) : (
+                      <Image
+                        src={sponsor.logo || ''}
+                        alt={`${sponsor.name} logo`}
+                        width={150}
+                        height={100}
+                        className="max-h-24 object-contain"
+                      />
+                    )}
+                  </motion.div>
+                ))}
           </div>
 
           <motion.div

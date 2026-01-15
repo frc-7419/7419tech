@@ -193,9 +193,9 @@ const OurRobot = () => {
     "/static/robot/robot5.JPG",
   ]
 
-  const carouselImages = robotMedia && robotMedia.length > 0 
+  const carouselImages = !robotLoading && robotMedia && robotMedia.length > 0 
     ? robotMedia.map(item => getStrapiMediaUrl(item.image))
-    : fallbackImages
+    : (!robotLoading ? fallbackImages : [])
 
   return (
     <motion.div
@@ -215,19 +215,23 @@ const OurRobot = () => {
       <motion.div className="w-full max-w-3xl mb-8" variants={itemVariants}>
         
         <Card className="aspect-video w-full bg-gray-50 overflow-hidden rounded-xl border-[#ffc14a]/20">
-          <Slider {...carouselSettings}>
-                {carouselImages.map((src, index) => (
-                  <div key={index} className="relative aspect-video">
-                    <Image
-                      src={src || ''}
-                      alt={`Robot image ${index + 1}`}
-                      width={800}
-                      height={600}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))} 
-          </Slider>
+          {robotLoading ? (
+            <div className="w-full h-full animate-pulse bg-gray-200" />
+          ) : (
+            <Slider {...carouselSettings}>
+              {carouselImages.map((src, index) => (
+                <div key={index} className="relative aspect-video">
+                  <Image
+                    src={src || ''}
+                    alt={`Robot image ${index + 1}`}
+                    width={800}
+                    height={600}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </Slider>
+          )}
         </Card>
         <div className="absolute -z-10 top-0 right-0 w-96 h-96 bg-[#ffc14a]/10 rounded-full blur-3xl" />
         <div className="absolute -z-10 bottom-0 right-24 w-96 h-96 bg-[#ffc14a]/5 rounded-full blur-3xl" />
