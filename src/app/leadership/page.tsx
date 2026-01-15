@@ -231,14 +231,8 @@ export default function Leadership() {
     fetchLeaders()
   }, [])
 
-  // Combine original team with Strapi leaders
-  const allLeaders = [
-    ...originalTeam.map(member => ({
-      ...member,
-      id: member.name,
-      isOriginal: true
-    })),
-    ...strapiLeaders.map(leader => {
+  const strapiLeadersWithImages = strapiLeaders
+    .map(leader => {
       const imageUrl = getStrapiMediaUrl(leader.profile_picture)
       return {
         id: leader.id,
@@ -250,7 +244,16 @@ export default function Leadership() {
         isOriginal: false
       }
     })
-  ]
+    .filter(leader => leader.img)
+
+  const useFallbackLeaders = !strapiLoading && strapiLeadersWithImages.length === 0
+  const allLeaders = useFallbackLeaders
+    ? originalTeam.map(member => ({
+        ...member,
+        id: member.name,
+        isOriginal: true
+      }))
+    : strapiLeadersWithImages
 
   return (
     <main className="flex-grow" style={{ backgroundColor: "#1b2947" }}>
@@ -276,36 +279,50 @@ export default function Leadership() {
             {/* Items */}
             <div className="my-5 mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                {allLeaders.map((member, index) => (
-                  <div
-                    key={member.id}
-                    className="flex space-x-6"
-                    style={{ marginLeft: "25%" }}
-                  >
-                    <Image
-                      src={(member.isOriginal ? member.img : member.img) || ''}
-                      height={100}
-                      width={100}
-                      className="h-16 object-cover w-16 rounded-xl bg-gray-800 border-none shadow-sm"
-                      alt={member.name}
-                    />
-                    <div className="block text-lg">
-                      <div className="hover:text-gray-400">
-                        <p className="font-semibold break-normal text-gray-200">
-                          {member.name} &apos;{member.year}
-                        </p>
+                {strapiLoading
+                  ? Array.from({ length: 8 }).map((_, index) => (
+                      <div
+                        key={`leader-skeleton-${index}`}
+                        className="flex space-x-6"
+                        style={{ marginLeft: "25%" }}
+                      >
+                        <div className="h-16 w-16 rounded-xl bg-gray-700 animate-pulse" />
+                        <div className="space-y-2 w-40">
+                          <div className="h-4 bg-gray-700 rounded animate-pulse" />
+                          <div className="h-3 bg-gray-700 rounded w-24 animate-pulse" />
+                        </div>
                       </div>
-                      <p className="mt-1 text-base inline text-transparent bg-clip-text bg-gradient-to-r from-[hsl(var(--brand-gold))] to-[#d59a25] font-medium">
-                        {member.position}
-                      </p>
-                      {'bio' in member && member.bio && (
-                        <p className="text-sm text-gray-300 mt-1">
-                          {member.bio}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                    ))
+                  : allLeaders.map((member, index) => (
+                      <div
+                        key={member.id}
+                        className="flex space-x-6"
+                        style={{ marginLeft: "25%" }}
+                      >
+                        <Image
+                          src={(member.isOriginal ? member.img : member.img) || ''}
+                          height={100}
+                          width={100}
+                          className="h-16 object-cover w-16 rounded-xl bg-gray-800 border-none shadow-sm"
+                          alt={member.name}
+                        />
+                        <div className="block text-lg">
+                          <div className="hover:text-gray-400">
+                            <p className="font-semibold break-normal text-gray-200">
+                              {member.name} &apos;{member.year}
+                            </p>
+                          </div>
+                          <p className="mt-1 text-base inline text-transparent bg-clip-text bg-gradient-to-r from-[hsl(var(--brand-gold))] to-[#d59a25] font-medium">
+                            {member.position}
+                          </p>
+                          {'bio' in member && member.bio && (
+                            <p className="text-sm text-gray-300 mt-1">
+                              {member.bio}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
               </div>
             </div>
           </div>

@@ -62,9 +62,9 @@ export function HeroSection() {
     "/static/team/teamphoto.avif"
   ]
 
-  const carouselImages = carouselMedia && carouselMedia.length > 0 
+  const carouselImages = !carouselLoading && carouselMedia && carouselMedia.length > 0 
     ? carouselMedia.map(item => getStrapiMediaUrl(item.image))
-    : fallbackImages
+    : (!carouselLoading ? fallbackImages : [])
 
   return (
     <section className="relative min-h-screen bg-gray-900 flex items-center pt-0 pb-14 overflow-hidden">
@@ -156,19 +156,23 @@ export function HeroSection() {
             className="relative mt-8 lg:mt-0"
           >
             <Card className="aspect-video w-full bg-gray-50 overflow-hidden rounded-xl border-[#ffc14a]/20">
-              <Slider {...carouselSettings}>
-                {carouselImages.map((src, index) => (
-                  <div key={index} className="relative aspect-video">
-                    <Image
-                      src={src || ''}
-                      alt={`Robot image ${index + 1}`}
-                      width={800}
-                      height={600}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </Slider>
+              {carouselLoading ? (
+                <div className="w-full h-full animate-pulse bg-gray-200" />
+              ) : (
+                <Slider {...carouselSettings}>
+                  {carouselImages.map((src, index) => (
+                    <div key={index} className="relative aspect-video">
+                      <Image
+                        src={src || ''}
+                        alt={`Robot image ${index + 1}`}
+                        width={800}
+                        height={600}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </Slider>
+              )}
             </Card>
             
             {/* Decorative elements */}

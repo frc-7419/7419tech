@@ -40,8 +40,7 @@ export async function GET(
       headers: {
         Accept: 'application/json',
       },
-      // Cache Strapi responses briefly at the Next.js layer
-      next: { revalidate: 60 },
+      cache: 'no-store',
     })
 
     const contentType = upstreamRes.headers.get('content-type') || 'application/json'
@@ -51,8 +50,7 @@ export async function GET(
       status: upstreamRes.status,
       headers: {
         'content-type': contentType,
-        // Encourage browsers/CDNs to cache lightly too (safe for public content)
-        'cache-control': 'public, s-maxage=60, stale-while-revalidate=300',
+        'cache-control': 'no-store',
       },
     })
   } catch (error) {
