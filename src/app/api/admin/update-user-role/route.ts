@@ -49,18 +49,18 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (!['public', 'member', 'admin'].includes(newRole)) {
+    if (!['public', 'member'].includes(newRole)) {
       return NextResponse.json(
-        { error: 'Invalid role. Must be: public, member, or admin' },
+        { error: 'Invalid role. Must be: public or member' },
         { status: 400 }
       )
     }
 
     // Type-safe role assignment
-    const validRole: 'public' | 'member' | 'admin' = newRole
+    const validRole: 'public' | 'member' = newRole
 
     // Prevent admins from changing their own role to prevent lockout
-    if (userId === user.id && validRole !== 'admin') {
+    if (userId === user.id) {
       return NextResponse.json(
         { error: 'Admins cannot change their own role' },
         { status: 400 }

@@ -62,7 +62,7 @@ export function AdminDashboard() {
     router.refresh()
   }
 
-  const approveUser = async (userId: string, newRole: 'member' | 'admin' = 'member') => {
+  const approveUser = async (userId: string) => {
     setActionLoading(userId)
     try {
       const response = await fetch('/api/admin/update-user-role', {
@@ -72,7 +72,7 @@ export function AdminDashboard() {
         },
         body: JSON.stringify({
           userId,
-          newRole
+          newRole: 'member'
         })
       })
 
@@ -83,7 +83,7 @@ export function AdminDashboard() {
 
       toast({
         title: "User approved",
-        description: `User has been approved as ${newRole}.`,
+        description: 'User has been approved as member.',
       })
 
       // Refresh user lists
@@ -100,7 +100,7 @@ export function AdminDashboard() {
     }
   }
 
-  const updateUserRole = async (userId: string, newRole: 'public' | 'member' | 'admin') => {
+  const updateUserRole = async (userId: string, newRole: 'public' | 'member') => {
     setActionLoading(userId)
     try {
       const response = await fetch('/api/admin/update-user-role', {
@@ -292,19 +292,11 @@ export function AdminDashboard() {
                           <div className="flex space-x-2">
                             <Button
                               size="sm"
-                              onClick={() => approveUser(pendingUser.id, 'member')}
+                              onClick={() => approveUser(pendingUser.id)}
                               className="bg-green-600 hover:bg-green-700"
                               disabled={actionLoading === pendingUser.id}
                             >
                               {actionLoading === pendingUser.id ? 'Approving...' : 'Approve as Member'}
-                            </Button>
-                            <Button
-                              size="sm"
-                              onClick={() => approveUser(pendingUser.id, 'admin')}
-                              className="bg-blue-600 hover:bg-blue-700"
-                              disabled={actionLoading === pendingUser.id}
-                            >
-                              {actionLoading === pendingUser.id ? 'Approving...' : 'Approve as Admin'}
                             </Button>
                           </div>
                         </div>
@@ -352,17 +344,16 @@ export function AdminDashboard() {
                               <span>Registered: {new Date(userProfile.created_at).toLocaleDateString()}</span>
                             </div>
                           </div>
-                          {userProfile.role !== 'public' && (
+                          {userProfile.role !== 'public' && userProfile.role !== 'admin' && (
                             <div className="flex space-x-2">
                               <select
                                 value={userProfile.role}
-                                onChange={(e) => updateUserRole(userProfile.id, e.target.value as 'public' | 'member' | 'admin')}
+                                onChange={(e) => updateUserRole(userProfile.id, e.target.value as 'public' | 'member')}
                                 className="text-sm border rounded px-2 py-1"
                                 disabled={actionLoading === userProfile.id}
                               >
                                 <option value="public">Public</option>
                                 <option value="member">Member</option>
-                                <option value="admin">Admin</option>
                               </select>
                             </div>
                           )}
