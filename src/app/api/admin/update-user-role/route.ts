@@ -67,64 +67,29 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // CSRF-like protection: Verify the request has proper headers
-    const origin = request.headers.get('origin')
-    const referer = request.headers.get('referer')
-    const expectedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const forwardedHost = request.headers.get('x-forwarded-host')
-    const host = request.headers.get('host')
-    const forwardedProto = request.headers.get('x-forwarded-proto') || 'https'
-    const allowedOrigins = new Set<string>([
-      expectedOrigin,
-      request.nextUrl.origin,
-    ])
-    if (forwardedHost) {
-      allowedOrigins.add(`https://${forwardedHost}`)
-      allowedOrigins.add(`http://${forwardedHost}`)
-    }
-    if (host) {
-      allowedOrigins.add(`${forwardedProto}://${host}`)
-    }
-    const addWwwVariants = (originValue: string) => {
-      try {
-        const url = new URL(originValue)
-        if (url.hostname.startsWith('www.')) {
-          const noWww = `${url.protocol}//${url.hostname.replace(/^www\./, '')}`
-          allowedOrigins.add(noWww)
-        } else {
-          const withWww = `${url.protocol}//www.${url.hostname}`
-          allowedOrigins.add(withWww)
-        }
-      } catch {
-        // Ignore invalid origin values
-      }
-    }
-    addWwwVariants(expectedOrigin)
-    addWwwVariants(request.nextUrl.origin)
+    // CSRF-like protection: verify request origin matches our app origin(s).
+    const originHeader = request.headers.get('origin')
+    const refererHeader = request.headers.get('referer')
+    const envOrigin = process.env.NEXT_PUBLIC_SITE_URL
+    const requestOrigin = request.nextUrl.origin
 
-    const refererOrigin = (() => {
-      if (!referer) return null
+    const normalizeOrigin = (value: string | null | undefined) => {
+      if (!value) return null
       try {
-        return new URL(referer).origin
+        return new URL(value).origin
       } catch {
         return null
       }
-    })()
-    const originAllowed =
-      (origin && allowedOrigins.has(origin)) ||
-      (refererOrigin && allowedOrigins.has(refererOrigin))
+    }
 
-    if (!originAllowed) {
-      console.warn('Invalid request origin', {
-        origin,
-        referer,
-        expectedOrigin,
-        nextOrigin: request.nextUrl.origin,
-        forwardedHost,
-        host,
-        forwardedProto,
-        allowedOrigins: Array.from(allowedOrigins),
-      })
+    const allowedOrigins = [envOrigin, requestOrigin]
+      .map(value => normalizeOrigin(value))
+      .filter((value): value is string => Boolean(value))
+
+    const hasAllowedOrigin = [normalizeOrigin(originHeader), normalizeOrigin(refererHeader)]
+      .some(value => value && allowedOrigins.includes(value))
+
+    if (!hasAllowedOrigin) {
       return NextResponse.json(
         { error: 'Invalid request origin' },
         { status: 403 }
