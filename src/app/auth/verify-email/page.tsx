@@ -29,13 +29,17 @@ export default function VerifyEmailPage() {
     }
 
     try {
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
       const { error } = await supabase.auth.resend({
         type: 'signup',
         email: email,
+        options: {
+          emailRedirectTo: `${siteUrl}/auth/callback`,
+        },
       })
 
       if (error) {
-        setResendMessage('Failed to resend verification email. Please try again.')
+        setResendMessage(error.message || 'Failed to resend verification email. Please try again.')
       } else {
         setResendMessage('Verification email sent! Check your inbox.')
       }

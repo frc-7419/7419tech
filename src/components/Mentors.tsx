@@ -21,13 +21,6 @@ const mentors = [
     image: "/static/mentors/lina.jpg",
   },
   {
-    name: "Richard Ong",
-    field: "Robotics",
-    role: "Lead/Coordinator",
-    passion: "Education, Mentorship, Innovation, Learning, Collaboration",
-    image: "/static/mentors/richard.jpg",
-  },
-  {
     name: "Nathan Batchelder",
     field: "Science, Engineering & Robotics",
     role: "Teacher",

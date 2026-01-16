@@ -49,6 +49,13 @@ export function AdminDashboard() {
     fetchUsers()
   }, [fetchUsers])
 
+  useEffect(() => {
+    if (authLoading) return
+    if (!user || profile?.role !== 'admin') {
+      router.replace('/auth/unauthorized')
+    }
+  }, [authLoading, user, profile?.role, router])
+
   const handleSignOut = async () => {
     await signOut()
     router.push('/')
@@ -142,8 +149,8 @@ export function AdminDashboard() {
     }
   }
 
-  // Middleware protects this route, but keep a safe UI state while auth/profile loads.
-  if (authLoading || !user) {
+  // Keep a safe UI state while auth/profile loads.
+  if (authLoading || !user || !profile) {
     return (
       <>
         <NavHeader />

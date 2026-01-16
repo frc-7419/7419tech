@@ -34,10 +34,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const lastProfileUserIdRef = useRef<string | null>(null)
   const inFlightProfileFetchRef = useRef<Promise<void> | null>(null)
 
-  const fetchProfile = useCallback(async (userId: string, options?: { force?: boolean }) => {
+  const buildProfileSeed = useCallback((authUser: User) => {
+    const metadata = authUser.user_metadata ?? {}
+    const graduationYear =
+      typeof metadata.graduation_year === 'number'
+        ? metadata.graduation_year
+        : typeof metadata.graduation_year === 'string'
+          ? parseInt(metadata.graduation_year, 10)
+          : null
+
+    return {
+      id: authUser.id,
+      email: authUser.email ?? '',
+      name: typeof metadata.name === 'string' ? metadata.name : null,
+      graduation_year: Number.isNaN(graduationYear) ? null : graduationYear,
+      department: typeof metadata.department === 'string' ? metadata.department : null,
+      role: 'public' as const,
+    }
+  }, [])
+
+  const fetchProfile = useCallback(async (authUser: User, options?: { force?: boolean }) => {
     try {
       // Dedupe in-flight fetches for the same user.
-      if (!options?.force && lastProfileUserIdRef.current === userId) {
+      if (!options?.force && lastProfileUserIdRef.current === authUser.id) {
         return
       }
       if (inFlightProfileFetchRef.current) {
@@ -45,19 +64,54 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       const task = (async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single()
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', authUser.id)
+          .single()
 
-      if (error) {
-        console.error('Failed to fetch user profile:', error.message)
-        setProfile(null)
-      } else {
-        setProfile(data as Profile | null)
-        lastProfileUserIdRef.current = userId
-      }
+        if (error) {
+          const isMissingProfile = error.code === 'PGRST116'
+          if (!isMissingProfile) {
+            console.error('Failed to fetch user profile:', error.message)
+            setProfile(null)
+            return
+          }
+
+          const seed = buildProfileSeed(authUser)
+          if (!seed.email) {
+            console.error('Cannot create profile without an email address.')
+            setProfile(null)
+            return
+          }
+
+          const { error: insertError } = await supabase
+            .from('profiles')
+            .insert(seed)
+
+          if (insertError) {
+            console.error('Failed to create user profile:', insertError.message)
+            setProfile(null)
+            return
+          }
+
+          const { data: createdProfile, error: fetchError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', authUser.id)
+            .single()
+
+          if (fetchError) {
+            console.error('Failed to fetch newly created profile:', fetchError.message)
+            setProfile(null)
+          } else {
+            setProfile(createdProfile as Profile | null)
+            lastProfileUserIdRef.current = authUser.id
+          }
+        } else {
+          setProfile(data as Profile | null)
+          lastProfileUserIdRef.current = authUser.id
+        }
       })()
 
       inFlightProfileFetchRef.current = task
@@ -69,7 +123,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       inFlightProfileFetchRef.current = null
       setIsLoading(false)
     }
-  }, [supabase])
+  }, [supabase, buildProfileSeed])
 
   useEffect(() => {
     // Get initial session
@@ -77,7 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSession(session)
       setUser(session?.user ?? null)
       if (session?.user) {
-        fetchProfile(session.user.id, { force: true })
+        fetchProfile(session.user, { force: true })
       } else {
         setIsLoading(false)
       }
@@ -91,8 +145,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (session?.user) {
           // IMPORTANT: don't refetch the profile on every token refresh.
           // Fetch only when it can actually change (sign-in/user update) or if user changes.
-          const userId = session.user.id
-          const userChanged = lastProfileUserIdRef.current !== userId
+          const authUser = session.user
+          const userChanged = lastProfileUserIdRef.current !== authUser.id
           const shouldFetch =
             userChanged ||
             event === 'SIGNED_IN' ||
@@ -100,7 +154,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             event === 'PASSWORD_RECOVERY'
 
           if (shouldFetch) {
-            fetchProfile(userId)
+            fetchProfile(authUser)
           } else {
             // Auth state updated but profile is still valid; ensure we don't show loading spinners.
             setIsLoading(false)
@@ -117,7 +171,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [supabase, fetchProfile])
 
   const refreshProfile = useCallback(async () => {
-    if (user) await fetchProfile(user.id)
+    if (user) await fetchProfile(user)
   }, [user, fetchProfile])
 
   const signOut = useCallback(async () => {

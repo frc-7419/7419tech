@@ -20,6 +20,7 @@ export default function LoginPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const redirectTo = searchParams.get('redirectTo') || '/dashboard'
+  const authError = searchParams.get('error')
   
   const { isAuthenticated, isLoading: authLoading, supabase } = useAuth()
 
@@ -29,6 +30,19 @@ export default function LoginPage() {
       router.push(redirectTo)
     }
   }, [authLoading, isAuthenticated, router, redirectTo])
+
+  useEffect(() => {
+    if (!authError) return
+    if (authError === 'verification_failed') {
+      setError('Email verification failed. Please request a new verification email.')
+      return
+    }
+    if (authError === 'missing_code') {
+      setError('Email verification link is invalid or expired.')
+      return
+    }
+    setError('Authentication failed. Please try again.')
+  }, [authError])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()

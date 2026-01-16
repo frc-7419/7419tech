@@ -1,12 +1,22 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 
 export function CMSAccessClient() {
   const [hasSetupAccount, setHasSetupAccount] = useState<boolean | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const router = useRouter()
   const { user, profile, isLoading: authLoading } = useAuth()
+
+  useEffect(() => {
+    if (authLoading) return
+    if (!user || profile?.role !== 'admin') {
+      router.replace('/auth/unauthorized')
+      return
+    }
+  }, [authLoading, user, profile?.role, router])
 
   useEffect(() => {
     if (authLoading || !user?.email) return

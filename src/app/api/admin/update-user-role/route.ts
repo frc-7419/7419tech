@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { rateLimit, adminLimiter } from '@/lib/rate-limit'
 import { Database } from '@/lib/supabase/types'
-import { getUserRoleFromAccessToken } from '@/lib/supabase/jwt'
 
 export async function POST(request: NextRequest) {
   // Apply strict rate limiting for admin operations
@@ -24,10 +23,14 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Verify admin role via JWT claim (set by Supabase Auth hook)
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-    const userRole = sessionError ? null : getUserRoleFromAccessToken(session?.access_token)
-    if (userRole !== 'admin') {
+    // Verify admin role via profile (works without custom JWT claims)
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    if (profileError || profile?.role !== 'admin') {
       return NextResponse.json(
         { error: 'Forbidden: Admin access required' },
         { status: 403 }
