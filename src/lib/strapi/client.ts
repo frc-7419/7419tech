@@ -265,34 +265,91 @@ class StrapiClient {
       filters: { is_current: true }
     })
   }
+
+  // Outreach Programs
+  async getOutreachPrograms(options: {
+    populate?: string[]
+    filters?: Record<string, any>
+    sort?: string[]
+    pagination?: { page?: number; pageSize?: number }
+  } = {}) {
+    const params = new URLSearchParams()
+
+    if (options.populate) {
+      options.populate.forEach(field => params.append('populate[]', field))
+    } else {
+      params.append('populate[]', 'image')
+    }
+
+    // Strapi v5 REST expects equality via [$eq]. Plain filters[key]=value often matches nothing.
+    if (options.filters) {
+      Object.entries(options.filters).forEach(([key, value]) => {
+        if (value === undefined || value === null) return
+        const encoded =
+          typeof value === 'boolean' ? String(value) : String(value)
+        params.append(`filters[${key}][$eq]`, encoded)
+      })
+    }
+
+    if (options.sort) {
+      options.sort.forEach(sortField => params.append('sort[]', sortField))
+    } else {
+      params.append('sort[]', 'display_order:asc')
+    }
+
+    if (options.pagination?.page) {
+      params.append('pagination[page]', options.pagination.page.toString())
+    }
+    if (options.pagination?.pageSize) {
+      params.append('pagination[pageSize]', options.pagination.pageSize.toString())
+    }
+
+    return this.fetchAPI<StrapiItem[]>(`/outreach-programs?${params.toString()}`)
+  }
+
+  async getActiveOutreachPrograms() {
+    return this.getOutreachPrograms({
+      filters: { is_active: true }
+    })
+  }
+
+  async getOutreachByCategory(category: 'local' | 'global' | 'first-like-a-girl') {
+    return this.getOutreachPrograms({
+      filters: { category, is_active: true }
+    })
+  }
 }
 
 // Export singleton instance
 export const strapiClient = new StrapiClient()
 
-// Helper function to get media URL
-export function getStrapiMediaUrl(media: any): string | null {
+type StrapiImageFormat = 'thumbnail' | 'small' | 'medium' | 'large'
+
+// Helper function to get media URL.
+// Pass a preferred `format` to use Strapi's auto-generated smaller variants
+// (thumbnail/small/medium/large) instead of the full original upload.
+// Falls back to the full-size URL if the requested format doesn't exist.
+export function getStrapiMediaUrl(media: any, format?: StrapiImageFormat): string | null {
   if (!media) return null
-  
-  // Handle both Strapi v4 and v5 formats
-  let url: string | null = null
-  
-  // Strapi v5 format (direct object with url property)
-  if (media.url) {
-    url = media.url
-  }
+
   // Strapi v4 format (nested in data.attributes)
-  else if (media.data?.attributes?.url) {
-    url = media.data.attributes.url
+  const attrs = media.data?.attributes ?? media
+
+  // Try the requested format first (e.g. medium ~750px wide vs multi-MB originals)
+  if (format) {
+    const formatUrl =
+      attrs.formats?.[format]?.url ??
+      media.formats?.[format]?.url ??
+      null
+
+    if (formatUrl) {
+      return formatUrl.startsWith('http') ? formatUrl : `${STRAPI_BASE_URL}${formatUrl}`
+    }
   }
-  
+
+  // Fall back to the full-size URL
+  const url: string | null = attrs.url ?? media.url ?? null
+
   if (!url) return null
-  
-  // If it's already a full URL, return it
-  if (url.startsWith('http')) {
-    return url
-  }
-  
-  // Otherwise, prepend Strapi base URL
-  return `${STRAPI_BASE_URL}${url}`
+  return url.startsWith('http') ? url : `${STRAPI_BASE_URL}${url}`
 }

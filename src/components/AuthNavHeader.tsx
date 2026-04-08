@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
 import { useAuth } from '@/contexts/AuthContext'
-import { LogIn, LogOut, Settings, Loader2 } from 'lucide-react'
+import { LogIn, LogOut, Settings, Loader2, Menu, X } from 'lucide-react'
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -44,24 +44,25 @@ ListItem.displayName = "ListItem"
 
 export function AuthNavHeader() {
   const { user, profile, isAdmin, isLoading, signOut } = useAuth()
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 bg-[#11224e] shadow-lg">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+      <div className="container mx-auto flex h-14 md:h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-all duration-200" aria-label="Home">
           <div className="flex items-center">
-            <span className="text-3xl font-bold text-[hsl(var(--brand-gold))] mr-3">Team</span>
+            <span className="text-2xl md:text-3xl font-bold text-[hsl(var(--brand-gold))] mr-3">Team</span>
             <Image 
               width="48" 
               height="48" 
               src="/Logo.png" 
               alt="7419 Logo"
-              className="rounded-full transition-transform duration-200 hover:scale-105" 
+              className="h-9 w-9 md:h-12 md:w-12 rounded-full transition-transform duration-200 hover:scale-105" 
             />
           </div>
         </Link>
 
-        <NavigationMenu>
+        <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className="bg-transparent text-white hover:bg-[#1a2f5e] focus:bg-[rgb(26,47,94)] hover:text-white focus:text-white">About</NavigationMenuTrigger>
@@ -124,7 +125,7 @@ export function AuthNavHeader() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-2">
           {isLoading ? (
             // Show loading spinner while auth is being determined
             <div className="w-20 h-8 flex items-center justify-center">
@@ -164,6 +165,104 @@ export function AuthNavHeader() {
               </Link>
             </>
           )}
+        </div>
+
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-white hover:bg-white/10"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
+
+      <div
+        className={`fixed inset-0 z-50 md:hidden transition-opacity ${mobileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+        aria-hidden={!mobileOpen}
+      >
+        <div
+          className="absolute inset-0 bg-black/60"
+          onClick={() => setMobileOpen(false)}
+        />
+        <div
+          className={`absolute inset-y-0 right-0 w-full max-w-full bg-[#0f1b3a] shadow-2xl flex flex-col transition-transform duration-300 ease-out ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}
+        >
+          <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/Logo.png"
+                alt="7419 Logo"
+                width={32}
+                height={32}
+                className="h-8 w-8 rounded-full"
+              />
+              <span className="text-lg font-semibold text-white">Menu</span>
+            </div>
+            <button
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md text-white hover:bg-white/10"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close menu"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
+            <div className="space-y-3">
+              <p className="text-xs uppercase tracking-wider text-white/50">About</p>
+              <Link href="/team" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>Our Team</Link>
+              <Link href="/robot" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>Our Robot</Link>
+              <Link href="/mentors" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>Mentors</Link>
+              <Link href="/leadership" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>Leadership</Link>
+            </div>
+
+            <div className="space-y-3">
+              <p className="text-xs uppercase tracking-wider text-white/50">Resources</p>
+              <Link href="/blog" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>Team Blog</Link>
+              <Link href="/outreach" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>Outreach</Link>
+            </div>
+
+            <div className="space-y-3">
+              <Link href="/media" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>Media</Link>
+              <Link href="/sponsors" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>Sponsors</Link>
+              {isAdmin && (
+                <Link href="/admin" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>Admin</Link>
+              )}
+            </div>
+
+            <div className="pt-4 border-t border-white/10 space-y-3">
+              {isLoading ? (
+                <div className="flex items-center gap-2 text-white/70">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span className="text-sm">Checking account…</span>
+                </div>
+              ) : user ? (
+                <>
+                  <span className="block text-sm text-white/70">{profile?.name || user.email}</span>
+                  <button
+                    className="w-full rounded-md border border-white/40 px-3 py-2 text-sm font-medium text-white hover:bg-white hover:text-[#11224e]"
+                    onClick={() => {
+                      signOut()
+                      setMobileOpen(false)
+                    }}
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/contact" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>
+                    Contact Us
+                  </Link>
+                  <Link href="/auth/login" className="block text-white hover:text-[hsl(var(--brand-gold))]" onClick={() => setMobileOpen(false)}>
+                    Sign In
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </header>

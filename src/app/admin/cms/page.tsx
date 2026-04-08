@@ -13,6 +13,15 @@ export default async function CMSRedirectPage() {
     redirect('/auth/login?redirectTo=/admin/cms')
   }
 
-  // Admin authz is enforced by middleware; avoid redundant per-request DB reads here.
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  if (profileError || profile?.role !== 'admin') {
+    redirect('/auth/unauthorized')
+  }
+
   return <CMSAccessClient />
 }

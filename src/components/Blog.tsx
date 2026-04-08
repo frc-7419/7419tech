@@ -68,13 +68,13 @@ export default function BlogPage() {
         >
           <motion.h1 
             variants={itemVariants}
-            className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3"
+            className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-4xl sm:text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3"
           >
             7419 Blog
           </motion.h1>
           <motion.p 
             variants={itemVariants}
-            className="mt-6 text-xl text-gray-600"
+            className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-gray-600"
           >
             Exploring the intersections of science, technology, creativity, and innovation
           </motion.p>
@@ -93,19 +93,18 @@ export default function BlogPage() {
                 <Image
                   src="/placeholder.svg"
                   alt="Featured post"
-                  layout="fill"
-                  objectFit="cover"
-                  className="transition-transform duration-300 hover:scale-105"
+                  fill
+                  className="object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
               <div className="p-6 flex flex-col justify-center">
-                <CardTitle className="text-3xl font-bold text-[#11224e] mb-4">
+                <CardTitle className="text-2xl sm:text-3xl font-bold text-[#11224e] mb-4">
                   Featured: The Future of Robotics
                 </CardTitle>
                 <CardDescription className="text-lg mb-6">
                   Discover our team&apos;s posts.
                 </CardDescription>
-                <Button className="self-start bg-[#ffc14a] text-[#11224e] hover:bg-[#ffcd6b] transition-colors">
+                <Button className="self-start w-full sm:w-auto bg-[#ffc14a] text-[#11224e] hover:bg-[#ffcd6b] transition-colors">
                   Read Full Article <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
@@ -127,9 +126,8 @@ export default function BlogPage() {
                   <Image
                     src={post.image}
                     alt={post.title}
-                    layout="fill"
-                    objectFit="cover"
-                    className="transition-transform duration-300 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
                 <CardHeader>
@@ -158,8 +156,8 @@ export default function BlogPage() {
           className="w-full mb-16"
         >
           <Card className="w-full bg-[#11224e] text-white overflow-hidden">
-            <CardContent className="flex flex-col items-center p-8">
-              <CardTitle className="text-3xl text-[#ffc14a] font-semibold mb-4">
+            <CardContent className="flex flex-col items-center p-6 md:p-8">
+              <CardTitle className="text-2xl sm:text-3xl text-[#ffc14a] font-semibold mb-4">
                 Instagram Highlights
               </CardTitle>
               <Button asChild variant="secondary" className="bg-[#ffc14a] text-[#11224e] hover:bg-[#ffcd6b] transition-colors">

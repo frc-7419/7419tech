@@ -9,19 +9,23 @@ import Link from "next/link";
 import { AboutUsHero, AboutUsGallery } from "@/components/DynamicMedia";
 import { motion } from "framer-motion";
 
+const FIRST_CALIFORNIA_DISTRICT_URL = "https://www.firstinspires.org/";
+
 const events = [
     {
-        name: 'Ventura County Regional',
-        date: 'March 6 - March 9, 2025 (Week 2)',
-        location: 'Port Hueneme, CA, USA',
-        website: 'https://www.thebluealliance.com/event/2025cave'
+        name: "CA District Half Moon Bay Event",
+        location: "Half Moon Bay, CA, USA",
+        dateRange: "March 6 to March 8, 2026",
+        week: "Week 1",
+        status: "No matches yet. Check back after March 6, 2026.",
     },
     {
-        name: 'San Diego Regional presented by Qualcomm',
-        date: 'March 20 - March 23, 2025 (Week 4)',
-        location: 'La Jolla, CA, USA',
-        website: 'https://www.thebluealliance.com/event/2025casd'
-    }
+        name: "CA District Aerospace Valley Event",
+        location: "Lancaster, CA, USA",
+        dateRange: "April 2 to April 4, 2026",
+        week: "Week 5",
+        status: "No matches yet. Check back after April 2, 2026.",
+    },
 ];
 
 // images of hardware and software presentation
@@ -50,6 +54,7 @@ function MentorshipCard() {
                     <Button
                         variant="outline"
                         size="lg"
+                        asChild
                         className="border-[hsl(var(--brand-gold))] text-[hsl(var(--brand-gold))] hover:bg-[hsl(var(--brand-gold))] hover:text-white"
                     >
                         <Link href={"/outreach"}>
@@ -80,24 +85,31 @@ function EventsCard() {
     return (
         <Card className="p-6 rounded-lg bg-white bg-opacity-80 shadow-lg">
             <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-800">FRC Events</CardTitle>
+                <CardTitle className="text-2xl font-bold text-gray-800">Event Results</CardTitle>
             </CardHeader>
             <CardContent>
-                <p>Here’s where you can find us this season:</p>
+                {/* <p>
+                    As a member of the{" "}
+                    <Link
+                        href={FIRST_CALIFORNIA_DISTRICT_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                    >
+                        FIRST California district
+                    </Link>
+                    , Team 7419 ranked #236 having earned 0 points.
+                </p> */}
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     {events.map((event, index) => (
                         <div key={index} className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
-                            <h3 className="text-lg font-semibold">
-                                <Link href={event.website} className={"hover:underline"}> {event.name} </Link>
-                            </h3>
-                            <p className="text-sm text-gray-600">{event.date}</p>
+                            <h3 className="text-lg font-semibold">{event.name}</h3>
+                            <p className="text-sm text-gray-600">{event.dateRange} ({event.week})</p>
                             <p className="mt-2 text-sm">{event.location}</p>
+                            <p className="mt-2 text-sm text-gray-600">{event.status}</p>
                         </div>
                     ))}
                 </div>
-                <p className="mt-4">
-                    We also present at these events, sharing insights on our training structure, programming knowledge, and more.
-                </p>
             </CardContent>
         </Card>
     );
@@ -116,27 +128,27 @@ export default function TeamSection() {
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.25, ease: "easeOut" }}
                 >
-                    <h2 className="font-bold tracking-tight text-5xl lg:text-6xl xl:text-7xl">
+                    <h2 className="font-bold tracking-tight text-4xl sm:text-5xl lg:text-6xl xl:text-7xl">
                         <span className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent">
                             About Us
                         </span>
                     </h2>
-                    <p className="text-xl text-gray-300 mx-auto mt-8">
+                    <p className="text-base sm:text-lg md:text-xl text-gray-300 mx-auto mt-6 md:mt-8">
                         Team 7419 Tech Support is much more than just a robotics team. We solve problems and help people. We&apos;re a family. We&apos;ve done many great things and look forward to many more in the future.
                     </p>
                 </motion.div>
 
                 {/* Hero Image */}
-                <div className="relative w-full h-96 mb-12">
+                <div className="relative w-full h-64 md:h-96 mb-12">
                     <AboutUsHero />
                 </div>
 
                 {/* About Section */}
                 <div className="mb-16">
-                    <h3 className="text-3xl font-bold tracking-tight text-center mb-8 text-gray-200">
+                    <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-center mb-6 md:mb-8 text-gray-200">
                         About Team 7419
                     </h3>
-                    <div className="text-lg text-gray-300 tracking-tight text-center mb-8">
+                    <div className="text-base sm:text-lg text-gray-300 tracking-tight text-center mb-8">
                         <p>
                             Team 7419 is a dedicated group of high school students who design, build, and program competitive robots for the FIRST Robotics Competition.
                             Our programmers use Java to code complex behaviors and autonomous routines, while our mechanical team fabricates custom robot parts using CNC machines and manual mills.
@@ -156,7 +168,7 @@ export default function TeamSection() {
                             <TabsList className="grid w-full grid-cols-3 gap-4 h-12 rounded-lg bg-white bg-opacity-50 shadow-lg">
                                 <TabsTrigger value="mentorship" className="text-lg font-semibold rounded-lg transition-all hover:bg-white">Mentorship & Outreach</TabsTrigger>
                                 <TabsTrigger value="values" className="text-lg font-semibold rounded-lg transition-all hover:bg-white">Our Values</TabsTrigger>
-                                <TabsTrigger value="events" className="text-lg font-semibold rounded-lg transition-all hover:bg-white">FRC Events</TabsTrigger>
+                                <TabsTrigger value="events" className="text-lg font-semibold rounded-lg transition-all hover:bg-white">Event Results</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="mentorship" className="mt-8">
@@ -181,7 +193,7 @@ export default function TeamSection() {
 
                 {/* Presentations Section */}
                 <div className="mb-16">
-                    <h3 className="text-3xl font-bold tracking-tight text-center mb-8 text-gray-200">Worlds Presentations</h3>
+                    <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-center mb-6 md:mb-8 text-gray-200">Worlds Presentations</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <Card className="p-6 rounded-lg bg-white bg-opacity-80 shadow-lg">
                             <CardHeader>
@@ -204,7 +216,7 @@ export default function TeamSection() {
 
                 {/* Team Gallery */}
                 <div className="mt-16">
-                    <h3 className="text-3xl font-bold tracking-tight text-center mb-8 text-gray-200">
+                    <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-center mb-6 md:mb-8 text-gray-200">
                         Team Gallery
                     </h3>
                     <AboutUsGallery />

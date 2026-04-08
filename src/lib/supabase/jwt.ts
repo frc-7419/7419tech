@@ -11,7 +11,6 @@ function base64UrlDecode(input: string): string {
   if (typeof atob === 'function') {
     return atob(padded)
   }
-  // eslint-disable-next-line no-restricted-globals
   return Buffer.from(padded, 'base64').toString('utf-8')
 }
 

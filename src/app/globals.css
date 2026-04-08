@@ -78,20 +78,23 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
   }
 }
 
 /* globals.css */
-.filter {
+.blur-active {
   filter: blur(10px);
 }
 
-.filter-none {
+.blur-none {
   filter: none;
 }
 
-h1 {
-  color: #f9c837;
+@layer base {
+  h1 {
+    color: #f9c837;
+  }
 }
 
 ::selection {

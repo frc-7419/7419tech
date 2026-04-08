@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { useAuth } from '@/contexts/AuthContext'
-import { LogIn, LogOut, Settings, User as UserIcon, Shield, Loader2 } from 'lucide-react'
+import { LogIn, LogOut, Settings, User as UserIcon, Shield, Loader2, Menu, X } from 'lucide-react'
 
 type ListItemProps = React.ComponentPropsWithoutRef<typeof Link> & {
   title: string
@@ -57,32 +57,37 @@ ListItem.displayName = "ListItem"
 export function NavHeader() {
   const pathname = usePathname()
   const { user, isAdmin, isLoading, signOut } = useAuth()
+  const [mobileOpen, setMobileOpen] = useState(false)
   
   // Check if we're on an auth, dashboard, or admin page
   const isSpecialPage = pathname?.startsWith('/auth') || pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin')
+  
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
 
   return (
-    <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl">
+    <header className="fixed top-3 left-0 right-0 mx-auto z-50 w-[95%] max-w-6xl">
       <div className={cn(
-        "backdrop-blur-md rounded-2xl shadow-2xl border flex h-16 items-center justify-between px-6 transition-all duration-500",
+        "backdrop-blur-md rounded-2xl shadow-2xl border flex h-14 md:h-16 items-center justify-between px-4 md:px-6 transition-all duration-500",
         isSpecialPage 
           ? "bg-gradient-to-r from-[#1b2947] via-[#2a3f6b] to-[#1b2947] border-[hsl(var(--brand-gold))]/30 shadow-[hsl(var(--brand-gold))]/20" 
           : "bg-gray-800/30 border-gray-400/20"
       )}>
         <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-all duration-200 no-underline" aria-label="Home">
           <div className="flex items-center">
-            <span className="text-3xl font-bold text-[hsl(var(--brand-gold))] mr-3">Team</span>
+            <span className="text-2xl md:text-3xl font-bold text-[hsl(var(--brand-gold))] mr-3">Team</span>
             <Image 
               width="48" 
               height="48" 
               src="/Logo.png" 
               alt="7419 Logo"
-              className="rounded-full transition-transform duration-200 hover:scale-105" 
+              className="h-9 w-9 md:h-12 md:w-12 rounded-full transition-transform duration-200 hover:scale-105" 
             />
           </div>
         </Link>
 
-        <NavigationMenu>
+        <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className={cn(
@@ -153,7 +158,7 @@ export function NavHeader() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-2">
           <Button asChild className={cn(
             "font-semibold transition-all duration-300",
             isSpecialPage 
@@ -230,6 +235,115 @@ export function NavHeader() {
               </Button>
             </div>
           )}
+        </div>
+
+        <div className="flex items-center gap-2 md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/10"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      <div
+        className={cn(
+          "fixed inset-0 z-50 md:hidden transition-opacity",
+          mobileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+        )}
+        aria-hidden={!mobileOpen}
+      >
+        <div
+          className="absolute inset-0 bg-black/60"
+          onClick={() => setMobileOpen(false)}
+        />
+        <div
+          className={cn(
+            "absolute inset-y-0 right-0 w-full max-w-full bg-[#0f1b3a] shadow-2xl flex flex-col",
+            "transition-transform duration-300 ease-out",
+            mobileOpen ? "translate-x-0" : "translate-x-full"
+          )}
+        >
+          <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/Logo.png"
+                alt="7419 Logo"
+                width={32}
+                height={32}
+                className="h-8 w-8 rounded-full"
+              />
+              <span className="text-lg font-semibold text-white">Menu</span>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/10"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close menu"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
+            <div className="space-y-3">
+              <p className="text-xs uppercase tracking-wider text-white/50">About</p>
+              <Link href="/team" className="block text-white hover:text-[hsl(var(--brand-gold))]">Our Team</Link>
+              <Link href="/robot" className="block text-white hover:text-[hsl(var(--brand-gold))]">Our Robot</Link>
+              <Link href="/mentors" className="block text-white hover:text-[hsl(var(--brand-gold))]">Mentors</Link>
+              <Link href="/leadership" className="block text-white hover:text-[hsl(var(--brand-gold))]">Leadership</Link>
+            </div>
+
+            <div className="space-y-3">
+              <p className="text-xs uppercase tracking-wider text-white/50">Resources</p>
+              <Link href="/blog" className="block text-white hover:text-[hsl(var(--brand-gold))]">Team Blog</Link>
+              <Link href="/outreach" className="block text-white hover:text-[hsl(var(--brand-gold))]">Outreach</Link>
+            </div>
+
+            <div className="space-y-3">
+              <Link href="/media" className="block text-white hover:text-[hsl(var(--brand-gold))]">Media</Link>
+              <Link href="/sponsors" className="block text-white hover:text-[hsl(var(--brand-gold))]">Sponsors</Link>
+              <Link href="/contact" className="block text-white hover:text-[hsl(var(--brand-gold))]">Contact Us</Link>
+            </div>
+
+            <div className="pt-4 border-t border-white/10 space-y-3">
+              {isLoading ? (
+                <div className="flex items-center gap-2 text-white/70">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span className="text-sm">Checking account…</span>
+                </div>
+              ) : user ? (
+                <>
+                  <Link href="/dashboard" className="block text-white hover:text-[hsl(var(--brand-gold))]">Member Dashboard</Link>
+                  {isAdmin && (
+                    <Link href="/admin" className="block text-white hover:text-[hsl(var(--brand-gold))]">Admin Dashboard</Link>
+                  )}
+                  <Button
+                    variant="outline"
+                    className="w-full border-white/40 text-white bg-transparent hover:bg-white hover:text-[#11224e]"
+                    onClick={signOut}
+                  >
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button asChild className="w-full bg-[hsl(var(--brand-gold))] text-[#1a2f5e] hover:bg-[#ffc14a]">
+                    <Link href="/auth/signup">Sign Up</Link>
+                  </Button>
+                  <Button asChild variant="outline" className="w-full border-white/40 text-white bg-transparent hover:bg-white hover:text-[#11224e]">
+                    <Link href="/auth/login">Sign In</Link>
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </header>

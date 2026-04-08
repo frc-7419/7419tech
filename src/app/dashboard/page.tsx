@@ -50,11 +50,10 @@ export default function DashboardPage() {
   }
 
   const handleSave = async () => {
-    if (!user) return
+    if (!user || !supabase) return
 
     setSaving(true)
     try {
-      // Use the supabase client from AuthContext (shared instance)
       const { error } = await supabase
         .from('profiles')
         .update({

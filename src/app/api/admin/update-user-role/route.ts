@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { rateLimit, adminLimiter } from '@/lib/rate-limit'
 import { Database } from '@/lib/supabase/types'
-import { getUserRoleFromAccessToken } from '@/lib/supabase/jwt'
 
 export async function POST(request: NextRequest) {
   // Apply strict rate limiting for admin operations
@@ -24,10 +23,14 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Verify admin role via JWT claim (set by Supabase Auth hook)
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-    const userRole = sessionError ? null : getUserRoleFromAccessToken(session?.access_token)
-    if (userRole !== 'admin') {
+    // Verify admin role via profile (works without custom JWT claims)
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    if (profileError || profile?.role !== 'admin') {
       return NextResponse.json(
         { error: 'Forbidden: Admin access required' },
         { status: 403 }
@@ -46,30 +49,47 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (!['public', 'member', 'admin'].includes(newRole)) {
+    if (!['public', 'member'].includes(newRole)) {
       return NextResponse.json(
-        { error: 'Invalid role. Must be: public, member, or admin' },
+        { error: 'Invalid role. Must be: public or member' },
         { status: 400 }
       )
     }
 
     // Type-safe role assignment
-    const validRole: 'public' | 'member' | 'admin' = newRole
+    const validRole: 'public' | 'member' = newRole
 
     // Prevent admins from changing their own role to prevent lockout
-    if (userId === user.id && validRole !== 'admin') {
+    if (userId === user.id) {
       return NextResponse.json(
         { error: 'Admins cannot change their own role' },
         { status: 400 }
       )
     }
 
-    // CSRF-like protection: Verify the request has proper headers
-    const origin = request.headers.get('origin')
-    const referer = request.headers.get('referer')
-    const expectedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    
-    if (!origin || !referer || (!origin.includes(expectedOrigin) && !referer.includes(expectedOrigin))) {
+    // CSRF-like protection: verify request origin matches our app origin(s).
+    const originHeader = request.headers.get('origin')
+    const refererHeader = request.headers.get('referer')
+    const envOrigin = process.env.NEXT_PUBLIC_SITE_URL
+    const requestOrigin = request.nextUrl.origin
+
+    const normalizeOrigin = (value: string | null | undefined) => {
+      if (!value) return null
+      try {
+        return new URL(value).origin
+      } catch {
+        return null
+      }
+    }
+
+    const allowedOrigins = [envOrigin, requestOrigin]
+      .map(value => normalizeOrigin(value))
+      .filter((value): value is string => Boolean(value))
+
+    const hasAllowedOrigin = [normalizeOrigin(originHeader), normalizeOrigin(refererHeader)]
+      .some(value => value && allowedOrigins.includes(value))
+
+    if (!hasAllowedOrigin) {
       return NextResponse.json(
         { error: 'Invalid request origin' },
         { status: 403 }

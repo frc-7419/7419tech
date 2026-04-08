@@ -21,13 +21,6 @@ const mentors = [
     image: "/static/mentors/lina.jpg",
   },
   {
-    name: "Richard Ong",
-    field: "Robotics",
-    role: "Lead/Coordinator",
-    passion: "Education, Mentorship, Innovation, Learning, Collaboration",
-    image: "/static/mentors/richard.jpg",
-  },
-  {
     name: "Nathan Batchelder",
     field: "Science, Engineering & Robotics",
     role: "Teacher",
@@ -49,9 +42,9 @@ export default function Mentors() {
   const [highlightedArea, setHighlightedArea] = useState<{ x: number; y: number } | null>(null);
 
   return (
-    <section className="pt-24 pb-12" style={{ backgroundColor: "#1b2947" }}>
+    <section className="pt-20 md:pt-24 pb-12" style={{ backgroundColor: "#1b2947" }}>
       <div className="container px-4 md:px-6 mx-auto">
-        <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl text-center mb-14">Our Mentors</h1>
+        <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-4xl sm:text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl text-center mb-10 md:mb-14">Our Mentors</h1>
         <div className="flex flex-wrap justify-center gap-8">
           {mentors.map((mentor, index) => (
             <Card
@@ -63,9 +56,8 @@ export default function Mentors() {
                   <Image
                     src={mentor.image}
                     alt={mentor.name}
-                    layout="fill"
-                    objectFit="cover"
-                    className={`transition-all duration-200`}
+                    fill
+                    className="object-cover transition-all duration-200"
                     onMouseMove={(e) => {
                       const rect = e.currentTarget.getBoundingClientRect();
                       const x = e.clientX - rect.left; 

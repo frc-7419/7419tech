@@ -16,6 +16,22 @@ import { useDynamicMedia } from '@/hooks/useDynamicMedia'
 import { getStrapiMediaUrl } from '@/lib/strapi/client'
 import Aurora from '@/components/Aurora'
 
+function PrevArrow(props: { className?: string; style?: React.CSSProperties; onClick?: () => void }) {
+  return (
+    <button onClick={props.onClick} className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 cursor-pointer bg-transparent border-none p-0 items-center justify-center">
+      <ChevronLeft className="text-white w-8 h-8" />
+    </button>
+  )
+}
+
+function NextArrow(props: { className?: string; style?: React.CSSProperties; onClick?: () => void }) {
+  return (
+    <button onClick={props.onClick} className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 cursor-pointer bg-transparent border-none p-0 items-center justify-center">
+      <ChevronRight className="text-white w-8 h-8" />
+    </button>
+  )
+}
+
 export function HeroSection() {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -47,8 +63,8 @@ export function HeroSection() {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    prevArrow: <ChevronLeft className="text-white w-8 h-8 cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2 z-10" />,
-    nextArrow: <ChevronRight className="text-white w-8 h-8 cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 z-10" />,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
   }
 
   // Get dynamic images for home page slideshow
@@ -63,11 +79,11 @@ export function HeroSection() {
   ]
 
   const carouselImages = !carouselLoading && carouselMedia && carouselMedia.length > 0 
-    ? carouselMedia.map(item => getStrapiMediaUrl(item.image))
+    ? carouselMedia.map(item => getStrapiMediaUrl(item.image, 'medium')).filter((src): src is string => src !== null)
     : (!carouselLoading ? fallbackImages : [])
 
   return (
-    <section className="relative min-h-screen bg-gray-900 flex items-center pt-0 pb-14 overflow-hidden">
+    <section className="relative min-h-screen bg-gray-900 flex items-center pt-0 pb-12 md:pb-14 overflow-hidden">
       {/* Full-height aurora effect with top-to-bottom fade */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div 
@@ -87,18 +103,18 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10 pt-20">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 pt-24 md:pt-20">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Content - White rounded container */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="bg-white/85 backdrop-blur-sm rounded-2xl p-8 shadow-2xl space-y-6">
+            className="bg-white/85 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6 w-full max-w-xl mx-auto lg:mx-0 text-center lg:text-left min-w-0">
 
             <motion.h1 
               variants={itemVariants}
-              className="text-5xl font-bold text-[#11224e] tracking-tight lg:text-6xl xl:text-7xl leading-tight"
+              className="text-4xl sm:text-5xl font-bold text-[#11224e] tracking-tight lg:text-6xl xl:text-7xl leading-tight"
             >
               The Future of
               <br />
@@ -109,7 +125,7 @@ export function HeroSection() {
 
             <motion.p 
               variants={itemVariants}
-              className="text-lg text-gray-600 max-w-lg"
+              className="text-base sm:text-lg text-gray-600 max-w-lg mx-auto lg:mx-0"
             >
               A student-led competitive robotics team pushing the boundaries of innovation, 
               engineering excellence, and technical education at The Quarry Lane School.
@@ -117,21 +133,23 @@ export function HeroSection() {
 
             <motion.div 
               variants={itemVariants}
-              className="flex flex-wrap gap-3 pt-2"
+              className="flex flex-col sm:flex-row flex-wrap gap-3 pt-2 justify-center lg:justify-start"
             >
               <Button 
                 size="lg"
-                className="bg-[#ffc14a] text-white hover:bg-[#ffcd6b] transition-colors"
+                asChild
+                className="bg-[#ffc14a] text-white hover:bg-[#ffcd6b] transition-colors w-full sm:w-auto"
               >
                 <Link href={"/contact"}>
                   Get Involved
+                  <ChevronRight className="ml-2 h-4 w-4" />
                 </Link>
-                <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
               <Button 
                 size="lg" 
                 variant="outline"
-                className="border-[#11224e] text-[#11224e] hover:bg-[#11224e] hover:text-white transition-colors"
+                asChild
+                className="border-[#11224e] text-[#11224e] hover:bg-[#11224e] hover:text-white transition-colors w-full sm:w-auto"
               >
                 <Link href={"/team"}>
                   View Projects
@@ -141,7 +159,7 @@ export function HeroSection() {
 
             <motion.div 
               variants={itemVariants}
-              className="flex items-center gap-3 text-sm text-gray-600"
+              className="flex items-center justify-center lg:justify-start gap-3 text-sm text-gray-600"
             >
               <Bot className="h-5 w-5 text-[#11224e]" />
               <span> Competition-ready robotics solutions</span>
@@ -153,21 +171,21 @@ export function HeroSection() {
             variants={itemVariants}
             initial="hidden"
             animate="visible"
-            className="relative mt-8 lg:mt-0"
+            className="relative mt-6 lg:mt-0 w-full max-w-xl mx-auto lg:mx-0 min-w-0"
           >
-            <Card className="aspect-video w-full bg-gray-50 overflow-hidden rounded-xl border-[#ffc14a]/20">
+            <Card className="aspect-[4/3] sm:aspect-video w-full bg-gray-50 overflow-hidden rounded-xl border-[#ffc14a]/20 slick-size-lock">
               {carouselLoading ? (
                 <div className="w-full h-full animate-pulse bg-gray-200" />
               ) : (
-                <Slider {...carouselSettings}>
+                <Slider {...carouselSettings} className="h-full">
                   {carouselImages.map((src, index) => (
-                    <div key={index} className="relative aspect-video">
+                    <div key={index} className="relative h-full">
                       <Image
                         src={src || ''}
                         alt={`Robot image ${index + 1}`}
-                        width={800}
-                        height={600}
-                        className="w-full h-full object-cover"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 520px"
+                        className="object-cover"
                       />
                     </div>
                   ))}

@@ -120,10 +120,23 @@ export default function SignupPage() {
     }
 
     try {
-      // Sign up user
+      if (!supabase) {
+        setError('Sign-up is unavailable: authentication is not configured.')
+        setLoading(false)
+        return
+      }
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
+        options: {
+          emailRedirectTo: `${siteUrl}/auth/callback`,
+          data: {
+            name: formData.name,
+            graduation_year: graduationYear,
+            department: formData.department,
+          },
+        },
       })
 
       if (authError) {
@@ -132,24 +145,13 @@ export default function SignupPage() {
       }
 
       if (authData.user) {
-        // Create profile directly - simple and straightforward
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: authData.user.id,
-            email: formData.email,
-            name: formData.name,
-            graduation_year: graduationYear,
-            department: formData.department,
-            role: 'public' as const,
-          })
-
-        if (profileError) {
-          setError('Database error saving new user: ' + profileError.message)
+        // If email confirmations are disabled, Supabase returns a session immediately.
+        if (authData.session) {
+          router.push('/dashboard')
           return
         }
 
-        // Store email for resend functionality and redirect
+        // Otherwise, store email for resend functionality and redirect.
         localStorage.setItem('signup_email', formData.email)
         router.push(`/auth/verify-email?email=${encodeURIComponent(formData.email)}`)
       }
