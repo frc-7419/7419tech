@@ -48,13 +48,14 @@ export function DynamicMedia({ location, className = '', limit, showOverlay = tr
 
   return (
     <div className={`${getGridClass(media.length)} ${className}`}>
-      {media.map((item) => (
+      {media.map((item, index) => (
         <div key={item.id} className="relative group overflow-hidden rounded-lg">
           <Image
-            src={getStrapiMediaUrl(item.image) || ''}
+            src={getStrapiMediaUrl(item.image, 'medium') || ''}
             alt={item.alt_text || item.title}
             width={800}
             height={600}
+            priority={index === 0}
             className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
           />
           {showOverlay && (item.title || item.description) && (
@@ -85,7 +86,7 @@ export function AboutUsHero() {
   }
   
   const imageSrc = media && media.length > 0 
-    ? getStrapiMediaUrl(media[0].image) || fallbackSrc
+    ? getStrapiMediaUrl(media[0].image, 'medium') || fallbackSrc
     : fallbackSrc
     
   return (
@@ -94,6 +95,7 @@ export function AboutUsHero() {
       alt={media?.[0]?.alt_text || "Team photo"}
       width={800}
       height={600}
+      priority
       className="w-full h-full object-cover rounded-lg"
     />
   )

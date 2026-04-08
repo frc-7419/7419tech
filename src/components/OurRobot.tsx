@@ -1,116 +1,3 @@
-// 'use client'
-
-// import React, { useEffect, useRef, useState } from 'react';
-// import Image from 'next/image';
-
-// // import * as THREE from 'three';
-// // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-// // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-
-// const OurRobot = () => {
-//   // const mountRef = useRef<HTMLDivElement>(null);
-//   // const [loading, setLoading] = useState(true);
-
-//   // useEffect(() => {
-//   //   const mount = mountRef.current;
-//   //   if (!mount) return;
-
-//   //   // Scene setup
-//   //   const scene = new THREE.Scene();
-//   //   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-//   //   const renderer = new THREE.WebGLRenderer({ antialias: false });
-//   //   renderer.setSize(window.innerWidth, window.innerHeight);
-//   //   renderer.setPixelRatio(window.devicePixelRatio * 0.5); // Lower pixel ratio for performance
-//   //   mount.appendChild(renderer.domElement);
-
-//   //   // Orbit controls
-//   //   const controls = new OrbitControls(camera, renderer.domElement);
-//   //   controls.enableDamping = true;
-//   //   controls.dampingFactor = 0.25;
-//   //   controls.enableZoom = true;
-
-//   //   // Load a CAD model
-//   //   const loader = new GLTFLoader();
-//   //   loader.load('/static/mentors/Assembly 1.gltf', (gltf: { scene: THREE.Object3D<THREE.Object3DEventMap>; }) => {
-//   //     const model = gltf.scene;
-//   //     scene.add(model);
-
-//   //     // Add wireframe
-//   //     model.traverse((child) => {
-//   //       if ((child as THREE.Mesh).isMesh) {
-//   //         const mesh = child as THREE.Mesh;
-//   //         const wireframe = new THREE.WireframeGeometry(mesh.geometry);
-//   //         const line = new THREE.LineSegments(wireframe);
-//   //         mesh.add(line);
-//   //       }
-//   //     });
-
-//   //     setLoading(false); // Model loaded, hide loading message
-//   //   }, undefined, (error: any) => {
-//   //     console.error(error);
-//   //     setLoading(false); // Hide loading message even if there's an error
-//   //   });
-
-//   //   // Add text
-//   //   const textDiv = document.createElement('div');
-//   //   textDiv.style.position = 'absolute';
-//   //   textDiv.style.top = '10px';
-//   //   textDiv.style.width = '100%';
-//   //   textDiv.style.textAlign = 'center';
-//   //   textDiv.style.color = 'white';
-//   //   textDiv.style.fontSize = '24px';
-//   //   textDiv.style.fontWeight = 'bold';
-//   //   textDiv.innerHTML = 'Our Robot';
-//   //   mount.appendChild(textDiv);
-
-//   //   // Adjust camera position to start near the object
-//   //   camera.position.set(0, 0, 2);
-
-//   //   // Animation loop
-//   //   let frameId: number;
-//   //   const animate = () => {
-//   //     frameId = requestAnimationFrame(animate);
-//   //     controls.update();
-//   //     renderer.render(scene, camera);
-//   //   };
-//   //   animate();
-
-//   //   // Handle window resize
-//   //   const handleResize = () => {
-//   //     camera.aspect = window.innerWidth / window.innerHeight;
-//   //     camera.updateProjectionMatrix();
-//   //     renderer.setSize(window.innerWidth, window.innerHeight);
-//   //   };
-//   //   window.addEventListener('resize', handleResize);
-
-//   //   // Cleanup on unmount
-//   //   return () => {
-//   //     cancelAnimationFrame(frameId);
-//   //     mount.removeChild(renderer.domElement);
-//   //     mount.removeChild(textDiv);
-//   //     window.removeEventListener('resize', handleResize);
-//   //   };
-//   // }, []);
-
-//   return (
-//     // <div ref={mountRef} style={{ position: 'relative', width: '100%', height: '100%' }}>
-//     //   {loading && <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'white', fontSize: '24px', fontWeight: 'bold' }}>Loading...</div>}
-//     // </div>
-//     <div className = "bg-red-400">
-//       <center>
-//       <Image src="/static/robot/7419robotpic.jpeg" alt="urmom" width = "500" height = "500" className="rounded"
-//       style={{ borderRadius: '5%' }}
-//       />
-
-//         <h1 className = "border-dashed border-blue-50">Our Robot</h1>
-//       </center>
-
-//     </div>
-//   );
-// };
-
-// export default OurRobot;
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -126,6 +13,22 @@ import "../app/styles/carousel.css"
 import { FaArrowRight } from "react-icons/fa";
 import { useDynamicMedia } from '@/hooks/useDynamicMedia'
 import { getStrapiMediaUrl } from '@/lib/strapi/client';
+
+function PrevArrow(props: { className?: string; style?: React.CSSProperties; onClick?: () => void }) {
+  return (
+    <button onClick={props.onClick} className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 cursor-pointer bg-black border-none p-0 items-center justify-center">
+      <ChevronLeft className="text-white w-8 h-8" />
+    </button>
+  )
+}
+
+function NextArrow(props: { className?: string; style?: React.CSSProperties; onClick?: () => void }) {
+  return (
+    <button onClick={props.onClick} className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 cursor-pointer bg-black border-none p-0 items-center justify-center">
+      <ChevronRight className="text-white w-8 h-8" />
+    </button>
+  )
+}
 
 const descriptions = [
   "The robot has a mounted Arducam camera. Using the PhotonVision library, our robot is able to identify AprilTags and their rotation and position relative to the robot. This allows the robot to estimate its pose on the field with incredible accuracy.",
@@ -175,8 +78,8 @@ const OurRobot = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    prevArrow: <ChevronLeft className="bg-black text-white w-8 h-8 cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2 z-10" />,
-    nextArrow: <ChevronRight className="bg-black text-white w-8 h-8 cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 z-10" />
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />
   }
   
   // Get dynamic images for robot carousel
@@ -194,7 +97,7 @@ const OurRobot = () => {
   ]
 
   const carouselImages = !robotLoading && robotMedia && robotMedia.length > 0 
-    ? robotMedia.map(item => getStrapiMediaUrl(item.image))
+    ? robotMedia.map(item => getStrapiMediaUrl(item.image, 'medium')).filter((src): src is string => src !== null)
     : (!robotLoading ? fallbackImages : [])
 
   return (
@@ -205,9 +108,9 @@ const OurRobot = () => {
       animate={isLoaded ? "visible" : "hidden"}
       variants={containerVariants}
     >
-      <motion.header className="text-center mb-12" variants={itemVariants}>
-        <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl ">Our Robot</h1>
-        <p className="text-lg text-gray-300">
+      <motion.header className="text-center mb-8 md:mb-12" variants={itemVariants}>
+        <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-4xl sm:text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl">Our Robot</h1>
+        <p className="text-base sm:text-lg text-gray-300">
           A glimpse into our innovative robot technology.
         </p>
       </motion.header>
@@ -241,13 +144,13 @@ const OurRobot = () => {
         className="max-w-3xl text-center px-4 md:px-8"
         variants={itemVariants}
       >
-        <p className="text-gray-300 text-lg mb-6">
+        <p className="text-gray-300 text-base sm:text-lg mb-6">
           Our robot is designed to solve the complex problems in each year&apos;s FRC
           game. Featuring swerve and advanced vision systems, it is engineered
           for agility and precision.
         </p>
 
-        <p className="text-gray-300 text-lg mb-6">
+        <p className="text-gray-300 text-base sm:text-lg mb-6">
           The robot showcases an innovative combination of hardware and software
           that enables it to interact seamlessly with its surroundings. As we
           continue to improve its capabilities, we aim to push the boundaries of
@@ -256,10 +159,10 @@ const OurRobot = () => {
       </motion.div>
 
       <motion.div
-        className="mt-12 space-y-8 w-full max-w-4xl bg-[hsl(var(--brand-gold))] p-8 rounded-3xl "
+        className="mt-10 md:mt-12 space-y-6 md:space-y-8 w-full max-w-4xl bg-[hsl(var(--brand-gold))] p-6 md:p-8 rounded-3xl "
         variants={itemVariants}
       >
-        <h3 className="text-3xl font-semibold text-center text-white">Key Features</h3>
+        <h3 className="text-2xl sm:text-3xl font-semibold text-center text-white">Key Features</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {["Advanced Vision", "Swerve Drive", "Automatic Features"].map(
             (feature, index) => (
@@ -278,8 +181,8 @@ const OurRobot = () => {
 
       <motion.div className="mt-12" variants={itemVariants}>
       {/* <FaArrowRight /> */}
-        <Button className="px-6 py-6 text-lg">
-          <a href={"https://github.com/frc-7419/Reefscape2025"}>See our code</a>
+        <Button asChild className="px-6 py-6 text-lg">
+          <a href="https://github.com/frc-7419/Reefscape2025" target="_blank" rel="noopener noreferrer">See our code</a>
         </Button>
       </motion.div>
     </motion.div>

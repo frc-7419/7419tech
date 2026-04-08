@@ -6,9 +6,12 @@ export function createClient() {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error(
-      'Missing Supabase environment variables. Please check that NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set in your .env.local file.'
+    // Log clearly for developers, but do NOT throw — throwing here crashes the
+    // entire app via AuthProvider's useMemo, taking down all public pages too.
+    console.error(
+      '[Supabase] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. Auth features will be disabled.'
     )
+    return null
   }
 
   return createBrowserClient<Database>(supabaseUrl, supabaseAnonKey)

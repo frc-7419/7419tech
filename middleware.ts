@@ -2,17 +2,14 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { getUserRoleFromAccessToken } from '@/lib/supabase/jwt'
 
-// Validate env vars at module load time for clear error messages
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-  throw new Error(
-    'Missing Supabase environment variables. Please check that NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set in your .env.local file.'
-  )
-}
-
-const supabaseUrl: string = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
 export async function middleware(request: NextRequest) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn('Missing Supabase environment variables — auth middleware is disabled.')
+    return NextResponse.next()
+  }
   const protectedRoutes = ['/admin', '/dashboard']
   const authRoutes = ['/auth/login', '/auth/signup']
   

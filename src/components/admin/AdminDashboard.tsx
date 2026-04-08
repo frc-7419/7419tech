@@ -22,8 +22,11 @@ export function AdminDashboard() {
   const { signOut, supabase, user, profile, isLoading: authLoading } = useAuth()
 
   const fetchUsers = useCallback(async () => {
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
     try {
-      // Fetch pending users (public role = pending approval)
       const { data: pending } = await supabase
         .from('profiles')
         .select('*')

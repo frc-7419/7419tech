@@ -4,10 +4,10 @@ import { motion } from "framer-motion"
 
 export default function Mission() {
   return (
-    <section className="bg-[#11224e] py-20 md:py-24 flex items-center justify-center overflow-hidden">
-      <div className="max-w-2xl relative">
+    <section className="bg-[#11224e] py-16 md:py-24 flex items-center justify-center overflow-hidden">
+      <div className="max-w-2xl relative px-6">
         <motion.h2 
-          className="text-6xl md:text-7xl font-bold text-center text-[#ffc14a] mb-8"
+          className="text-4xl sm:text-5xl md:text-7xl font-bold text-center text-[#ffc14a] mb-6 md:mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -15,7 +15,7 @@ export default function Mission() {
           Our Mission
         </motion.h2>
         <motion.p 
-          className="text-white text-lg md:text-xl text-center"
+          className="text-white text-base sm:text-lg md:text-xl text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}

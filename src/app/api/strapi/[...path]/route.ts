@@ -34,13 +34,21 @@ export async function GET(
     upstreamUrl.searchParams.append(key, value)
   })
 
+  const isDev = process.env.NODE_ENV === 'development'
+  // Set STRAPI_PROXY_NO_CACHE=1 in production if you need to bypass cache while debugging CMS changes.
+  const bypassCache = isDev || process.env.STRAPI_PROXY_NO_CACHE === '1'
+
   try {
     const upstreamRes = await fetch(upstreamUrl.toString(), {
       method: 'GET',
       headers: {
         Accept: 'application/json',
       },
-      cache: 'no-store',
+      // In dev, never cache — otherwise CMS edits (e.g. changing category) look "stuck" until the cache expires.
+      // In production, cache at the Next.js data layer for 5 minutes to protect Strapi from traffic spikes.
+      ...(bypassCache
+        ? { cache: 'no-store' as const }
+        : { next: { revalidate: 300 } }),
     })
 
     const contentType = upstreamRes.headers.get('content-type') || 'application/json'
@@ -50,7 +58,9 @@ export async function GET(
       status: upstreamRes.status,
       headers: {
         'content-type': contentType,
-        'cache-control': 'no-store',
+        'cache-control': bypassCache
+          ? 'no-store, must-revalidate'
+          : 'public, s-maxage=60, stale-while-revalidate=300',
       },
     })
   } catch (error) {

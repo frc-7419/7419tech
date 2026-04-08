@@ -42,7 +42,7 @@ const AnimatedNumber = ({ value = 0, duration = 1000 }) => {
 export default function ImpactStats() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef(null)
-  const [cardDelays, setCardDelays] = useState([0, 200, 400])
+  const cardDelays = [0, 200, 400]
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -76,8 +76,8 @@ export default function ImpactStats() {
             style={{ transitionDelay: isVisible ? `${cardDelays[0]}ms` : '0ms' }}
           >
             <CardContent className="p-6 text-center">
-              <h3 className="text-2xl font-semibold mb-2 text-yellow-500">Students Reached</h3>
-              <p className="text-6xl font-bold text-blue-800 mb-4 ">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-2 text-yellow-500">Students Reached</h3>
+              <p className="text-4xl sm:text-6xl font-bold text-blue-800 mb-4 ">
                 {isVisible && <AnimatedNumber value={1300} duration={1500}/>}+
               </p>
               <p className="text-muted-foreground"></p>
@@ -88,8 +88,8 @@ export default function ImpactStats() {
             style={{ transitionDelay: isVisible ? `${cardDelays[1]}ms` : '0ms' }}
           >
             <CardContent className="p-6 text-center">
-              <h3 className="text-2xl font-semibold mb-2 text-yellow-500">Workshops Hosted</h3>
-              <p className="text-6xl font-bold text-blue-800 mb-4">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-2 text-yellow-500">Workshops Hosted</h3>
+              <p className="text-4xl sm:text-6xl font-bold text-blue-800 mb-4">
                 {isVisible && <AnimatedNumber value={30} duration={1500} />}+
               </p>
               <p className="text-muted-foreground"></p>
@@ -100,8 +100,8 @@ export default function ImpactStats() {
             style={{ transitionDelay: isVisible ? `${cardDelays[2]}ms` : '0ms' }}
           >
             <CardContent className="p-6 text-center">
-              <h3 className="text-2xl font-semibold mb-2 text-yellow-500">Tournaments Hosted</h3>
-              <p className="text-6xl font-bold text-blue-800 mb-4">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-2 text-yellow-500">Tournaments Hosted</h3>
+              <p className="text-4xl sm:text-6xl font-bold text-blue-800 mb-4">
                 {isVisible && <AnimatedNumber value={10} duration={1500} />}+
               </p>
               <p className="text-muted-foreground"></p>

@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Profile } from '@/lib/supabase/types'
 
+type SupabaseClient = NonNullable<ReturnType<typeof createClient>>
+
 interface AuthContextType {
   user: User | null
   profile: Profile | null
@@ -16,19 +18,27 @@ interface AuthContextType {
   isMember: boolean
   signOut: () => Promise<void>
   refreshProfile: () => Promise<void>
-  supabase: ReturnType<typeof createClient>
+  /** null when Supabase env vars are missing — auth routes must guard before use */
+  supabase: SupabaseClient | null
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+const DEGRADED_AUTH_VALUE: AuthContextType = {
+  user: null, profile: null, session: null,
+  isLoading: false, isAuthenticated: false,
+  isAdmin: false, isMember: false,
+  signOut: async () => {}, refreshProfile: async () => {},
+  supabase: null,
+}
+
+function AuthProviderInner({ supabase, children }: { supabase: SupabaseClient, children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  
+
   const router = useRouter()
-  const supabase = useMemo(() => createClient(), [])
 
   // Avoid refetching the same profile unnecessarily (and dedupe concurrent calls).
   const lastProfileUserIdRef = useRef<string | null>(null)
@@ -198,6 +208,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       {children}
     </AuthContext.Provider>
   )
+}
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const supabase = useMemo(() => createClient(), [])
+
+  if (!supabase) {
+    return (
+      <AuthContext.Provider value={DEGRADED_AUTH_VALUE}>
+        {children}
+      </AuthContext.Provider>
+    )
+  }
+
+  return <AuthProviderInner supabase={supabase}>{children}</AuthProviderInner>
 }
 
 export function useAuth() {

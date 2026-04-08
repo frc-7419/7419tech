@@ -50,7 +50,11 @@ export default function LoginPage() {
     setError('')
 
     try {
-      // Use the supabase client from AuthContext (shared instance)
+      if (!supabase) {
+        setError('Sign-in is unavailable: authentication is not configured.')
+        setLoading(false)
+        return
+      }
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,

@@ -66,7 +66,7 @@ function Sponsors() {
 
   return (
     <main className="flex-grow min-h-screen" style={{ backgroundColor: "#1b2947" }}>
-      <section className="relative pt-24 pb-12">
+      <section className="relative pt-20 md:pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -74,14 +74,14 @@ function Sponsors() {
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-            <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Our Amazing Sponsors</h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
+            <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-4xl sm:text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Our Amazing Sponsors</h1>
+            <p className="text-base sm:text-lg md:text-2xl text-gray-300 max-w-3xl mx-auto">
               We&apos;re incredibly grateful for the support from these outstanding organizations. 
               Their partnerships fuel our innovation and drive us forward.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-3 grid-rows-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {strapiLoading
               ? Array.from({ length: 6 }).map((_, index) => (
                   <div
@@ -129,8 +129,8 @@ function Sponsors() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <h3 className="text-3xl font-bold text-gray-200 mb-6">Become a Sponsor</h3>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <h3 className="text-2xl sm:text-3xl font-bold text-gray-200 mb-4 md:mb-6">Become a Sponsor</h3>
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 md:mb-8 max-w-2xl mx-auto">
               Join our mission to inspire and empower the next generation of innovators. 
               Your support can make a lasting impact.
             </p>
@@ -138,7 +138,7 @@ function Sponsors() {
               href="https://drive.google.com/file/d/1LEVCRtwa1jpuDWNEidyyyDOTDZumry4p/view?usp=drive_link"
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-block bg-[hsl(var(--brand-gold))] text-white font-semibold py-3 px-8 rounded-xl text-lg hover:bg-[hsl(var(--brand-gold))]/90 transition-colors duration-300"
+              className="inline-block w-full sm:w-auto bg-[hsl(var(--brand-gold))] text-white font-semibold py-3 px-6 rounded-xl text-base sm:text-lg hover:bg-[hsl(var(--brand-gold))]/90 transition-colors duration-300"
             >
               Learn About Sponsorship Opportunities
             </a>

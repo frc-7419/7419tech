@@ -5,12 +5,12 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <footer className="border-t bg-background">
-      <div className="container py-2 md:py-4">
+      <div className="container py-4 md:py-6">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+          <div className="flex flex-col items-center gap-4 px-4 md:flex-row md:gap-2 md:px-0">
             <Link href="/">
 
-              <div className="flex items-center ml-28">
+              <div className="flex items-center">
             <span className="text-3xl font-bold text-[hsl(var(--brand-gold))] mr-3">Team</span>
             <Image 
               width="48" 
@@ -29,7 +29,7 @@ export default function Footer() {
           <div className="flex gap-4">
             <Link
               href="/contact"
-              className="text-sm text-muted-foreground hover:underline text-gray-50 "
+              className="text-sm text-muted-foreground hover:underline text-gray-50"
             >
               Contact Us
             </Link>

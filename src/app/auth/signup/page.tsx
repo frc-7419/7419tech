@@ -120,7 +120,11 @@ export default function SignupPage() {
     }
 
     try {
-      // Sign up user
+      if (!supabase) {
+        setError('Sign-up is unavailable: authentication is not configured.')
+        setLoading(false)
+        return
+      }
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,

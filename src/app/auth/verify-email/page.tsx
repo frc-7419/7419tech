@@ -29,6 +29,11 @@ export default function VerifyEmailPage() {
     }
 
     try {
+      if (!supabase) {
+        setResendMessage('Authentication is not configured. Contact your administrator.')
+        setResending(false)
+        return
+      }
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
       const { error } = await supabase.auth.resend({
         type: 'signup',
