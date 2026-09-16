@@ -136,9 +136,9 @@ export function AdminDashboard() {
       case 'admin':
         return 'bg-red-100 text-red-800'
       case 'member':
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-[#122350]/5 text-[#122350]'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-[#122350]/5 text-[#122350]'
     }
   }
 
@@ -147,8 +147,8 @@ export function AdminDashboard() {
     return (
       <>
         <NavHeader />
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <p className="text-gray-600">Loading...</p>
+        <div className="min-h-screen bg-[#122350]/5 flex items-center justify-center">
+          <p className="text-[#122350]/70">Loading...</p>
         </div>
       </>
     )
@@ -157,14 +157,14 @@ export function AdminDashboard() {
   return (
     <>
       <NavHeader />
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#122350]/5">
         <div className="max-w-7xl mx-auto pt-32 pb-6 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="px-4 py-6 sm:px-0">
             <div className="flex justify-between items-center">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-                <p className="mt-1 text-sm text-gray-600">
+                <h1 className="text-3xl font-bold text-[#122350]">Admin Dashboard</h1>
+                <p className="mt-1 text-sm text-[#122350]/70">
                   Welcome back, {profile?.name || user?.email}
                 </p>
               </div>
@@ -218,7 +218,7 @@ export function AdminDashboard() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+            <Card className="bg-gradient-to-r from-[#122350] to-[#FFB419] text-white">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Content Management</CardTitle>
                 <FileText className="h-4 w-4" />
@@ -260,7 +260,7 @@ export function AdminDashboard() {
                   {loading ? (
                     <p>Loading...</p>
                   ) : pendingUsers.length === 0 ? (
-                    <p className="text-gray-500">No pending approvals</p>
+                    <p className="text-[#122350]/70">No pending approvals</p>
                   ) : (
                     <div className="space-y-4">
                       {pendingUsers.map((pendingUser) => (
@@ -275,8 +275,8 @@ export function AdminDashboard() {
                                 {pendingUser.role}
                               </Badge>
                             </div>
-                            <p className="text-sm text-gray-600">{pendingUser.email}</p>
-                            <div className="flex space-x-4 text-xs text-gray-500 mt-1">
+                            <p className="text-sm text-[#122350]/70">{pendingUser.email}</p>
+                            <div className="flex space-x-4 text-xs text-[#122350]/70 mt-1">
                               <span>Grad: {pendingUser.graduation_year}</span>
                               <span>Dept: {pendingUser.department}</span>
                               <span>Registered: {new Date(pendingUser.created_at).toLocaleDateString()}</span>
@@ -294,7 +294,7 @@ export function AdminDashboard() {
                             <Button
                               size="sm"
                               onClick={() => approveUser(pendingUser.id, 'admin')}
-                              className="bg-blue-600 hover:bg-blue-700"
+                              className="bg-[#122350] hover:bg-[#122350]/90"
                               disabled={actionLoading === pendingUser.id}
                             >
                               {actionLoading === pendingUser.id ? 'Approving...' : 'Approve as Admin'}
@@ -333,13 +333,13 @@ export function AdminDashboard() {
                                 {userProfile.role}
                               </Badge>
                               {userProfile.role === 'public' && (
-                                <Badge variant="outline" className="text-yellow-600">
+                                <Badge variant="outline" className="text-[#FFB419]">
                                   Pending
                                 </Badge>
                               )}
                             </div>
-                            <p className="text-sm text-gray-600">{userProfile.email}</p>
-                            <div className="flex space-x-4 text-xs text-gray-500 mt-1">
+                            <p className="text-sm text-[#122350]/70">{userProfile.email}</p>
+                            <div className="flex space-x-4 text-xs text-[#122350]/70 mt-1">
                               <span>Grad: {userProfile.graduation_year}</span>
                               <span>Dept: {userProfile.department}</span>
                               <span>Registered: {new Date(userProfile.created_at).toLocaleDateString()}</span>

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { strapiClient, getStrapiMediaUrl } from "@/lib/strapi/client"
+import { NumeralWatermark } from "@/components/ui/numeral-watermark"
+import { PagePhotoHeader } from "@/components/ui/page-photo-header"
 
 // Original hardcoded sponsors (preserved!)
 const originalSponsors = [
@@ -65,30 +67,24 @@ function Sponsors() {
     : strapiSponsorsWithLogos
 
   return (
-    <main className="flex-grow min-h-screen" style={{ backgroundColor: "#1b2947" }}>
-      <section className="relative pt-24 pb-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: -20 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-20"
-          >
-            <h1 className="bg-gradient-to-r from-[#ffc14a] to-[#d59a25] bg-clip-text text-transparent text-5xl font-bold tracking-tight lg:text-6xl xl:text-7xl p-3">Our Amazing Sponsors</h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
-              We&apos;re incredibly grateful for the support from these outstanding organizations. 
-              Their partnerships fuel our innovation and drive us forward.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-3 grid-rows-2 gap-8">
+    <div className="min-h-screen overflow-hidden bg-[#122350]">
+      <PagePhotoHeader
+        photo="/static/outreach/ftc-launch-party.jpg"
+        eyebrow="Thank You"
+        title="Our Amazing Sponsors"
+        description="We're incredibly grateful for the support from these outstanding organizations. Their partnerships fuel our innovation and drive us forward."
+      />
+      <section className="relative py-20 md:py-24">
+        <NumeralWatermark />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
             {strapiLoading
               ? Array.from({ length: 6 }).map((_, index) => (
                   <div
                     key={`sponsor-skeleton-${index}`}
                     className="bg-white rounded-xl shadow-lg p-8 flex items-center justify-center"
                   >
-                    <div className="w-36 h-16 bg-gray-200 animate-pulse rounded-lg" />
+                    <div className="w-36 h-16 bg-[#122350]/10 animate-pulse rounded-lg" />
                   </div>
                 ))
               : allSponsors.map((sponsor, index) => (
@@ -129,23 +125,23 @@ function Sponsors() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <h3 className="text-3xl font-bold text-gray-200 mb-6">Become a Sponsor</h3>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join our mission to inspire and empower the next generation of innovators. 
+            <h2 className="font-display text-3xl font-bold uppercase tracking-wide text-white mb-6">Become a Sponsor</h2>
+            <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
+              Join our mission to inspire and empower the next generation of innovators.
               Your support can make a lasting impact.
             </p>
-            <a 
+            <a
               href="https://drive.google.com/file/d/1LEVCRtwa1jpuDWNEidyyyDOTDZumry4p/view?usp=drive_link"
-              target="_blank" 
+              target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-[hsl(var(--brand-gold))] text-white font-semibold py-3 px-8 rounded-xl text-lg hover:bg-[hsl(var(--brand-gold))]/90 transition-colors duration-300"
+              className="inline-block bg-[hsl(var(--brand-gold))] text-[#122350] font-display font-semibold uppercase tracking-wide py-3 px-8 rounded-xl text-lg hover:bg-[hsl(var(--brand-gold))]/90 transition-colors duration-300"
             >
               Learn About Sponsorship Opportunities
             </a>
           </motion.div>
         </div>
       </section>
-    </main>
+    </div>
   )
 }
 

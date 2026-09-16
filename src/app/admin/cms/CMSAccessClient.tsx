@@ -44,10 +44,10 @@ export function CMSAccessClient() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#122350]/5 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-2 text-gray-600">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#122350] mx-auto"></div>
+          <p className="mt-2 text-[#122350]/70">
             {hasSetupAccount ? 'Redirecting to CMS...' : 'Loading...'}
           </p>
         </div>
@@ -57,19 +57,19 @@ export function CMSAccessClient() {
 
   // First time user - show setup instructions
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="min-h-screen bg-[#122350]/5 flex items-center justify-center">
       <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          <h1 className="text-2xl font-bold text-[#122350] mb-4">
             Access CMS Manager
           </h1>
-              <p className="text-gray-600 mb-6">
+              <p className="text-[#122350]/70 mb-6">
                 Welcome, {profile?.name || user?.email || 'Admin'}! You&apos;re verified as an admin.
               </p>
           
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <h3 className="font-medium text-blue-900 mb-2">First Time Setup:</h3>
-            <ol className="text-sm text-blue-800 text-left space-y-1">
+          <div className="bg-[#122350]/5 border border-[#122350]/20 rounded-lg p-4 mb-6">
+            <h3 className="font-medium text-[#122350] mb-2">First Time Setup:</h3>
+            <ol className="text-sm text-[#122350] text-left space-y-1">
               <li>1. Use your <strong>7419tech email</strong>: {user?.email}</li>
               <li>2. Create a password for the CMS</li>
               <li>3. You&apos;ll have full admin access</li>
@@ -78,12 +78,12 @@ export function CMSAccessClient() {
 
           <button
             onClick={handleCMSAccess}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-[#122350] text-white rounded-lg hover:bg-[#122350]/90 transition-colors"
           >
             Open Strapi CMS →
           </button>
           
-          <p className="text-xs text-gray-500 mt-4">
+          <p className="text-xs text-[#122350]/70 mt-4">
             This will open in a new tab
           </p>
         </div>

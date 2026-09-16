@@ -1,9 +1,10 @@
-import Mentors from "@/components/Mentors";
-import { NavHeader } from "@/components/NavHeader";
-
+import { PageShell } from "@/components/PageShell"
+import Mentors from "@/components/Mentors"
 
 export default function MentorsPage() {
     return (
-        <><NavHeader /><Mentors /></>
+        <PageShell>
+            <Mentors />
+        </PageShell>
     )
 }

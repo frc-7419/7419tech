@@ -74,7 +74,7 @@ export default function BlogPage() {
           </motion.h1>
           <motion.p 
             variants={itemVariants}
-            className="mt-6 text-xl text-gray-600"
+            className="mt-6 text-xl text-[#122350]/70"
           >
             Exploring the intersections of science, technology, creativity, and innovation
           </motion.p>

@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import Link from 'next/link'
-import { NavHeader } from '@/components/NavHeader'
+import { PageShell } from '@/components/PageShell'
 
 const departments = [
   'Mechanical',
@@ -29,17 +29,17 @@ function PasswordRequirement({ met, text }: { met: boolean; text: string }) {
   return (
     <div className="flex items-center space-x-2">
       <div className={`w-4 h-4 rounded-full flex items-center justify-center ${
-        met ? 'bg-green-100' : 'bg-gray-200'
+        met ? 'bg-green-100' : 'bg-[#122350]/10'
       }`}>
         {met ? (
           <svg className="w-2.5 h-2.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
           </svg>
         ) : (
-          <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+          <div className="w-1.5 h-1.5 bg-[#122350]/30 rounded-full"></div>
         )}
       </div>
-      <span className={`text-xs ${met ? 'text-green-600' : 'text-gray-600'}`}>
+      <span className={`text-xs ${met ? 'text-green-600' : 'text-[#122350]/70'}`}>
         {text}
       </span>
     </div>
@@ -162,15 +162,14 @@ export default function SignupPage() {
 
 
   return (
-    <>
-      <NavHeader />
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <PageShell>
+      <div className="min-h-screen flex items-center justify-center bg-[#122350]/5 pt-32 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <h2 className="mt-6 text-3xl font-bold text-gray-900">
+            <h1 className="mt-6 font-display text-3xl font-bold text-[#122350]">
               Create your account
-            </h2>
-            <p className="mt-2 text-sm text-gray-600">
+            </h1>
+            <p className="mt-2 text-sm text-[#122350]/70">
               Join Team 7419 - Registration requires approval
             </p>
           </div>
@@ -191,7 +190,7 @@ export default function SignupPage() {
                 )}
                 
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="name" className="block text-sm font-medium text-[#122350]">
                     Full Name *
                   </label>
                   <Input
@@ -206,7 +205,7 @@ export default function SignupPage() {
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="email" className="block text-sm font-medium text-[#122350]">
                     Personal Email *
                   </label>
                   <Input
@@ -221,11 +220,11 @@ export default function SignupPage() {
                 </div>
                 
                 <div>
-                  <label htmlFor="graduationYear" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="graduationYear" className="block text-sm font-medium text-[#122350]">
                     Graduation Year *
                   </label>
                   <Select onValueChange={(value) => handleInputChange('graduationYear', value)}>
-                    <SelectTrigger className="mt-1">
+                    <SelectTrigger id="graduationYear" className="mt-1">
                       <SelectValue placeholder="Select your graduation year" />
                     </SelectTrigger>
                     <SelectContent>
@@ -239,11 +238,11 @@ export default function SignupPage() {
                 </div>
                 
                 <div>
-                  <label htmlFor="department" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="department" className="block text-sm font-medium text-[#122350]">
                     Department *
                   </label>
                   <Select onValueChange={(value) => handleInputChange('department', value)}>
-                    <SelectTrigger className="mt-1">
+                    <SelectTrigger id="department" className="mt-1">
                       <SelectValue placeholder="Select your department" />
                     </SelectTrigger>
                     <SelectContent>
@@ -257,7 +256,7 @@ export default function SignupPage() {
                 </div>
                 
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="password" className="block text-sm font-medium text-[#122350]">
                     Password *
                   </label>
                   <Input
@@ -275,8 +274,8 @@ export default function SignupPage() {
                   
                   {/* Password Requirements */}
                   {(showPasswordRequirements || formData.password) && (
-                    <div className="mt-2 p-3 bg-gray-50 rounded-md border">
-                      <p className="text-xs font-medium text-gray-700 mb-2">Password must contain:</p>
+                    <div className="mt-2 p-3 bg-[#122350]/5 rounded-md border">
+                      <p className="text-xs font-medium text-[#122350] mb-2">Password must contain:</p>
                       <div className="space-y-1">
                         <PasswordRequirement 
                           met={formData.password.length >= 8} 
@@ -300,7 +299,7 @@ export default function SignupPage() {
                 </div>
                 
                 <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#122350]">
                     Confirm Password *
                   </label>
                   <Input
@@ -339,19 +338,19 @@ export default function SignupPage() {
                   )}
                 </div>
                 
-                <Button 
-                  type="submit" 
-                  className="w-full bg-[#ffc14a] hover:bg-[#ffcd6b] text-white"
+                <Button
+                  type="submit"
+                  className="w-full bg-[hsl(var(--brand-gold))] hover:bg-[hsl(var(--brand-gold))]/90 text-[#122350] font-display font-semibold uppercase tracking-wide"
                   disabled={loading}
                 >
                   {loading ? 'Creating Account...' : 'Create Account'}
                 </Button>
               </form>
-              
+
               <div className="mt-4 text-center">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-[#122350]/70">
                   Already have an account?{' '}
-                  <Link href="/auth/login" className="text-[#11224e] hover:underline">
+                  <Link href="/auth/login" className="text-[#122350] font-semibold hover:underline">
                     Sign in here
                   </Link>
                 </p>
@@ -360,6 +359,6 @@ export default function SignupPage() {
           </Card>
         </div>
       </div>
-    </>
+    </PageShell>
   )
 }

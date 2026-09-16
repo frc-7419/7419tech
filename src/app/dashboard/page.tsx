@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
-import { NavHeader } from '@/components/NavHeader'
+import { PageShell } from '@/components/PageShell'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -102,32 +102,29 @@ export default function DashboardPage() {
   // Loading state (middleware ensures only authenticated users reach this page)
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <NavHeader />
-        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+      <PageShell>
+        <div className="flex items-center justify-center min-h-[calc(100vh-5rem)]">
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
-      </div>
+      </PageShell>
     )
   }
 
   // If not authenticated, show loading while middleware redirects
   if (!isAuthenticated || !user) {
     return (
-      <div className="min-h-screen bg-background">
-        <NavHeader />
-        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+      <PageShell>
+        <div className="flex items-center justify-center min-h-[calc(100vh-5rem)]">
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
-      </div>
+      </PageShell>
     )
   }
 
   // Profile not yet loaded (should be rare with our context - only for authenticated users)
   if (!profile) {
     return (
-      <div className="min-h-screen bg-background">
-        <NavHeader />
+      <PageShell>
         <div className="container mx-auto px-4 pt-32 pb-8">
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
@@ -143,15 +140,14 @@ export default function DashboardPage() {
             </div>
           </Card>
         </div>
-      </div>
+      </PageShell>
     )
   }
 
   // Show different content based on user role
   if (profile.role === 'public') {
     return (
-      <div className="min-h-screen bg-background">
-        <NavHeader />
+      <PageShell>
         <div className="container mx-auto px-4 pt-32 pb-8">
           <Card className="max-w-2xl mx-auto">
             <CardHeader className="text-center">
@@ -165,11 +161,11 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="text-center space-y-4">
-                <div className="p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <h3 className="text-lg font-semibold text-yellow-800 mb-2">
+                <div className="p-6 bg-[#FFB419]/10 border border-[#FFB419]/50 rounded-lg">
+                  <h3 className="text-lg font-semibold text-[#122350] mb-2">
                     Account Pending Approval
                   </h3>
-                  <p className="text-yellow-700">
+                  <p className="text-[#122350]">
                     Your account is currently under review. You will need to be approved by an administrator 
                     before gaining access to member features. Please check back later or contact an admin if you have questions.
                   </p>
@@ -184,14 +180,13 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
-      </div>
+      </PageShell>
     )
   }
 
   // Member/Admin dashboard with settings
   return (
-    <div className="min-h-screen bg-background">
-      <NavHeader />
+    <PageShell>
       <div className="container mx-auto px-4 pt-32 pb-8">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
@@ -347,6 +342,6 @@ export default function DashboardPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </PageShell>
   )
 }

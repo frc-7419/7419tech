@@ -1,11 +1,10 @@
-import { NavHeader } from "@/components/NavHeader";
-import TeamSection from "@/components/TeamSection";
+import { PageShell } from "@/components/PageShell"
+import TeamSection from "@/components/TeamSection"
 
 export default function Team() {
     return (
-        <main className="w-full h-full">
-            <NavHeader />
+        <PageShell>
             <TeamSection />
-        </main>
+        </PageShell>
     )
 }

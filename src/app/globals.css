@@ -5,27 +5,27 @@
 
 @layer base {
   :root {
-    /* Brand colors (hex for docs): #f9c837 (gold), #05214e (navy) */
-    --brand-gold: 45 96% 44%; /* #b39522, a tad bit rich darker gold */
-    --brand-navy: 217 88% 16%; /* #05214e */
+    /* Brand colors from the 7419 Branding Standards: #FFB419 (gold), #122350 (navy) */
+    --brand-gold: 40.4 100% 54.9%; /* #FFB419 */
+    --brand-navy: 223.5 63.3% 19.2%; /* #122350 */
 
     /* Base */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: var(--brand-navy);
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: var(--brand-navy);
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: var(--brand-navy);
 
     /* Brand-driven roles */
     --primary: var(--brand-gold);
-    --primary-foreground: 222.2 84% 4.9%; /* near-black for contrast on gold */
+    --primary-foreground: var(--brand-navy); /* navy on gold, per branding */
     --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-foreground: var(--brand-navy);
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
     --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent-foreground: var(--brand-navy);
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
@@ -34,8 +34,8 @@
     --radius: 0.5rem;
 
     /* Charts (aligned to brand) */
-    --chart-1: 45 94% 60%; /* gold */
-    --chart-2: 217 88% 36%; /* navy mid */
+    --chart-1: var(--brand-gold); /* gold */
+    --chart-2: var(--brand-navy); /* navy mid */
     --chart-3: 217 20% 70%; /* navy tint */
     --chart-4: 30 90% 55%; /* warm accent */
     --chart-5: 210 60% 45%; /* cool accent */
@@ -51,7 +51,7 @@
     --popover-foreground: 210 40% 98%;
 
     --primary: var(--brand-gold);
-    --primary-foreground: 222.2 84% 4.9%;
+    --primary-foreground: var(--brand-navy);
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
@@ -64,8 +64,8 @@
     --input: 217.2 32.6% 17.5%;
     --ring: var(--brand-gold);
 
-    --chart-1: 45 94% 60%;
-    --chart-2: 217 88% 36%;
+    --chart-1: var(--brand-gold);
+    --chart-2: var(--brand-navy);
     --chart-3: 217 20% 70%;
     --chart-4: 30 90% 55%;
     --chart-5: 210 60% 45%;
@@ -90,22 +90,76 @@
   filter: none;
 }
 
-h1 {
-  color: #f9c837;
+::selection {
+  background-color: #FFB419;
+  color: #122350;
 }
 
-::selection {
-  background-color: #f9c837;
-  color: white;
+html {
+  scroll-padding-top: 6rem; /* keep anchor targets clear of the fixed nav */
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}
+
+/* Small gold all-caps label used above section headings, e.g. "OUR MISSION" */
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: hsl(var(--brand-gold));
+}
+
+/* Persistent gold tab-underline under every nav link (always on, brightens on hover/active) */
+.nav-underline {
+  position: relative;
+}
+.nav-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background-color: #FFB419;
+  opacity: 0;
+  transition: opacity var(--duration-normal, 250ms) var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1));
+}
+.nav-underline:hover::after,
+.nav-underline:focus-visible::after,
+.nav-underline[data-active="true"]::after {
+  opacity: 1;
+}
+
+/* Oversized faint numeral watermark for hero backdrops */
+.numeral-watermark {
+  /* Branding Standards §4.3: team-number lettering is Menlo Bold Italic. A static font also keeps
+     the outline clean, variable fonts like Cabin show overlapping contours under text-stroke. */
+  font-family: Menlo, "DejaVu Sans Mono", Consolas, monospace;
+  font-weight: 700;
+  font-style: italic;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 180, 25, 0.12);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Pennant/ribbon achievement badge, tail folded via clip-path (compositor-friendly, no layout impact) */
+.pennant-badge {
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
 }
 
 /* Brand utilities */
 @layer utilities {
   .brand-gradient {
-    background-image: linear-gradient(135deg, #05214e, #f9c837);
+    background-image: linear-gradient(135deg, #122350, #FFB419);
   }
   .text-gradient {
-    background-image: linear-gradient(135deg, #05214e, #f9c837);
+    background-image: linear-gradient(135deg, #122350, #FFB419);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -130,5 +184,11 @@ h1 {
 
   nav a:hover, header a:hover {
     text-decoration: none !important;
+  }
+}
+/* One subtle alternate navy (same hue as #122350, slightly lighter) to separate adjacent navy blocks. */
+@layer utilities {
+  .bg-navy-alt {
+    background-color: #172C64;
   }
 }
