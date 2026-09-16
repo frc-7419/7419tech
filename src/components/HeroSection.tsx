@@ -1,190 +1,57 @@
 'use client'
 
-import React from 'react'
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card } from "@/components/ui/card"
-import { ChevronRight, Bot, ChevronLeft } from "lucide-react"
 import Image from "next/image"
-import Slider from "react-slick"
-import Link from 'next/link'
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
-import "../app/styles/carousel.css"
-import { useDynamicMedia } from '@/hooks/useDynamicMedia'
-import { getStrapiMediaUrl } from '@/lib/strapi/client'
-import Aurora from '@/components/Aurora'
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { PennantBadge } from "@/components/ui/pennant-badge"
+import { useDynamicMedia } from "@/hooks/useDynamicMedia"
+import { getStrapiMediaUrl } from "@/lib/strapi/client"
 
+// Only shown if Strapi is unreachable, deliberately not the old hardcoded team photo.
+const HERO_FALLBACK = "/static/media2026/ftc-awards-ceremony.jpg"
+
+/** Tinted team photo with the official team name, gold program line, and an outlined CTA centered on top. */
 export function HeroSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100
-      }
-    }
-  }
-
-  const carouselSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    prevArrow: <ChevronLeft className="text-white w-8 h-8 cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2 z-10" />,
-    nextArrow: <ChevronRight className="text-white w-8 h-8 cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 z-10" />,
-  }
-
-  // Get dynamic images for home page slideshow
-  const { media: carouselMedia, loading: carouselLoading } = useDynamicMedia({ 
-    location: 'home-page' 
-  })
-
-  // Fallback images if no dynamic media is available
-  const fallbackImages = [
-    "/Robot.png?height=400&width=600",
-    "/static/team/teamphoto.avif"
-  ]
-
-  const carouselImages = !carouselLoading && carouselMedia && carouselMedia.length > 0 
-    ? carouselMedia.map(item => getStrapiMediaUrl(item.image))
-    : (!carouselLoading ? fallbackImages : [])
+  // Same Strapi "about-us" photo as the About page, so the two never drift apart.
+  const { media, loading } = useDynamicMedia({ location: "about-us", limit: 1 })
+  const strapiPhoto = media?.[0] ? getStrapiMediaUrl(media[0].image) : null
+  const photo = loading ? null : strapiPhoto || HERO_FALLBACK
 
   return (
-    <section className="relative min-h-screen bg-gray-900 flex items-center pt-0 pb-14 overflow-hidden">
-      {/* Full-height aurora effect with top-to-bottom fade */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div 
-          className="w-full h-full"
-          style={{
-            maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,0) 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,0) 100%)',
-          }}
+    <section className="relative flex h-[90vh] max-h-[60rem] min-h-[36rem] items-center justify-center overflow-hidden bg-[#122350] pt-20">
+      {photo && (
+        <Image src={photo} alt="7419 QLS Tech Support team" fill priority sizes="100vw" className="object-cover" />
+      )}
+      <div className="absolute inset-0 bg-[#122350]/70" />
+
+      <a
+        href="https://www.thebluealliance.com/team/7419"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Team 7419 on The Blue Alliance"
+        className="absolute right-6 top-20 z-20 transition-transform duration-300 hover:translate-y-1 md:right-16"
+      >
+        <PennantBadge title="3×" subtitle="World Championship" />
+      </a>
+
+      <div className="relative z-10 mx-auto max-w-5xl px-4 text-center">
+        {/* Official team name, 7419 Branding Standards §1.1 */}
+        <p className="font-display text-5xl font-bold uppercase italic leading-[0.95] tracking-tight text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.35)] [text-wrap:balance] sm:text-6xl md:text-7xl">
+          7419 QLS Tech Support
+        </p>
+        <h1 className="mt-6 font-display text-2xl font-bold uppercase leading-tight tracking-wide text-[hsl(var(--brand-gold))] sm:text-3xl md:text-4xl">
+          <span className="italic">FIRST</span> Robotics
+          <br />
+          Competition Team 7419
+        </h1>
+        <Button
+          variant="outline"
+          asChild
+          className="mt-8 border-2 border-white bg-transparent px-8 font-display font-bold uppercase tracking-wide text-white hover:bg-white hover:text-[#122350]"
         >
-          <Aurora
-            colorStops={["#f9c837", "#05214e", "#ffe27a"]}
-            blend={0.8}
-            amplitude={3.0}
-            speed={0.5}
-            className="w-full h-full"
-          />
-        </div>
+          <Link href="/contact">Join Our Team!</Link>
+        </Button>
       </div>
-
-      <div className="container mx-auto px-4 relative z-10 pt-20">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
-          {/* Left Content - White rounded container */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="bg-white/85 backdrop-blur-sm rounded-2xl p-8 shadow-2xl space-y-6">
-
-            <motion.h1 
-              variants={itemVariants}
-              className="text-5xl font-bold text-[#11224e] tracking-tight lg:text-6xl xl:text-7xl leading-tight"
-            >
-              The Future of
-              <br />
-              <span className="bg-gradient-to-r from-[hsl(var(--brand-gold))] to-[#d59a25] bg-clip-text text-transparent">
-                Robotics
-              </span>
-            </motion.h1>
-
-            <motion.p 
-              variants={itemVariants}
-              className="text-lg text-gray-600 max-w-lg"
-            >
-              A student-led competitive robotics team pushing the boundaries of innovation, 
-              engineering excellence, and technical education at The Quarry Lane School.
-            </motion.p>
-
-            <motion.div 
-              variants={itemVariants}
-              className="flex flex-wrap gap-3 pt-2"
-            >
-              <Button 
-                size="lg"
-                className="bg-[#ffc14a] text-white hover:bg-[#ffcd6b] transition-colors"
-              >
-                <Link href={"/contact"}>
-                  Get Involved
-                </Link>
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="border-[#11224e] text-[#11224e] hover:bg-[#11224e] hover:text-white transition-colors"
-              >
-                <Link href={"/team"}>
-                  View Projects
-                </Link>
-              </Button>
-            </motion.div>
-
-            <motion.div 
-              variants={itemVariants}
-              className="flex items-center gap-3 text-sm text-gray-600"
-            >
-              <Bot className="h-5 w-5 text-[#11224e]" />
-              <span> Competition-ready robotics solutions</span>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Content - Carousel */}
-          <motion.div
-            variants={itemVariants}
-            initial="hidden"
-            animate="visible"
-            className="relative mt-8 lg:mt-0"
-          >
-            <Card className="aspect-video w-full bg-gray-50 overflow-hidden rounded-xl border-[#ffc14a]/20">
-              {carouselLoading ? (
-                <div className="w-full h-full animate-pulse bg-gray-200" />
-              ) : (
-                <Slider {...carouselSettings}>
-                  {carouselImages.map((src, index) => (
-                    <div key={index} className="relative aspect-video">
-                      <Image
-                        src={src || ''}
-                        alt={`Robot image ${index + 1}`}
-                        width={800}
-                        height={600}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  ))}
-                </Slider>
-              )}
-            </Card>
-            
-            {/* Decorative elements */}
-            <div className="absolute -z-10 top-0 right-0 w-96 h-96 bg-[#ffc14a]/10 rounded-full blur-3xl" />
-            <div className="absolute -z-10 bottom-0 right-24 w-96 h-96 bg-[#ffc14a]/5 rounded-full blur-3xl" />
-          </motion.div>
-        </div>
-      </div>
-      
-      {/* Smooth transition gradient to next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-[#11224e] z-5"></div>
     </section>
   )
 }
-

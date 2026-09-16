@@ -78,7 +78,7 @@ class ErrorBoundary extends Component<Props, State> {
 
       // Default error UI
       return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-[#122350]/5 flex items-center justify-center p-4">
           <Card className="max-w-lg w-full">
             <CardHeader className="text-center">
               <div className="flex justify-center mb-4">
@@ -89,13 +89,13 @@ class ErrorBoundary extends Component<Props, State> {
               <CardTitle className="text-2xl text-red-600">
                 Oops! Something went wrong
               </CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardDescription className="text-[#122350]/70">
                 We encountered an unexpected error. Don&apos;t worry, our team has been notified.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {process.env.NODE_ENV === 'development' && this.state.error && (
-                <div className="bg-gray-100 p-4 rounded-lg text-sm font-mono text-gray-800 overflow-auto max-h-32">
+                <div className="bg-[#122350]/5 p-4 rounded-lg text-sm font-mono text-[#122350] overflow-auto max-h-32">
                   <p className="font-bold text-red-600 mb-2">Error Details (Development):</p>
                   <p className="text-xs break-all">{this.state.error.message}</p>
                   {this.state.error.stack && (
@@ -107,8 +107,8 @@ class ErrorBoundary extends Component<Props, State> {
               )}
               
               <div className="text-center space-y-3">
-                <p className="text-sm text-gray-500">
-                  Error ID: <code className="bg-gray-100 px-2 py-1 rounded text-xs">{this.state.errorId}</code>
+                <p className="text-sm text-[#122350]/70">
+                  Error ID: <code className="bg-[#122350]/5 px-2 py-1 rounded text-xs">{this.state.errorId}</code>
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-2 justify-center">

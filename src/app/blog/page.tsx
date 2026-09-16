@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { NavHeader } from "@/components/NavHeader"
+import { PageShell } from "@/components/PageShell"
+import { PagePhotoHeader } from "@/components/ui/page-photo-header"
 import { strapiClient, getStrapiMediaUrl } from '@/lib/strapi/client'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -52,23 +53,21 @@ export default function BlogPage() {
 
   if (loading) {
     return (
-      <>
-        <NavHeader />
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <PageShell>
+        <div className="min-h-screen bg-[#122350] flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading blog posts...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[hsl(var(--brand-gold))] mx-auto"></div>
+            <p className="mt-4 text-white/70">Loading blog posts...</p>
           </div>
         </div>
-      </>
+      </PageShell>
     )
   }
 
   if (error) {
     return (
-      <>
-        <NavHeader />
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <PageShell>
+        <div className="min-h-screen bg-[#122350] flex items-center justify-center">
           <div className="text-center max-w-md">
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
               <p className="font-bold">Unable to load blog</p>
@@ -76,37 +75,26 @@ export default function BlogPage() {
             </div>
           </div>
         </div>
-      </>
+      </PageShell>
     )
   }
 
   return (
-    <>
-      <NavHeader />
-      <div className="min-h-screen bg-gray-50">
-        {/* Hero Section */}
-        <motion.div 
-          className="bg-gradient-to-r from-[#11224e] via-[#7c3aed] to-[#11224e] text-white pt-24"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.25 }}
-        >
-          <div className="max-w-6xl mx-auto px-4 py-16">
-            <div className="text-center">
-              <h1 className="text-5xl font-bold mb-4">Team 7419 Blog</h1>
-              <p className="text-xl opacity-90">
-                Latest updates, insights, and stories from our robotics journey
-              </p>
-            </div>
-          </div>
-        </motion.div>
+    <PageShell>
+      <div className="bg-white">
+        <PagePhotoHeader
+          photo="/static/media2026/ftc-volunteers.jpg"
+          eyebrow="Team Blog"
+          title="Latest Updates"
+          description="Stories, insights, and updates from our robotics journey."
+        />
 
         {/* Blog Content */}
-        <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto px-4 py-16 md:py-20">
           {blogPosts.length === 0 ? (
             <div className="text-center py-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">No Posts Yet</h2>
-              <p className="text-gray-600 mb-8">
+              <h2 className="text-3xl font-bold text-[#122350] mb-4">No Posts Yet</h2>
+              <p className="text-[#122350]/70 mb-8">
                 Our team is working on exciting content. Check back soon!
               </p>
             </div>
@@ -115,8 +103,8 @@ export default function BlogPage() {
               {/* Featured Posts */}
               {blogPosts.some(post => post.is_featured) && (
                 <div className="mb-12">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center">
-                    <Star className="mr-3 text-yellow-500" />
+                  <h2 className="text-3xl font-bold text-[#122350] mb-8 flex items-center">
+                    <Star className="mr-3 text-[#FFB419]" />
                     Featured Posts
                   </h2>
                   <div className="grid md:grid-cols-2 gap-8">
@@ -127,7 +115,7 @@ export default function BlogPage() {
                         <Link key={post.id} href={`/blog/${post.slug}`}>
                           <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                           {post.featured_image && (
-                            <div className="h-48 bg-gray-200 overflow-hidden">
+                            <div className="h-48 bg-[#122350]/10 overflow-hidden">
                               <Image
                                 src={getStrapiMediaUrl(post.featured_image) ?? ''}
                                 alt={post.title}
@@ -140,14 +128,14 @@ export default function BlogPage() {
                           <CardContent className="p-6">
                             <div className="flex items-center gap-2 mb-3">
                               <Badge variant="secondary">{post.category}</Badge>
-                              <Badge variant="outline" className="text-yellow-600 border-yellow-300">
+                              <Badge variant="outline" className="text-[#FFB419] border-[#FFB419]/50">
                                 <Star className="w-3 h-3 mr-1" />
                                 Featured
                               </Badge>
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">{post.title}</h3>
-                            <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                            <div className="flex items-center justify-between text-sm text-gray-500">
+                            <h3 className="text-xl font-bold text-[#122350] mb-2 hover:text-[#122350] transition-colors">{post.title}</h3>
+                            <p className="text-[#122350]/70 mb-4">{post.excerpt}</p>
+                            <div className="flex items-center justify-between text-sm text-[#122350]/70">
                               <span className="flex items-center">
                                 <User className="w-4 h-4 mr-1" />
                                 {post.author}
@@ -157,7 +145,7 @@ export default function BlogPage() {
                                 {new Date(post.publishedAt).toLocaleDateString()}
                               </span>
                             </div>
-                            <div className="mt-4 text-blue-600 font-medium text-sm flex items-center">
+                            <div className="mt-4 text-[#122350] font-medium text-sm flex items-center">
                               Read more 
                               <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -173,7 +161,7 @@ export default function BlogPage() {
 
               {/* All Posts */}
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-8">All Posts</h2>
+                <h2 className="text-3xl font-bold text-[#122350] mb-8">All Posts</h2>
                 <motion.div 
                   className="grid gap-8"
                   initial="hidden"
@@ -196,7 +184,7 @@ export default function BlogPage() {
                         <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                       <div className="md:flex">
                         {post.featured_image && (
-                          <div className="md:w-1/3 h-48 md:h-auto bg-gray-200">
+                          <div className="md:w-1/3 h-48 md:h-auto bg-[#122350]/10">
                             <Image
                               src={getStrapiMediaUrl(post.featured_image) ?? ''}
                               alt={post.title}
@@ -210,15 +198,15 @@ export default function BlogPage() {
                           <div className="flex items-center gap-2 mb-3">
                             <Badge variant="secondary">{post.category}</Badge>
                             {post.is_featured && (
-                              <Badge variant="outline" className="text-yellow-600 border-yellow-300">
+                              <Badge variant="outline" className="text-[#FFB419] border-[#FFB419]/50">
                                 <Star className="w-3 h-3 mr-1" />
                                 Featured
                               </Badge>
                             )}
                           </div>
-                          <h3 className="text-2xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">{post.title}</h3>
-                          <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                          <div className="flex items-center justify-between text-sm text-gray-500">
+                          <h3 className="text-2xl font-bold text-[#122350] mb-2 hover:text-[#122350] transition-colors">{post.title}</h3>
+                          <p className="text-[#122350]/70 mb-4">{post.excerpt}</p>
+                          <div className="flex items-center justify-between text-sm text-[#122350]/70">
                             <span className="flex items-center">
                               <User className="w-4 h-4 mr-1" />
                               {post.author}
@@ -228,7 +216,7 @@ export default function BlogPage() {
                               {new Date(post.publishedAt).toLocaleDateString()}
                             </span>
                           </div>
-                          <div className="mt-4 text-blue-600 font-medium text-sm flex items-center">
+                          <div className="mt-4 text-[#122350] font-medium text-sm flex items-center">
                             Read more 
                             <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -246,7 +234,7 @@ export default function BlogPage() {
           )}
         </div>
       </div>
-    </>
+    </PageShell>
   )
 }
 

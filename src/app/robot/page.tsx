@@ -1,11 +1,10 @@
-import { NavHeader } from "@/components/NavHeader";
-import OurRobot from "@/components/OurRobot";
+import { PageShell } from "@/components/PageShell"
+import OurRobot from "@/components/OurRobot"
 
 export default function Robot() {
     return (
-        <>
-            <NavHeader />
+        <PageShell>
             <OurRobot />
-        </>
-    ) 
+        </PageShell>
+    )
 }

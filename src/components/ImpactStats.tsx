@@ -1,9 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Card, CardContent } from "@/components/ui/card"
 
-const AnimatedNumber = ({ value = 0, duration = 1000 }) => {
+const AnimatedNumber = ({ value = 0, duration = 1000 }: { value: number; duration?: number }) => {
   const [count, setCount] = useState(0)
   const countRef = useRef(count)
   const prevValueRef = useRef(value)
@@ -39,10 +38,19 @@ const AnimatedNumber = ({ value = 0, duration = 1000 }) => {
   return <span>{count.toLocaleString()}</span>
 }
 
+// Figures sourced from the 7419 Impact Binder 2026, update alongside that document.
+const stats = [
+  { label: 'Service Hours', value: 10000, suffix: '+', note: 'Across 7 seasons' },
+  { label: 'Individuals Reached', value: 10000, suffix: '+', note: 'Mentorship, events & outreach' },
+  { label: 'Students Reached', value: 1150, suffix: '+', note: 'Via Project STEAMBOT in 100 countries' },
+  { label: 'FLL & FTC Teams Mentored', value: 13, suffix: '', note: 'Since 2023' },
+  { label: 'Teams Founded', value: 7, suffix: '', note: 'Including 4 all-girls teams' },
+  { label: 'Teams Hosted', value: 30, suffix: '+', note: 'At our league meets & tournaments' },
+]
+
 export default function ImpactStats() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef(null)
-  const [cardDelays, setCardDelays] = useState([0, 200, 400])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -68,46 +76,26 @@ export default function ImpactStats() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-16">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Card 
-            className={`overflow-hidden transition-all duration-1000 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-            style={{ transitionDelay: isVisible ? `${cardDelays[0]}ms` : '0ms' }}
+    <section ref={sectionRef} className="py-12">
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+        {stats.map((stat, index) => (
+          <div
+            key={stat.label}
+            className={`rounded-xl border border-[#122350]/10 bg-white p-6 text-center shadow-sm transition-all duration-700 ease-out ${
+              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+            }`}
+            style={{ transitionDelay: isVisible ? `${index * 100}ms` : '0ms' }}
           >
-            <CardContent className="p-6 text-center">
-              <h3 className="text-2xl font-semibold mb-2 text-yellow-500">Students Reached</h3>
-              <p className="text-6xl font-bold text-blue-800 mb-4 ">
-                {isVisible && <AnimatedNumber value={1300} duration={1500}/>}+
-              </p>
-              <p className="text-muted-foreground"></p>
-            </CardContent>
-          </Card>
-          <Card 
-            className={`overflow-hidden transition-all duration-1000 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-            style={{ transitionDelay: isVisible ? `${cardDelays[1]}ms` : '0ms' }}
-          >
-            <CardContent className="p-6 text-center">
-              <h3 className="text-2xl font-semibold mb-2 text-yellow-500">Workshops Hosted</h3>
-              <p className="text-6xl font-bold text-blue-800 mb-4">
-                {isVisible && <AnimatedNumber value={30} duration={1500} />}+
-              </p>
-              <p className="text-muted-foreground"></p>
-            </CardContent>
-          </Card>
-          <Card 
-            className={`overflow-hidden transition-all duration-1000 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-            style={{ transitionDelay: isVisible ? `${cardDelays[2]}ms` : '0ms' }}
-          >
-            <CardContent className="p-6 text-center">
-              <h3 className="text-2xl font-semibold mb-2 text-yellow-500">Tournaments Hosted</h3>
-              <p className="text-6xl font-bold text-blue-800 mb-4">
-                {isVisible && <AnimatedNumber value={10} duration={1500} />}+
-              </p>
-              <p className="text-muted-foreground"></p>
-            </CardContent>
-          </Card>
-        </div>
+            <p className="font-display text-4xl font-extrabold text-[#122350] md:text-5xl">
+              {isVisible && <AnimatedNumber value={stat.value} duration={1500} />}
+              {stat.suffix}
+            </p>
+            <p className="mt-2 font-display text-sm font-semibold uppercase tracking-wide text-[#122350]">
+              {stat.label}
+            </p>
+            <p className="mt-1 text-xs text-[#122350]/70">{stat.note}</p>
+          </div>
+        ))}
       </div>
     </section>
   )

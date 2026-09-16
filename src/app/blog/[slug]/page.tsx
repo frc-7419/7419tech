@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { strapiClient, getStrapiMediaUrl } from '@/lib/strapi/client'
+import { PageShell } from "@/components/PageShell"
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -64,41 +65,45 @@ export default function BlogPostPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
-        <div className="container mx-auto px-4 py-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="animate-pulse">
-              <div className="h-8 bg-gray-200 rounded mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded mb-8"></div>
-              <div className="h-64 bg-gray-200 rounded mb-8"></div>
-              <div className="space-y-4">
-                <div className="h-4 bg-gray-200 rounded"></div>
-                <div className="h-4 bg-gray-200 rounded"></div>
-                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+      <PageShell>
+        <div className="bg-white pt-24">
+          <div className="container mx-auto px-4 py-16">
+            <div className="max-w-4xl mx-auto">
+              <div className="animate-pulse">
+                <div className="h-8 bg-[#122350]/10 rounded mb-4"></div>
+                <div className="h-4 bg-[#122350]/10 rounded mb-2"></div>
+                <div className="h-4 bg-[#122350]/10 rounded mb-8"></div>
+                <div className="h-64 bg-[#122350]/10 rounded mb-8"></div>
+                <div className="space-y-4">
+                  <div className="h-4 bg-[#122350]/10 rounded"></div>
+                  <div className="h-4 bg-[#122350]/10 rounded"></div>
+                  <div className="h-4 bg-[#122350]/10 rounded w-3/4"></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </PageShell>
     )
   }
 
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
-            {error || 'Blog post not found'}
-          </h1>
-          <Link 
-            href="/blog"
-            className="text-blue-600 hover:text-blue-800 underline"
-          >
-            ← Back to Blog
-          </Link>
+      <PageShell>
+        <div className="min-h-screen bg-white flex items-center justify-center pt-24">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-[#122350] mb-4">
+              {error || 'Blog post not found'}
+            </h1>
+            <Link
+              href="/blog"
+              className="text-[#122350] hover:text-[#122350]/80 underline"
+            >
+              ← Back to Blog
+            </Link>
+          </div>
         </div>
-      </div>
+      </PageShell>
     )
   }
 
@@ -111,13 +116,14 @@ export default function BlogPostPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-16">
+    <PageShell>
+      <div className="bg-white pt-24">
+        <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           {/* Back to blog link */}
           <Link 
             href="/blog"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8"
+            className="inline-flex items-center text-[#122350] hover:text-[#122350]/80 mb-8"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -127,22 +133,22 @@ export default function BlogPostPage() {
 
           {/* Blog post header */}
           <header className="mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-[#122350] mb-4">
               {post.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-[#122350]/70 mb-6">
               <span>By {post.author}</span>
               <span>•</span>
               <span>{formatDate(post.createdAt)}</span>
               <span>•</span>
-              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+              <span className="bg-[#122350]/5 text-[#122350] px-2 py-1 rounded">
                 {post.category}
               </span>
             </div>
 
             {post.excerpt && (
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <p className="text-xl text-[#122350]/70 leading-relaxed">
                 {post.excerpt}
               </p>
             )}
@@ -164,20 +170,20 @@ export default function BlogPostPage() {
           {/* Blog content */}
           <article className="prose prose-lg max-w-none">
             <div 
-              className="text-gray-800 leading-relaxed"
+              className="text-[#122350] leading-relaxed"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           </article>
 
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <h3 className="text-sm font-medium text-gray-900 mb-4">Tags:</h3>
+            <div className="mt-12 pt-8 border-t border-[#122350]/15">
+              <h3 className="text-sm font-medium text-[#122350] mb-4">Tags:</h3>
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag, index) => (
                   <span 
                     key={index}
-                    className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
+                    className="bg-[#122350]/5 text-[#122350] px-3 py-1 rounded-full text-sm"
                   >
                     {tag}
                   </span>
@@ -187,10 +193,10 @@ export default function BlogPostPage() {
           )}
 
           {/* Back to blog footer */}
-          <div className="mt-12 pt-8 border-t border-gray-200 text-center">
+          <div className="mt-12 pt-8 border-t border-[#122350]/15 text-center">
             <Link 
               href="/blog"
-              className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center bg-[#122350] text-white px-6 py-3 rounded-lg hover:bg-[#122350]/90 transition-colors"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -199,7 +205,8 @@ export default function BlogPostPage() {
             </Link>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </PageShell>
   )
 }

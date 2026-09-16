@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import Link from 'next/link'
-import { NavHeader } from '@/components/NavHeader'
+import { PageShell } from '@/components/PageShell'
 import { Loader2 } from 'lucide-react'
 
 export default function LoginPage() {
@@ -60,40 +60,37 @@ export default function LoginPage() {
   // Show loading while checking auth
   if (authLoading) {
     return (
-      <>
-        <NavHeader />
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-          <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+      <PageShell>
+        <div className="min-h-screen flex items-center justify-center bg-[#122350]/5 pt-20">
+          <Loader2 className="h-8 w-8 animate-spin text-[#122350]/50" />
         </div>
-      </>
+      </PageShell>
     )
   }
 
   // If already authenticated, show loading while redirecting
   if (isAuthenticated) {
     return (
-      <>
-        <NavHeader />
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <PageShell>
+        <div className="min-h-screen flex items-center justify-center bg-[#122350]/5 pt-20">
           <div className="text-center">
-            <Loader2 className="h-8 w-8 animate-spin text-gray-500 mx-auto mb-4" />
-            <p className="text-gray-600">Redirecting...</p>
+            <Loader2 className="h-8 w-8 animate-spin text-[#122350]/50 mx-auto mb-4" />
+            <p className="text-[#122350]/70">Redirecting...</p>
           </div>
         </div>
-      </>
+      </PageShell>
     )
   }
 
   return (
-    <>
-      <NavHeader />
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <PageShell>
+      <div className="min-h-screen flex items-center justify-center bg-[#122350]/5 pt-32 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <h2 className="mt-6 text-3xl font-bold text-gray-900">
+            <h1 className="mt-6 font-display text-3xl font-bold text-[#122350]">
               Sign in to your account
-            </h2>
-            <p className="mt-2 text-sm text-gray-600">
+            </h1>
+            <p className="mt-2 text-sm text-[#122350]/70">
               Team members and admins only
             </p>
           </div>
@@ -111,7 +108,7 @@ export default function LoginPage() {
                 )}
                 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="email" className="block text-sm font-medium text-[#122350]">
                     Email
                   </label>
                   <Input
@@ -127,7 +124,7 @@ export default function LoginPage() {
                 </div>
                 
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="password" className="block text-sm font-medium text-[#122350]">
                     Password
                   </label>
                   <Input
@@ -142,9 +139,9 @@ export default function LoginPage() {
                   />
                 </div>
                 
-                <Button 
-                  type="submit" 
-                  className="w-full bg-[#ffc14a] hover:bg-[#ffcd6b] text-white"
+                <Button
+                  type="submit"
+                  className="w-full bg-[hsl(var(--brand-gold))] hover:bg-[hsl(var(--brand-gold))]/90 text-[#122350] font-display font-semibold uppercase tracking-wide"
                   disabled={loading}
                 >
                   {loading ? (
@@ -157,11 +154,11 @@ export default function LoginPage() {
                   )}
                 </Button>
               </form>
-              
+
               <div className="mt-4 text-center">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-[#122350]/70">
                   Don&apos;t have an account?{' '}
-                  <Link href="/auth/signup" className="text-[#11224e] hover:underline">
+                  <Link href="/auth/signup" className="text-[#122350] font-semibold hover:underline">
                     Sign up here
                   </Link>
                 </p>
@@ -170,6 +167,6 @@ export default function LoginPage() {
           </Card>
         </div>
       </div>
-    </>
+    </PageShell>
   )
 }

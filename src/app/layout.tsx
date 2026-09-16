@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Cabin, Work_Sans } from "next/font/google"
 import Image from "next/image"
 import ErrorBoundary from "@/components/ErrorBoundary"
 import { Toaster } from "@/components/ui/toaster"
@@ -8,11 +8,16 @@ import "./globals.css"
 import PageTransition from "@/components/PageTransition"
 
 export const metadata: Metadata = {
-  title: "7419",
-  description: "7419 tech support's team website",
+  title: "7419 QLS Tech Support",
+  description:
+    "Official website of 7419 QLS Tech Support, a student-led FIRST Robotics Competition team from The Quarry Lane School in Dublin, California.",
+  // Declared here so Next puts it in <head>; a bare <link> outside <head> was ignored and browsers hit /favicon.ico (404).
+  icons: { icon: "/7419.ico" },
 }
 
-const inter = Inter({ subsets: ["latin"] })
+// 7419 Branding Standards §4: Cabin for titles, Work Sans for body text.
+const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-body" })
+const cabin = Cabin({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-display" })
 
 export default function RootLayout({
   children,
@@ -21,8 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <link rel="icon" href="/7419.ico" sizes="any" />
-      <body className={inter.className}>
+      <body className={`${workSans.className} ${workSans.variable} ${cabin.variable}`}>
         <ErrorBoundary>
           <AuthProvider>
             <PageTransition>
@@ -41,10 +45,10 @@ function MobileCheck({ children }: { children: React.ReactNode }) {
     <>
       <div className="hidden md:block">{children}</div>
       <div className="md:hidden">
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-          <Image src="/Logo.png" alt="7419 Logo" width={150} height={150} className="mb-8" />
-          <h1 className="text-2xl font-bold text-center mb-4">Mobile Not Yet Supported</h1>
-          <p className="text-center">Please visit our website on a desktop or tablet device.</p>
+        <div className="flex min-h-screen flex-col items-center justify-center bg-[#122350] p-4 text-white">
+          <Image src="/Logo.png" alt="7419 Logo" width={247} height={150} className="mb-8 h-[150px] w-auto" style={{ width: "auto" }} />
+          <h1 className="mb-4 text-center text-2xl font-bold">Mobile Not Yet Supported</h1>
+          <p className="text-center text-white/80">Please visit our website on a desktop or tablet device.</p>
         </div>
       </div>
     </>

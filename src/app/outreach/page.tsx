@@ -1,13 +1,10 @@
-import { NavHeader } from "@/components/NavHeader";
-import  Outreach  from "@/components/Outreach";
-
-
+import { PageShell } from "@/components/PageShell"
+import Outreach from "@/components/Outreach"
 
 export default function OutreachPage() {
     return (
-       <>
-        <NavHeader />
-        <Outreach />
-        </>
-    ) 
+        <PageShell>
+            <Outreach />
+        </PageShell>
+    )
 }

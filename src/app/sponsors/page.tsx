@@ -1,11 +1,10 @@
-import { NavHeader } from "@/components/NavHeader";
-import Sponsors from "@/components/Sponsors";
+import { PageShell } from "@/components/PageShell"
+import Sponsors from "@/components/Sponsors"
 
 export default function SponsorsPage() {
     return (
-        <>
-            <NavHeader />
+        <PageShell>
             <Sponsors />
-            </>
-    ) 
+        </PageShell>
+    )
 }
